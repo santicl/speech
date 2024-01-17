@@ -1,5 +1,4 @@
 import './App.css';
-import JobImg from './img/job.jpg';
 import Hermana from './img/hermana.jpg';
 import Cronometer from './component/Cronometer';
 
@@ -15,152 +14,171 @@ function App() {
       <section className="App-speech__content-speech">
 
         <div className="Content-speech">
-          <h1>¿Tiene usted una reputación como la de Job?</h1>
-
+          <h1>Por qué podemos confiar en la promesa de la vida eterna</h1>
           <p>
-          Piense por un momento que, cada palabra que dices y cada cosa que haces es una frase o verso de una canción, cuando la gente vuelva a escuchar tal canción <strong>¿Con que sentimientos la recordarían?</strong>.
+            <strong>¿Hasta dónde llegarían las personas para asegurar un futuro verdaderamente feliz y estable dentro de lo legal?</strong> La estabilidad laboral es común, pero <strong>¿qué pasa cuando las fuerzas para trabajar disminuyen?</strong> La pensión podría ser la solución.
           </p>
 
           <p>
-          Nuestra reputación se asemeja a una melodía.
+            Seamos honestos, nadie quiere ver disminuir sus fuerzas con los años. Este deseo surge porque fuimos diseñados para vivir eternamente, y se nos brindó la oportunidad de obtener vida eterna...
           </p>
 
           <p>
-          No le ha pasado que cuando escucha una canción puede decir: <strong>"Me recuerda a una época bonita de mi vida" o aveces todo lo contrario</strong>.
+            <strong>¿Por qué confiar en la promesa de la vida eterna?</strong> Exploraremos tres razones.
           </p>
 
           <p>
-          Es decir, nuestra reputación puede causar sentimientos negativos o positivos en otros.
+            La primera se encuentra en.
+          </p>
+
+          <h2>
+            Job 36: 26:
+          </h2>
+
+          <h2>26</h2> Sí, Dios es más grande de lo que podemos entender; el número de sus años escapa a nuestra comprensión.
+
+          <h3>La primera razón es que Jehová Dios es eterno...</h3>
+
+          <p>
+            Desde la óptica humana, “tan grande es Dios que no podemos verlo, ni saber cuántos años tiene”.
           </p>
 
           <p>
-          Por ejemplo, <strong>¿qué sientes al escuchar el nombre Judas Iscariote?</strong> Seguramente, emociones negativas. Ahora, <strong>¿qué sientes al oír el nombre Job?</strong> Probablemente, pensamientos positivos como integridad y compasión.
+            Recordemos <strong>Apocalipsis 1:8</strong>, que habla de Jehová como "el que es y que era y que viene..."
           </p>
 
           <p>
-          Es por eso que en este discurso analizaremos si tenemos una buena reputación como la de Job y sino como ganarla...
-          </p>
-
-          <h2>Primero analicemos cuando vale una buena reputación...</h2>
-
-          <h3>Proverbios 22: 1:</h3> 
-          <p>
-           Es preferible una buena reputación a grandes riquezas; ser respetado es mejor que tener plata y oro
+            Centremonos en la parte... Que era...
           </p>
 
           <p>
-          <strong>¿Porque Salomón llegó a esta conclusión?</strong>
+            Antes de que Jehová creara primeramente a Jesús y los demás ángeles... Jehová estaba solo y <strong>ERA</strong> completo en todo, no necesitaba crear nada para demostrar que <strong>ERA</strong> todopoderoso o Sabio.
           </p>
 
           <p>
-          Quizás tomara en cuenta los comienzos de su padre, que era un simple pastor de ovejas, pero <strong>¿Porque como llegó a ser Rey?</strong> Porque tenía una buena reputación ante Jehová.
+            Así que, después de haber creado a Jesús y los demás ángeles... Jehová le comunica a Jesús que haría al hombre a su imagen y semejanza...
           </p>
 
           <p>
-          Eso es en la antigüedad... Y hoy día <strong>¿Que tan valiosa es nuestra reputación?</strong>
+            No solo se refería a que nos crearía con cualidades semejantes a él... Sino con el deseo de vivir eternamente.
           </p>
 
           <p>
-          Es tan valioso que existen leyes que la protejen, <strong>por ejemplo, en Colombia por dañar el buen nombre de una persona, puede llevar a 4 años y 5 meses en prisión, además de una multa que va desde 13 a 1.500 salarios mensuales</strong>.... Saque cuentas...
+            <strong>¿Qué sentido tendría esa promesa si él mismo no viviera para siempre?</strong>
           </p>
 
           <p>
-
-          Ya sabiendo lo valioso que es nuestra reputación... analicemos si tenemos una reputación como la de Job.
+            Nadia puede dar algo de lo que no tiene...
           </p>
 
           <p>
-          Y para esto <strong>vamos a ver 3 puntos en la que se muestra lo que sentían y veían de Job</strong>...
+            <strong>Y lo eterno que es Jehová se vincula con la siguiente razón...</strong>
           </p>
 
-          <h2>Comencemos con el primer punto:</h2>
+          <p>Se encuentra en</p> <h2>Job 36: 27, 28:</h2>
 
-          <h3>Job 29: 7, 8, 11</h3>
-
+          <h2>27</h2> <p>Él hace subir las gotas de agua; el vapor se condensa para formar la lluvia;</p> <h2>28</h2> <p>entonces las nubes la derraman precipitándola sobre la humanidad.</p>
           <p>
-
-          7 Cuando yo salía a la puerta de la ciudad y ocupaba mi asiento en la plaza,8 los jóvenes me veían y me abrían paso, y hasta los ancianos se levantaban y se quedaban de pie. 11 Todo el que me oía hablaba bien de mí y los que me veían testificaban a mi favor.
+            Como se manejan los procesos de la tierra, como el ciclo del agua... Demuestra que Jehová tiene la sabiduría y el poder necesarios para sostener la vida...
           </p>
 
-          <h4>¿Que sentían hacia Job las demás personas según estos versículos?</h4>
+
+          <p><strong>Y en el caso de la sabiduría... La eternidad de Jehová garantiza que él tiene sabiduría ilimitada... Ya que la biblia relaciona la edad con la sabiduría.</strong></p>
+
           <p>
-          Un profundo respeto, un respeto ganado, podemos pensar que era <strong>un hombre sabio</strong>... Sus consejos era precisos lo que la gente necesitaba.
+            Veamos algo más interesante sobre la sabiduría de Jehová...
           </p>
 
-          <h2>¿Y que se dice de su fama? Analicemos el segundo punto, Veamos los versículos 12 y 13 del capítulo 29.</h2>
+          <h2>1 Pedro 1: 12 parte C:</h2>
 
           <p>
-          12 Porque yo rescataba al pobre que gritaba por ayuda, y también al huérfano y al que no tenía quien lo ayudara.13 El que estaba a punto de morir me bendecía, y yo llenaba de alegría el corazón de la viuda.
-          </p>
-
-          <p>
-          Job tenía la fama de mostrarles amor leal a quienes más lo necesitaban.
+            <strong>Parte C</strong> Estas son las mismas cosas que los ángeles desean mirar con atención.
           </p>
 
           <p>
-          Miremos las dos imágenes de la guía, empecemos con la de Job, vemos a Job con un rostro alegre ayudando a otros...
+            <strong>¿A qué cosas se refiere este versículo?</strong>
           </p>
 
-          <img src={JobImg} />
+          <p>
+            En como se desarrollaría el secreto sagrado aquí en la tierra...
+          </p>
 
           <p>
-          Ahora veamos la segunda imagen, dónde aparece una hermana, Así como Job, disfruta ayudando a las demás personas..
+            Y cuando uno mira con atención algo es porque desea entender cómo y qué está pasando...
+          </p>
+
+          <p>
+            Los ángeles se benefician de observar cómo Jehová dirige a la congregación cristiana, pues así llegan a conocer mejor la sabiduría divina.
+          </p>
+
+          <p>
+            <strong>En pocas palabras, los ángeles aunque son más sabios e inteligentes que nosotros, ni siquiera ellos pueden llegar a entender al 100% la sabiduría de Jehová.</strong>
+          </p>
+
+          <p>
+            ¡Por eso confían en él y le sirven con tanta admiración!
+          </p>
+
+          <p>
+            Veamos un poco la imágen que está en la guía...
           </p>
 
           <img src={Hermana} />
 
           <p>
-          Imagínese que está hermana se va a servir a otro lugar... <strong>¿Con que sentimientos la recordarían estos hermanos de la imagen?</strong>
+            Se ven felices a todos los que están en esa ilustración... Puede que a una persona la salte la siguiente duda... <strong>¿Si viviremos miles de años, será eso algo emocionante?</strong>
+          </p>
+
+          <p>
+            Pensemos nuevamente en el ejemplo de los ángeles... Llevan mucho más de 13 mil millones de años y aún en la actualidad siguen aprendiendo sobre la personalidad de Jehová...
           </p>
 
           <h2>
-          Pero además de mostrar amor leal, y que le tuvieran respeto <strong>¿Que otra fama tenía?...veamos el tercer punto versículo 14</strong>
+            Juan 17: 3:
           </h2>
 
+          <h2>3</h2> <p>Esto significa vida eterna: que lleguen a conocerte a ti, el único Dios verdadero, y a quien tú enviaste, Jesucristo.</p>
+
           <p>
-          14 La rectitud era la ropa que me ponía; mi justicia era como una túnica y un turbante.
+            Todo ser humano puede tener vida eterna conociendo a Jehová y a su hijo Jesús... Así que la tercera razón es que...
           </p>
 
           <p>
-          Da a entender que pasaba día y noche siendo recto y justo...
+            Jehová nos enseña qué debemos hacer para conseguir vida eterna...
           </p>
 
           <p>
-          Job era respetado, amaba a los necesitados y vivía con integridad. <strong>¿Podemos decir lo mismo de nosotros?</strong>
+            Bueno, ya sabemos 3 razones muy importantes que nos ayudan a confiar en la promesa de la vida eterna...
           </p>
 
           <p>
-          Si encontramos áreas a mejorar, esforcémonos por ello.
+            Pero ahora...
+          </p>
+
+
+          <h3>¿Como nos ayuda en nuestra vida actual tener esta promesa, de esta esperanza?</h3>
+
+
+          <h2>Hebreos 6: 19:</h2>
+
+          <h2>19</h2> <p>Esta esperanza segura y firme que tenemos es como un ancla para el alma y entra al lugar que está al otro lado de la cortina.</p>
+
+          <p>Posiblemente Pablo pensaba en un barco, porque unas de las cosas que hace un ancla es dar equilibrio a un barco...</p>
+
+          <p>
+            La esperanza es como un ancla porque nos ayuda a hacer frente a las pruebas, la persecución e incluso la muerte.
+          </p>
+
+          <p>Así que hermanos y personas que nos visitan...</p>
+
+          <p>
+            Confiamos en la promesa de la vida eterna por 3 razones demasiado importante... porque nos la promete alguien que es eterno, que tiene la sabiduría y poder ilimitados y que Jehová nos enseña lo que debemos hacer para conseguir la vida eterna. Además que nos ayuda afrontar dificultades y problemas...
           </p>
 
           <p>
-          Tengamos muy en cuenta algo..
+            Si confiamos plenamente en esta promesa de la vida eterna... Obtendremos la vida que en verdad es vida.
           </p>
 
-          <h5>Para conseguir una buena reputación debemos tener la costumbre de hacer las cosas bien.</h5>
-
-          <p>
-          En este caso no valdría mucho escudarnos detrás de la imperfección.
-          </p>
-
-          <p>
-          Por ejemplo, hablé mal de tal hermano... Es por la imperfección...No, tengamos la costumbre de hacer las cosas bien.
-          </p>
-
-          <h4>¿Recuerda lo que mencioné al principio del discurso?</h4>
-
-          <h5>Que nuestra reputación es como una canción...?</h5>
-          <p>
-          Las buenas canciones reciben un premio, las que no son tan buenas quedan allí archivadas...
-          </p>
-
-          <p>
-          Si tenemos una buena reputación... Tendremos el mejor de los premios. Tener una buena reputación ante Jehová que es lo más importante...
-          </p>
-
-          <p>
-          Hermanos, <strong>busquemos ganarnos el respeto, mostrar amor y vivir con integridad.</strong> Si al menos consideramos estos aspectos, Jehová nos brindará una vida plena y eterna."
-          </p>
         </div>
 
       </section>
