@@ -1,5 +1,4 @@
 import './App.css';
-import Hermana from './img/hermana.jpg';
 import Cronometer from './component/Cronometer';
 
 function App() {
@@ -52,6 +51,10 @@ function App() {
 
           <p>
           En esta celebración que instituyó Jesús, usó el pan sin levadura y el vino tinto que habían sobrado de la comida de la Pascua.
+          </p>
+
+          <p>
+          Pero algunas religiones usan pan fermentado, le añaden levadura a la masa y usan jugo de uva en vez de vino tinto.
           </p>
 
           <p>
