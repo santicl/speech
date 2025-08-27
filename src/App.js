@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 
 export default function MeetingProgram() {
@@ -1308,6 +1306,46 @@ export default function MeetingProgram() {
             align-self: center;
           }
         }
+
+        .section-introduction {
+          background: linear-gradient(135deg, #e8f4fd 0%, #d1ecf1 100%);
+          border: 2px solid #17a2b8;
+          border-radius: 10px;
+          padding: 20px;
+          margin-bottom: 25px;
+          box-shadow: 0 2px 10px rgba(23, 162, 184, 0.2);
+        }
+
+        .intro-content {
+          text-align: center;
+        }
+
+        .intro-content p {
+          margin: 0;
+          line-height: 1.6;
+          color: #2c3e50;
+          font-size: 1.05em;
+        }
+
+        .highlight-text {
+          background: #17a2b8;
+          color: white;
+          padding: 3px 8px;
+          border-radius: 15px;
+          font-weight: bold;
+          font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+          .section-introduction {
+            padding: 15px;
+            margin-bottom: 20px;
+          }
+          
+          .intro-content p {
+            font-size: 1em;
+          }
+        }
       `}</style>
 
       <div className="meeting-container">
@@ -1489,6 +1527,17 @@ export default function MeetingProgram() {
             SEAMOS MEJORES MAESTROS
             <span className="section-time">7:31 p.m.</span>
           </h2>
+
+          <div className="section-introduction">
+            <div className="intro-content">
+              <p>
+                <strong>En esta sección veremos 4 demostraciones</strong> y todas 4 tendrán un marco de circunstancia en
+                común:
+                <span className="highlight-text">"Hable del fin de la guerra y la violencia"</span>. Lo cual nos servirá
+                para la campaña <strong>"Un mundo sin guerra es posible"</strong>.
+              </p>
+            </div>
+          </div>
 
           {assignments.slice(3, 7).map((assignment) => (
             <div key={assignment.id} className={`assignment ${assignment.isExpanded ? "expanded" : ""}`}>
@@ -1715,6 +1764,16 @@ export default function MeetingProgram() {
                 Para el <strong>21 de septiembre (Domingo)</strong> hay campaña para Caño Del Oro, con la revista "Un
                 mundo sin guerra es posible" a las 7:00 pm en el muelle la bodeguita. Se anima a todos participar y
                 animar a los hermanos de allá de Caño.
+              </p>
+            </div>
+            <div className="announcement-item">
+              <h4>🧹 Aseo Salón del Reino</h4>
+              <p>
+                Se ha programado para el día <strong>Domingo</strong>, un aseo general al salón. Se les invita a todos
+                los hermanos a sacar un tiempo para apoyar este arreglo.
+              </p>
+              <p>
+                <strong>Horario:</strong> [4: 00 PM]
               </p>
             </div>
           </div>
