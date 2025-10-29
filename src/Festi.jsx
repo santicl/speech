@@ -1,6 +1,4 @@
-"use client"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./SpeechOutline.css"
 
 export default function DiscourseThoughtsEntertainment() {
@@ -8,6 +6,18 @@ export default function DiscourseThoughtsEntertainment() {
   const [isGlobalTimerRunning, setIsGlobalTimerRunning] = useState(false)
   const [isTimerExpanded, setIsTimerExpanded] = useState(false)
   const [fontSize, setFontSize] = useState(16)
+
+  useEffect(() => {
+    let interval = null
+    if (isGlobalTimerRunning) {
+      interval = setInterval(() => {
+        setGlobalTime((prevTime) => prevTime + 1)
+      }, 1000)
+    }
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [isGlobalTimerRunning])
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)
