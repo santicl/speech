@@ -990,8 +990,7 @@ export default function DiscourseThoughtsEntertainment() {
           </p>
 
           <p>
-            Como tener el deseo de participar a un festividad que va en contra de los principios de la biblia. Hacer
-            cosas que esté de acuerdo con el espíritu santo de Jehová.
+            El versiculo nos da el consejo de Hacer cosas que esté de acuerdo con el espíritu santo de Jehová.
           </p>
 
           <p>
