@@ -4,11 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import SpeechOutline from './Dis';
+import DiscourseThoughtsEntertainment from './Festi';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <SpeechOutline />
+    <DiscourseThoughtsEntertainment />
   </React.StrictMode>
 );
 
