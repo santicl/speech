@@ -5,11 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import SpeechOutline from './Dis';
 import DiscourseThoughtsEntertainment from './Festi';
+import DiscourseTrueLove from './Love';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <DiscourseThoughtsEntertainment />
+    <DiscourseTrueLove />
   </React.StrictMode>
 );
 
