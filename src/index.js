@@ -6,11 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import SpeechOutline from './Dis';
 import DiscourseThoughtsEntertainment from './Festi';
 import DiscourseTrueLove from './Love';
+import DiscourseSpoil from './Despojan';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <SpeechOutline />
+    <DiscourseSpoil />
   </React.StrictMode>
 );
 
