@@ -11,7 +11,7 @@ import DiscourseSpoil from './Despojan';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <DiscourseSpoil />
+    <SpeechOutline />
   </React.StrictMode>
 );
 
