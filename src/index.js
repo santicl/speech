@@ -7,11 +7,12 @@ import SpeechOutline from './Dis';
 import DiscourseThoughtsEntertainment from './Festi';
 import DiscourseTrueLove from './Love';
 import DiscourseSpoil from './Despojan';
+import DiscoursePioneers from './component/Precursores';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <SpeechOutline />
+    <DiscoursePioneers />
   </React.StrictMode>
 );
 
