@@ -8,7 +8,7 @@ function AppRoute() {
     <BrowserRouter>
       <Routes>
         <Route path="/nehemias" element={<DiscourseKingdomForever />} />
-        <Route path="*" element={<DiscoursePioneers />} />
+        <Route path="*" element={<DiscourseKingdomForever />} />
       </Routes>
     </BrowserRouter>
   );
