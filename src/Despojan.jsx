@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import "./SpeechOutline.css"
 
 export default function DiscourseSpoil() {
   const [globalTime, setGlobalTime] = useState(0)
