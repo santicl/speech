@@ -197,6 +197,7 @@ export default function DiscourseKingdomForever() {
         {/* LESSON 61 */}
         <div className="lesson-card">
           <div className="lesson-header">
+            <h1 className="lesson-title">Lección</h1>
             <span className="lesson-number">61</span>
             <h1 className="lesson-title">No se inclinan delante de la estatua</h1>
           </div>
