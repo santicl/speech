@@ -1,284 +1,297 @@
 import { useState, useEffect, useRef } from "react";
+import Imagen1 from '../src/img/1.jpg';
+import Imagen2 from '../src/img/2.jpg';
+import Imagen3 from '../src/img/3.jpg';
 
 export default function DiscourseKingdomForever() {
-  const [globalTime, setGlobalTime] = useState(0);
-  const [globalRunning, setGlobalRunning] = useState(false);
-  const [timerExpanded, setTimerExpanded] = useState(false);
-  const [fontSize, setFontSize] = useState(16);
-  const intervalRef = useRef(null);
+    const [globalTime, setGlobalTime] = useState(0);
+    const [globalRunning, setGlobalRunning] = useState(false);
+    const [timerExpanded, setTimerExpanded] = useState(false);
+    const [fontSize, setFontSize] = useState(16);
+    const intervalRef = useRef(null);
 
-  useEffect(() => {
-    if (globalRunning) {
-      intervalRef.current = setInterval(() => {
-        setGlobalTime((prev) => prev + 1);
-      }, 1000);
-    } else {
-      clearInterval(intervalRef.current);
-    }
-    return () => clearInterval(intervalRef.current);
-  }, [globalRunning]);
+    useEffect(() => {
+        if (globalRunning) {
+            intervalRef.current = setInterval(() => {
+                setGlobalTime((prev) => prev + 1);
+            }, 1000);
+        } else {
+            clearInterval(intervalRef.current);
+        }
+        return () => clearInterval(intervalRef.current);
+    }, [globalRunning]);
 
-  const formatTime = (s) => {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-  };
+    const formatTime = (s) => {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    };
 
-  return (
-    <div className="page-wrapper" style={{ fontSize: `${fontSize}px` }}>
-      {/* TIMER */}
-      <div
-        className={`timer-float ${timerExpanded ? "expanded" : "collapsed"}`}
-        onClick={() => !timerExpanded && setTimerExpanded(true)}
-      >
-        <div className="timer-display">{formatTime(globalTime)}</div>
-        {timerExpanded ? (
-          <div className="timer-controls">
-            <button
-              className="timer-btn start"
-              onClick={(e) => {
-                e.stopPropagation();
-                setGlobalRunning(!globalRunning);
-              }}
-            >
-              {globalRunning ? "Pausar" : "Iniciar"}
-            </button>
-            <button
-              className="timer-btn reset"
-              onClick={(e) => {
-                e.stopPropagation();
-                setGlobalRunning(false);
-                setGlobalTime(0);
-              }}
-            >
-              Reiniciar
-            </button>
+    return (
+        <div className="page-wrapper" style={{ fontSize: `${fontSize}px` }}>
+            {/* TIMER */}
             <div
-              className="font-control"
-              onClick={(e) => e.stopPropagation()}
+                className={`timer-float ${timerExpanded ? "expanded" : "collapsed"}`}
+                onClick={() => !timerExpanded && setTimerExpanded(true)}
             >
-              <label>Fuente: {fontSize}px</label>
-              <input
-                type="range"
-                min="12"
-                max="28"
-                value={fontSize}
-                onChange={(e) => setFontSize(parseInt(e.target.value))}
-              />
-            </div>
-            <button
-              className="timer-btn collapse"
-              onClick={(e) => {
-                e.stopPropagation();
-                setTimerExpanded(false);
-              }}
-            >
-              Minimizar
-            </button>
-          </div>
-        ) : (
-          <div className="timer-hint">Toca para expandir</div>
-        )}
-      </div>
-
-      {/* CONTENT */}
-      <div className="content-area">
-        {/* LESSON 60 */}
-        <div className="lesson-card">
-          <div className="lesson-header">
-            <h1 className="lesson-title">Lección</h1>
-            <span className="lesson-number">60</span>
-            <h1 className="lesson-title">El Reino que durara para siempre</h1>
-          </div>
-
-          <div className="section-label">Preguntas principales</div>
-
-          <div className="main-question">
-            <span className="q-badge main-badge">P1</span>
-            <p>Como supo Daniel lo que significaba el sueno de Nabucodonosor?</p>
-          </div>
-
-          <div className="main-question">
-            <span className="q-badge main-badge">P2</span>
-            <p>Que significaba el sueno?</p>
-          </div>
-
-          <div className="section-label answer-label">Respuestas</div>
-
-          <div className="answer-block">
-            <div className="answer-header">Respuesta 1</div>
-            <p>Llamo a los magos y les dijo: <strong>"Expliquenme el sueno que tuve"</strong>.</p>
-            <p>Pero Daniel pidio tiempo al rey. Entonces el y sus amigos oraron a Jehova para que los ayudara.</p>
-            <p>Jehova le mostro el sueno de Nabucodonosor a Daniel en una vision.</p>
-          </div>
-
-          <div className="answer-block">
-            <div className="answer-header">Respuesta 2</div>
-            <p>Daniel dijo:</p>
-            <div className="quote-block">
-              <p><strong>"El sueno significa esto: tu reino es la cabeza de oro.</strong></p>
-              <p>La parte de plata es un reino que habra despues del tuyo.</p>
-              <p>El cobre representa otro reino, que vendra despues, y que gobernara sobre toda la Tierra.</p>
-              <p>Al final habra un reino dividido que tendra partes fuertes como el hierro y partes debiles como el barro.</p>
-              <p><strong>La piedra que se convierte en una montana es el Reino de Dios, que destruira a todos los demas reinos y durara para siempre".</strong></p>
-            </div>
-          </div>
-
-          <div className="section-label additional-label">Preguntas adicionales</div>
-
-          <div className="additional-question">
-            <span className="q-badge additional-badge">Opcional</span>
-            <p>Que ayuda usaron Daniel y sus 3 amigos?</p>
-          </div>
-
-          <div className="bible-text">
-            <div className="bible-ref">Apocalipsis 16:16</div>
-            <p>"Reunieron a los reyes en el lugar que en hebreo se llama Armagedon".</p>
-          </div>
-
-          <div className="additional-question">
-            <span className="q-badge additional-badge">Adicional</span>
-            <p>A quienes representa esos reyes que menciona Apocalipsis 16:16? (Leer)</p>
-          </div>
-
-          <div className="additional-question">
-            <span className="q-badge additional-badge">Adicional</span>
-            <p>Esto que menciona Apocalipsis 16:16 ocurrira en que parte de la estatua?</p>
-          </div>
-
-          <div className="bible-text large">
-            <div className="bible-ref">Daniel 2:44, 45 (leer y explicar)</div>
-            <p><sup>44</sup> "En los dias de esos reyes, el Dios del cielo establecera un reino que nunca sera destruido ni pasara a manos de ningun otro pueblo. Este reino hara anicos y pondra fin a todos esos reinos, y sera el unico que permanecera para siempre, <sup>45</sup> tal como viste que pasaba cuando se corto una piedra de la montana, aunque no con manos humanas, y la piedra hizo anicos el hierro, el cobre, el barro, la plata y el oro. El Gran Dios le ha revelado al rey lo que sucedera en el futuro. El sueno es verdadero y su interpretacion es digna de confianza".</p>
-          </div>
-
-          <div className="prophecy-section">
-            <h3 className="prophecy-title">Profecia y cumplimiento</h3>
-            <div className="prophecy-grid">
-              <div className="prophecy-card prophecy">
-                <h4>Profecia</h4>
-                <ul>
-                  <li>El jinete del "caballo blanco" completa "su victoria" al destruir a Gog y su ejercito.</li>
-                  <li>Se arroja a "la bestia salvaje" en el "lago de fuego" y se hace anicos a la estatua gigante.</li>
-                </ul>
-              </div>
-              <div className="prophecy-card fulfillment">
-                <h4>Cumplimiento</h4>
-                <ul>
-                  <li>Jesus, el Rey del Reino de Dios, sale en defensa del pueblo de Jehova.</li>
-                  <li>Junto con los 144.000 y los angeles, destruye a la coalicion de naciones.</li>
-                  <li>Asi acaba el mundo de Satanas.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="reflection-section">
-            <h3 className="reflection-title">Reflexion / Aplicacion - Leccion 60</h3>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R1</span>
-              <p>Que nos ensena este relato sobre Jehova?</p>
-            </div>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R2</span>
-              <p>Que lecciones practicas podemos aprender?</p>
-            </div>
-            <div className="optional-apply">
-              <span className="optional-tag">Opcional</span>
-              <p>Como aplicar:</p>
-              <ul>
-                <li>En la congregacion</li>
-                <li>En la familia</li>
-                <li>En la predicacion?</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* LESSON 61 */}
-        <div className="lesson-card">
-          <div className="lesson-header">
-            <h1 className="lesson-title">Lección</h1>
-            <span className="lesson-number">61</span>
-            <h1 className="lesson-title">No se inclinan delante de la estatua</h1>
-          </div>
-
-          <div className="section-label">Preguntas principales</div>
-
-          <div className="main-question">
-            <span className="q-badge main-badge">P1</span>
-            <p>Que fue lo que no hicieron Sadrac, Mesac y Abednego?</p>
-          </div>
-
-          <div className="main-question">
-            <span className="q-badge main-badge">P2</span>
-            <p>Que hizo Jehova para salvarlos?</p>
-          </div>
-
-          <div className="section-label answer-label">Respuestas</div>
-
-          <div className="answer-block">
-            <div className="answer-header">Respuesta 1</div>
-            <p>El rey ordeno:</p>
-            <div className="quote-block">
-              <p>"Cuando oigan el sonido de trompetas, arpas y gaitas, deben inclinarse ante la estatua.</p>
-              <p><strong>Cualquiera que no lo haga sera castigado en el horno de fuego".</strong></p>
-            </div>
-          </div>
-
-          <div className="answer-block">
-            <div className="answer-header">Respuesta 2</div>
-            <p><strong>"Envio a su angel para salvarlos. No hay otro dios como el de ellos".</strong></p>
-          </div>
-
-          <div className="narrative-block">
-            <p>Los tres hebreos no estan adorando tu estatua.</p>
-            <p>Nabucodonosor mando llamar a los tres jovenes y les dijo:</p>
-            <div className="quote-block threat">
-              <p>"Voy a darles otra oportunidad para que adoren la estatua.</p>
-              <p>Si no lo hacen, los echare en el horno de fuego.</p>
-              <p><strong>Ningun dios podra salvarlos".</strong></p>
-            </div>
-          </div>
-
-          <div className="reflection-section">
-            <h3 className="reflection-title">Reflexion / Aplicacion - Leccion 61</h3>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R1</span>
-              <p>Que nos ensena este relato sobre Jehova?</p>
+                <div className="timer-display">{formatTime(globalTime)}</div>
+                {timerExpanded ? (
+                    <div className="timer-controls">
+                        <button
+                            className="timer-btn start"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setGlobalRunning(!globalRunning);
+                            }}
+                        >
+                            {globalRunning ? "Pausar" : "Iniciar"}
+                        </button>
+                        <button
+                            className="timer-btn reset"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setGlobalRunning(false);
+                                setGlobalTime(0);
+                            }}
+                        >
+                            Reiniciar
+                        </button>
+                        <div
+                            className="font-control"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <label>Fuente: {fontSize}px</label>
+                            <input
+                                type="range"
+                                min="12"
+                                max="28"
+                                value={fontSize}
+                                onChange={(e) => setFontSize(parseInt(e.target.value))}
+                            />
+                        </div>
+                        <button
+                            className="timer-btn collapse"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setTimerExpanded(false);
+                            }}
+                        >
+                            Minimizar
+                        </button>
+                    </div>
+                ) : (
+                    <div className="timer-hint">Toca para expandir</div>
+                )}
             </div>
 
-            <div className="bible-text">
-              <div className="bible-ref">Mateo 4:10</div>
-              <p>"Adora a Jehova tu Dios y sirvele solo a el"</p>
+            {/* CONTENT */}
+            <div className="content-area">
+                {/* LESSON 60 */}
+                <div className="lesson-card">
+                    <div className="lesson-header">
+                        <span className="lesson-number">60</span>
+                        <h1 className="lesson-title">El Reino que durara para siempre</h1>
+                    </div>
+
+                    <div className="lesson-image-section">
+                        <img src={Imagen1} alt="Imagen leccion 60 - El Reino que durara para siempre" className="lesson-image" />
+                    </div>
+
+                    <div className="section-label">Preguntas principales</div>
+
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P1</span>
+                        <p>Como supo Daniel lo que significaba el sueno de Nabucodonosor?</p>
+                    </div>
+
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P2</span>
+                        <p>Que significaba el sueno?</p>
+                    </div>
+
+                    <div className="section-label answer-label">Respuestas</div>
+
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta 1</div>
+                        <p>Llamo a los magos y les dijo: <strong>"Expliquenme el sueno que tuve"</strong>.</p>
+                        <p>Pero Daniel pidio tiempo al rey. Entonces el y sus amigos oraron a Jehova para que los ayudara.</p>
+                        <p>Jehova le mostro el sueno de Nabucodonosor a Daniel en una vision.</p>
+                    </div>
+
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta 2</div>
+                        <p>Daniel dijo:</p>
+                        <div className="quote-block">
+                            <p><strong>"El sueno significa esto: tu reino es la cabeza de oro.</strong></p>
+                            <p>La parte de plata es un reino que habra despues del tuyo.</p>
+                            <p>El cobre representa otro reino, que vendra despues, y que gobernara sobre toda la Tierra.</p>
+                            <p>Al final habra un reino dividido que tendra partes fuertes como el hierro y partes debiles como el barro.</p>
+                            <p><strong>La piedra que se convierte en una montana es el Reino de Dios, que destruira a todos los demas reinos y durara para siempre".</strong></p>
+                        </div>
+                    </div>
+
+                    <div className="section-label additional-label">Preguntas adicionales</div>
+
+                    <div className="additional-question">
+                        <span className="q-badge additional-badge">Opcional</span>
+                        <p>Que ayuda usaron Daniel y sus 3 amigos?</p>
+                    </div>
+
+                    <div className="bible-text">
+                        <div className="bible-ref">Apocalipsis 16:16</div>
+                        <p>"Reunieron a los reyes en el lugar que en hebreo se llama Armagedon".</p>
+                    </div>
+
+                    <div className="additional-question">
+                        <span className="q-badge additional-badge">Adicional</span>
+                        <p>A quienes representa esos reyes que menciona Apocalipsis 16:16? (Leer)</p>
+                    </div>
+
+                    <div className="additional-question">
+                        <span className="q-badge additional-badge">Adicional</span>
+                        <p>Esto que menciona Apocalipsis 16:16 ocurrira en que parte de la estatua?</p>
+                    </div>
+
+                    <div className="bible-text large">
+                        <div className="bible-ref">Daniel 2:44, 45 (leer y explicar)</div>
+                        <p><sup>44</sup> "En los dias de esos reyes, el Dios del cielo establecera un reino que nunca sera destruido ni pasara a manos de ningun otro pueblo. Este reino hara anicos y pondra fin a todos esos reinos, y sera el unico que permanecera para siempre, <sup>45</sup> tal como viste que pasaba cuando se corto una piedra de la montana, aunque no con manos humanas, y la piedra hizo anicos el hierro, el cobre, el barro, la plata y el oro. El Gran Dios le ha revelado al rey lo que sucedera en el futuro. El sueno es verdadero y su interpretacion es digna de confianza".</p>
+                    </div>
+
+                    <div className="prophecy-section">
+                        <h3 className="prophecy-title">Profecia y cumplimiento</h3>
+                        <div className="prophecy-grid">
+                            <div className="prophecy-card prophecy">
+                                <h4>Profecia</h4>
+                                <ul>
+                                    <li>El jinete del "caballo blanco" completa "su victoria" al destruir a Gog y su ejercito.</li>
+                                    <li>Se arroja a "la bestia salvaje" en el "lago de fuego" y se hace anicos a la estatua gigante.</li>
+                                </ul>
+                            </div>
+                            <div className="prophecy-card fulfillment">
+                                <h4>Cumplimiento</h4>
+                                <ul>
+                                    <li>Jesus, el Rey del Reino de Dios, sale en defensa del pueblo de Jehova.</li>
+                                    <li>Junto con los 144.000 y los angeles, destruye a la coalicion de naciones.</li>
+                                    <li>Asi acaba el mundo de Satanas.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="reflection-section">
+                        <h3 className="reflection-title">Reflexion / Aplicacion - Leccion 60</h3>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R1</span>
+                            <p>Que nos ensena este relato sobre Jehova?</p>
+                        </div>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R2</span>
+                            <p>Que lecciones practicas podemos aprender?</p>
+                        </div>
+                        <div className="optional-apply">
+                            <span className="optional-tag">Opcional</span>
+                            <p>Como aplicar:</p>
+                            <ul>
+                                <li>En la congregacion</li>
+                                <li>En la familia</li>
+                                <li>En la predicacion?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                {/* LESSON 61 */}
+                <div className="lesson-card">
+                    <div className="lesson-header">
+                        <span className="lesson-number">61</span>
+                        <h1 className="lesson-title">No se inclinan delante de la estatua</h1>
+                    </div>
+
+                    <div className="lesson-image-section">
+                        <img src={Imagen2} alt="Imagen leccion 61 - No se inclinan delante de la estatua" className="lesson-image" />
+                    </div>
+
+                    <div className="section-label">Preguntas principales</div>
+
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P1</span>
+                        <p>Que fue lo que no hicieron Sadrac, Mesac y Abednego?</p>
+                    </div>
+
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P2</span>
+                        <p>Que hizo Jehova para salvarlos?</p>
+                    </div>
+
+                    <div className="section-label answer-label">Respuestas</div>
+
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta 1</div>
+                        <p>El rey ordeno:</p>
+                        <div className="quote-block">
+                            <p>"Cuando oigan el sonido de trompetas, arpas y gaitas, deben inclinarse ante la estatua.</p>
+                            <p><strong>Cualquiera que no lo haga sera castigado en el horno de fuego".</strong></p>
+                        </div>
+                    </div>
+
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta 2</div>
+                        <p><strong>"Envio a su angel para salvarlos. No hay otro dios como el de ellos".</strong></p>
+                    </div>
+
+                    <div className="narrative-block">
+                        <p>Los tres hebreos no estan adorando tu estatua.</p>
+                        <p>Nabucodonosor mando llamar a los tres jovenes y les dijo:</p>
+                        <div className="quote-block threat">
+                            <p>"Voy a darles otra oportunidad para que adoren la estatua.</p>
+                            <p>Si no lo hacen, los echare en el horno de fuego.</p>
+                            <p><strong>Ningun dios podra salvarlos".</strong></p>
+                        </div>
+                    </div>
+
+                    <div className="reflection-section">
+                        <h3 className="reflection-title">Reflexion / Aplicacion - Leccion 61</h3>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R1</span>
+                            <p>Que nos ensena este relato sobre Jehova?</p>
+                        </div>
+
+                        <div className="lesson-image-section">
+                            <img src={Imagen3} alt="Imagen leccion 61 - No se inclinan delante de la estatua" className="lesson-image" />
+                        </div>
+
+                        <div className="bible-text">
+                            <div className="bible-ref">Mateo 4:10</div>
+                            <p>"Adora a Jehova tu Dios y sirvele solo a el"</p>
+                        </div>
+
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R2</span>
+                            <p>Que lecciones practicas podemos aprender?</p>
+                        </div>
+
+                        <div className="optional-apply">
+                            <span className="optional-tag">Opcional</span>
+                            <p>Como aplicar:</p>
+                            <ul>
+                                <li>En la congregacion</li>
+                                <li>En la familia</li>
+                                <li>En la predicacion?</li>
+                            </ul>
+                        </div>
+
+                        <div className="personal-apply">
+                            <h4>Aplicacion personal (Opcional)</h4>
+                            <ul>
+                                <li>Como aplicar este principio en el colegio?</li>
+                                <li>Como aplicarlo en el trabajo?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R2</span>
-              <p>Que lecciones practicas podemos aprender?</p>
-            </div>
-
-            <div className="optional-apply">
-              <span className="optional-tag">Opcional</span>
-              <p>Como aplicar:</p>
-              <ul>
-                <li>En la congregacion</li>
-                <li>En la familia</li>
-                <li>En la predicacion?</li>
-              </ul>
-            </div>
-
-            <div className="personal-apply">
-              <h4>Aplicacion personal (Opcional)</h4>
-              <ul>
-                <li>Como aplicar este principio en el colegio?</li>
-                <li>Como aplicarlo en el trabajo?</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <style jsx>{`
+            <style jsx>{`
         .page-wrapper {
           min-height: 100vh;
           background: #f8f9fa;
@@ -422,6 +435,20 @@ export default function DiscourseKingdomForever() {
           color: #1a1a2e;
           margin: 0;
           line-height: 1.3;
+        }
+
+        /* ========== LESSON IMAGE ========== */
+        .lesson-image-section {
+          margin: 0 0 24px 0;
+          text-align: center;
+        }
+        .lesson-image {
+          width: 100%;
+          max-height: 400px;
+          object-fit: contain;
+          border-radius: 14px;
+          border: 1px solid #e0e6ed;
+          background: #fafafa;
         }
 
         /* ========== SECTION LABELS ========== */
@@ -817,6 +844,6 @@ export default function DiscourseKingdomForever() {
           }
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 }
