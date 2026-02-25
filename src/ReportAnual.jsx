@@ -85,7 +85,7 @@ export default function DiscourseAnnualReport() {
           min-height: 100vh;
           background: #0a0a0a;
           padding: 24px;
-          padding-top: 80px;
+          padding-top: 130px;
           font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
           color: #e0e0e0;
           line-height: 1.8;
@@ -156,7 +156,7 @@ export default function DiscourseAnnualReport() {
         }
 
         @media (max-width: 768px) {
-          .page-wrapper { padding: 16px; padding-top: 75px; }
+          .page-wrapper { padding: 16px; padding-top: 130px; }
           .title { font-size: 1.4em; }
           .timer-float.expanded { right: 8px; left: 8px; min-width: auto; }
         }
