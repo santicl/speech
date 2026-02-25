@@ -68,16 +68,16 @@ export default function DiscourseAnnualReport() {
 
         <h1 className="title">Informe de Servicio Anual 2025</h1>
 
-        <p>El texto del año 2025 nos animó a darle "a Jehova la gloria que su nombre merece" <strong>(Sal. 96:8)</strong>. Es evidente que justo eso es lo que el pueblo de Jehova hizo por todo el mundo durante el ano pasado. Nos complace compartir con ustedes algunos aspectos animadores del informe mundial de los testigos de Jehova del ano de servicio 2025. Por ejemplo, se dirigieron <strong>7.603.182</strong> cursos biblicos, lo que supone un aumento del <strong>1,6 %</strong>. Tambien nos alegra informar que tuvimos un aumento del <strong>2,8 %</strong> en el numero de bautizados, ya que <strong>304.643</strong> nuevos discipulos hicieron declaracion publica de su dedicacion. Encontraran mas detalles del informe en <strong>jw.org</strong>, en <strong>JW Library</strong>, en la <strong>BIBLIOTECA EN LINEA Watchtower</strong> y en <strong>Watchtower Library</strong>.</p>
+        <p>El texto del año 2025 nos animó a darle "a Jehova la gloria que su nombre merece" <strong>(Sal. 96:8)</strong>. Es evidente que justo eso es lo que el pueblo de Jehova hizo por todo el mundo durante el año pasado. Nos complace compartir con ustedes algunos aspectos animadores del informe mundial de los testigos de Jehova del año de servicio 2025. Por ejemplo, se dirigieron <strong>7.603.182</strong> cursos biblicos, lo que supone un aumento del <strong>1,6 %</strong>. Tambien nos alegra informar que tuvimos un aumento del <strong>2,8 %</strong> en el numero de bautizados, ya que <strong>304.643</strong> nuevos discipulos hicieron declaracion publica de su dedicacion. Encontraran mas detalles del informe en <strong>jw.org</strong>, en <strong>JW Library</strong>, en la <strong>BIBLIOTECA EN LINEA Watchtower</strong> y en <strong>Watchtower Library</strong>.</p>
 
         <p>En el territorio de nuestra sucursal, seguimos experimentando un crecimiento positivo. Como resultado, se formaron <strong>62</strong> nuevas congregaciones y <strong>10</strong> nuevos circuitos. Durante la campana especial de septiembre de 2025, se iniciaron mas de <strong>13.600</strong> cursos biblicos, lo que resalta el excelente potencial para cursos biblicos y un mayor crecimiento. Ademas, la sucursal completo <strong>189</strong> proyectos de construccion y remodelacion de Salones del Reino.</p>
 
-        <p>Jehova y su Hijo están recogiendo las "cosas valiosas de todas las naciones" y tenemos el gran honor de colaborar con ellos <strong>(Ag 2:7)</strong>. El texto del ano 2026 nos recuerda: <strong>"Felices los que reconocen sus necesidades espirituales" (Mat. 5:3)</strong>. Estamos totalmente seguros de que Jehova bendecira sus esfuerzos por ayudar este ano a otras personas a cubrir sus necesidades espirituales.</p>
+        <p>Jehova y su Hijo están recogiendo las "cosas valiosas de todas las naciones" y tenemos el gran honor de colaborar con ellos <strong>(Ag 2:7)</strong>. El texto del año 2026 nos recuerda: <strong>"Felices los que reconocen sus necesidades espirituales" (Mat. 5:3)</strong>. Estamos totalmente seguros de que Jehova bendecira sus esfuerzos por ayudar este año a otras personas a cubrir sus necesidades espirituales.</p>
 
         <h1 className="title">Pregunta para el auditorio</h1>
         <h2><strong>¿Qué aspectos positivos del informe del año de servicio 2025 le gustaría comentar?</strong></h2>
         <h1 className="title">Entrevista</h1>
-        <h2><strong>¿Hermano(a), cuéntenos alguna experiencia animadora que haya tenido el año de servicio 2025?</strong></h2>
+        <h2><strong>¿Hermaño(a), cuéntenos alguna experiencia animadora que haya tenido el año de servicio 2025?</strong></h2>
       </div>
 
       <style jsx>{`
