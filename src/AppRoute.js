@@ -4,13 +4,14 @@ import DiscourseSupportBrothers from './component/Nehemias';
 import DiscourseKingdomForever from './EstudioBiblicoNehemias';
 import DiscourseKingdomForeverBlack from './EstudioBiblicoNehemiasNegro';
 import DiscourseAnnualReport from './ReportAnual';
+import DiscourseCampaign from './Campains';
 
 function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/nehemias" element={<DiscourseKingdomForeverBlack />} />
-        <Route path="*" element={<DiscourseAnnualReport />} />
+        <Route path="/nehemias" element={<DiscourseCampaign />} />
+        <Route path="*" element={<DiscourseCampaign />} />
       </Routes>
     </BrowserRouter>
   );
