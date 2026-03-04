@@ -73,7 +73,7 @@ export default function DiscourseCampaign() {
         <div className="bible-ref">Juan 3:16</div>
         <p className="bible-quote">{"\"Porque tanto amo Dios al mundo que dio a su hijo.\""}</p>
 
-        <p>El sabado <strong>7 de marzo</strong> comienza la campaña de la Conmemoración. Ese dia <strong>no habrá salida virtual por Zoom</strong>, la predicación se hará presencial de casa en casa e invitaremos tanto al discurso especial como a la Conmemoración.</p>
+        <p>El sabado <strong>7 de marzo</strong> comienza la campaña de la Conmemoración. Ese dia <strong>no habrá salida virtual por Zoom</strong>, la predicación se hará presencial de casa en casa e invitaremos tanto al discurso especial como a la Conmemoración. La salida sera desde:</p>
 
         <h2 className="section-title">Puntos de salida</h2>
 
