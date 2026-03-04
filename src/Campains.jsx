@@ -237,7 +237,7 @@ export default function DiscourseCampaign() {
           font-size: 1.8em;
           font-weight: 800;
           color: #ffffff;
-          margin: 0 0 24px 0;
+          margin: 100px 0 24px 0;
           line-height: 1.3;
           border-bottom: 3px solid #00e676;
           padding-bottom: 16px;
