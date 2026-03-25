@@ -115,7 +115,7 @@ export default function MeetingProgram() {
     {
       id: "maestros-1",
       title: "4. Empiece conversaciones",
-      participant: "Luisa Echenique | Kerit Echenique",
+      participant: "Josue Briseño | Dorley Briseño",
       duration: "3 mins",
       time: "7:31 p.m.",
       expandableContent: `
