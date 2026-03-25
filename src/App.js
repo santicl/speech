@@ -9,8 +9,8 @@ export default function MeetingProgram() {
   const [assignments, setAssignments] = useState([
     {
       id: "tesoros-1",
-      title: "1. Diferencias entre el justo y el malvado",
-      participant: "Nehemias Caballero",
+      title: "1. Si le prestamos atención a Jehová, nos irá bien",
+      participant: "Samuel Banquez Martinez",
       time: "7:06 p.m.",
       duration: "10 mins",
       isExpanded: false,
@@ -20,7 +20,7 @@ export default function MeetingProgram() {
     {
       id: "tesoros-2",
       title: "2. Busquemos perlas escondidas",
-      participant: "Juan Carlos Peinado Pérez",
+      participant: "Nehemias Caballero Arellano",
       time: "7:16 p.m.",
       duration: "10 mins",
       isExpanded: false,
@@ -29,85 +29,80 @@ export default function MeetingProgram() {
     },
     {
       id: "tesoros-3",
-      title: "3. Lectura de la biblia",
-      participant: "Alvaro Salas - Proverbios 28: 1 - 17",
+      title: "3. Lectura de la Biblia",
+      participant: "Jose Salvador Castellanos - Isaias 48:9-20",
       duration: "4 mins",
       expandableContent: `
         <div class="bible-reading">
           <div class="bible-verses">
-            <p><strong>1</strong> Los malvados huyen cuando nadie los persigue, pero los justos se sienten tan confiados como un león.</p>
-            <p><strong>2</strong> Cuando en el país se viola la ley, hay una sucesión de príncipes; pero, con la ayuda de un hombre de discernimiento y conocimiento, el príncipe permanece por mucho tiempo.</p>
-            <p><strong>3</strong> El pobre que explota a los desfavorecidos es como la lluvia que arrasa con todo el alimento.</p>
-            <p><strong>4</strong> Los que abandonan la ley alaban al malvado; los que obedecen la ley se indignan con ellos.</p>
-            <p><strong>5</strong> Los hombres malos no pueden entender la justicia, pero los que buscan a Jehová lo pueden entender todo.</p>
-            <p><strong>6</strong> Es mejor el pobre que vive con integridad que el rico que va por caminos corruptos.</p>
-            <p><strong>7</strong> El hijo que tiene entendimiento obedece la ley, pero el amigo de los glotones deshonra a su padre.</p>
-            <p><strong>8</strong> Quien aumenta su fortuna por medio de intereses y beneficios injustos la acumula para el que les muestra compasión a los pobres.</p>
-            <p><strong>9</strong> Si alguien se niega a obedecer la ley, hasta su oración es detestable.</p>
-            <p><strong>10</strong> El que desvía a las personas rectas hacia el mal camino caerá en su propio hoyo, pero los intachables heredarán lo bueno.</p>
-            <p><strong>11</strong> El hombre rico es sabio a sus propios ojos, pero el pobre que tiene discernimiento lo ve como realmente es.</p>
-            <p><strong>12</strong> Cuando los justos triunfan, hay una inmensa gloria; pero, cuando los malvados suben al poder, la gente corre a esconderse.</p>
-            <p><strong>13</strong> Al que esconde sus pecados no le irá bien, pero al que los confiesa y los abandona se le mostrará misericordia.</p>
-            <p><strong>14</strong> El hombre que siempre está en guardia es feliz, pero el terco caerá en la desgracia.</p>
-            <p><strong>15</strong> Como un león que ruge y un oso que ataca es el malvado que gobierna a un pueblo indefenso.</p>
-            <p><strong>16</strong> El líder sin discernimiento abusa de su poder, pero el que odia las ganancias deshonestas alargará su vida.</p>
-            <p><strong>17</strong> El hombre aplastado por la culpa de haber derramado sangre y acabado con una vida será un fugitivo hasta la tumba. ¡Que nadie lo ayude!</p>
+            <p><strong>9</strong> Pero por causa de mi nombre reprimire mi furia; para mi propia alabanza, me refrenare y no acabare contigo.</p>
+            <p><strong>10</strong> Mira! Te he refinado, pero no como a la plata. Te he probado en el horno de la afliccion.</p>
+            <p><strong>11</strong> Por mi, por mi actuare, porque como voy a dejar que me profanen? Mi gloria no se la doy a nadie.</p>
+            <p><strong>12</strong> Escuchame, oh, Jacob, y tu, Israel, a quien he llamado. Yo soy el mismo. Yo soy el primero, y tambien soy el ultimo.</p>
+            <p><strong>13</strong> Mi propia mano coloco los cimientos de la tierra, y mi mano derecha extendio los cielos. Cuando los llamo, todos ellos se presentan.</p>
+            <p><strong>14</strong> Juntense, todos ustedes, y escuchen. Quien entre ellos ha anunciado estas cosas? Aquel a quien Jehova ha amado cumplira su voluntad contra Babilonia, y su brazo caera sobre los caldeos.</p>
+            <p><strong>15</strong> Yo mismo he hablado y lo he llamado. Lo he traido, y el triunfara en su mision.</p>
+            <p><strong>16</strong> Acerquense a mi y oigan esto. Desde el comienzo, yo nunca he hablado en secreto. Cuando ocurrio, yo estaba alli". Y ahora el Senor Soberano Jehova me ha enviado a mi, y tambien su espiritu.</p>
+            <p><strong>17</strong> Esto es lo que dice Jehova, tu Recomprador, el Santo de Israel: "Yo, Jehova, soy tu Dios, el que te ensena por tu propio bien, el que te guia por el camino en que debes andar.</p>
+            <p><strong>18</strong> Si tan solo prestaras atencion a mis mandamientos! Entonces, tu paz llegaria a ser igual que un rio, y tu justicia, como las olas del mar.</p>
+            <p><strong>19</strong> Tu descendencia llegaria a ser como la arena, y tus descendientes, tan numerosos como los granos de arena. El nombre de ellos nunca seria eliminado ni quitado de mi vista".</p>
+            <p><strong>20</strong> Salgan de Babilonia! Huyan de los caldeos! Anuncienlo gritando de alegria! Proclamenlo! Denlo a conocer hasta los confines de la tierra. Digan: "Jehova ha recomprado a su siervo Jacob.</p>
           </div>
           
           <div class="lesson-section">
             <div class="lesson-header">
-              <h4>📚 Th Lección 10 - Modular la voz</h4>
-              <div class="lesson-reference">Proverbios 8:4, 7</div>
+              <h4>Leccion 11 - Hablar con entusiasmo</h4>
+              <div class="lesson-reference">Romanos 12:11</div>
             </div>
             
             <div class="lesson-summary">
-              <h5>📋 RESUMEN:</h5>
-              <p>Varíe el volumen, el tono y el ritmo para transmitir claramente las ideas y despertar emociones.</p>
+              <h5>RESUMEN:</h5>
+              <p>Hable con el corazon para motivar a sus oyentes.</p>
             </div>
             
             <div class="lesson-content">
-              <h5>🎯 CÓMO HACERLO:</h5>
+              <h5>COMO HACERLO:</h5>
               
               <div class="lesson-point">
-                <h6>🔊 Varíe el volumen</h6>
+                <h6>Prepare el corazon</h6>
                 <ul>
-                  <li><strong>Eleve la voz</strong> para destacar puntos principales y motivar a sus oyentes. Haga lo mismo cuando lea una sentencia divina.</li>
-                  <li><strong>Baje la voz</strong> para generar expectación o expresar miedo o preocupación.</li>
-                  <li><em>⚠️ No eleve la voz constantemente</em>, o sus oyentes creerán que los está regañando.</li>
-                  <li><em>⚠️ Evite ser demasiado dramático</em> para no llamar la atención hacia usted mismo.</li>
+                  <li>Al prepararse, medite en la importancia de su mensaje.</li>
+                  <li>Estudie bien la informacion para que pueda expresarse con conviccion.</li>
                 </ul>
               </div>
               
               <div class="lesson-point">
-                <h6>🎵 Varíe el tono</h6>
+                <h6>Piense en sus oyentes</h6>
                 <ul>
-                  <li><strong>Tono más agudo:</strong> Para expresar alegría o para hablar de tamaños o distancias.</li>
-                  <li><strong>Tono más grave:</strong> Para expresar tristeza o preocupación.</li>
+                  <li>Reflexione en el buen efecto que tendra en los demas lo que les va a decir o leer.</li>
+                  <li>Piense en como presentar la informacion para que sus oyentes la comprendan mejor y la valoren mas.</li>
                 </ul>
               </div>
               
               <div class="lesson-point">
-                <h6>⏱️ Varíe el ritmo</h6>
+                <h6>Haga que su mensaje cobre vida</h6>
                 <ul>
-                  <li><strong>Hable más deprisa</strong> si desea transmitir entusiasmo.</li>
-                  <li><strong>Hable más despacio</strong> si va a mencionar un punto importante.</li>
-                  <li><em>⚠️ No cambie bruscamente de ritmo</em>, o asustará a sus oyentes.</li>
-                  <li><em>⚠️ No sacrifique la buena pronunciación</em> por hablar demasiado rápido.</li>
+                  <li>Hable con el corazon.</li>
+                  <li>Muestre lo que siente mediante expresiones faciales que transmitan sinceridad y ademanes que sean naturales.</li>
+                  <li>Procure no distraer a sus oyentes haciendo continuamente el mismo gesto.</li>
+                  <li>Sus gestos y sus palabras deben estar relacionados.</li>
+                  <li>Transmita entusiasmo sobre todo al analizar los puntos principales o al motivar a sus oyentes a actuar.</li>
+                  <li>Si habla siempre con demasiado entusiasmo, terminara cansando a sus oyentes.</li>
                 </ul>
               </div>
             </div>
           </div>
           
           <div class="evaluation-section">
-            <h5>📝 EVALUACIÓN - Hermano Álvaro</h5>
+            <h5>EVALUACION - Hermano Jose Salvador</h5>
             <div class="evaluation-options">
               <div class="evaluation-good">
-                <h6>✔ Si lo hizo bien:</h6>
-                <p>"Álvaro, modulaste la voz de manera excelente, variando el tono y el ritmo para resaltar las ideas más importantes. Eso mantuvo la atención y transmitió bien el mensaje."</p>
+                <h6>Si lo hizo bien:</h6>
+                <p>"Jose Salvador, hablaste con entusiasmo y se noto que preparaste el corazon. Tus expresiones faciales y ademanes transmitieron sinceridad y ayudaron a que el mensaje cobrara vida."</p>
               </div>
               <div class="evaluation-improve">
-                <h6>✏ Si debe mejorar:</h6>
-                <p>"Álvaro, la explicación fue clara y se notó tu esfuerzo. Sería muy provechoso añadir más variedad en el tono y el ritmo al presentar los puntos clave, para darles todavía más fuerza."</p>
+                <h6>Si debe mejorar:</h6>
+                <p>"Jose Salvador, la lectura fue clara. Seria muy provechoso anadir mas expresividad y variedad en el tono para transmitir aun mas entusiasmo al presentar los puntos clave."</p>
               </div>
             </div>
           </div>
@@ -120,31 +115,17 @@ export default function MeetingProgram() {
     {
       id: "maestros-1",
       title: "4. Empiece conversaciones",
-      participant: "Hortensia De La Rosa Espinosa | Mary Luz Castillo Pérez",
+      participant: "Luisa Echenique | Kerit Echenique",
       duration: "3 mins",
       time: "7:31 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>🏠 DE CASA EN CASA</h4>
-            <p><strong>Tema:</strong> Hable del fin de la guerra y la violencia</p>
-            <p><strong>Lección:</strong> Una Obra de amor, Lección 5 punto 5 - Tacto</p>
+            <h4>PREDICACION INFORMAL</h4>
+            <p><strong>Tema:</strong> Invite a un familiar inactivo al discurso especial y a la Conmemoracion</p>
+            <p><strong>Leccion:</strong> lmd leccion 5 punto 3 - Tacto</p>
             <div class="lesson-description">
-              <p><em>Siempre que sea posible, dele la razón a la persona y felicítela. Recuerde que quizás la persona crea de corazón que está en lo correcto. Primero busque un terreno común y luego ayúdela poco a poco a entender lo que la Biblia enseña.</em></p>
-            </div>
-          </div>
-          
-          <div class="evaluation-section">
-            <h5>📝 EVALUACIÓN - Hermana Hortensia</h5>
-            <div class="evaluation-options">
-              <div class="evaluation-good">
-                <h6>✔ Si lo hizo bien:</h6>
-                <p>"Hortensia, mostraste muy buen tacto, felicitando a la persona y encontrando un punto en común antes de presentar el texto. Eso genera confianza y disposición para escuchar."</p>
-              </div>
-              <div class="evaluation-improve">
-                <h6>✏ Si debe mejorar:</h6>
-                <p>"Hortensia, tu manera de expresarte fue amable y respetuosa. Podrías enfocarte un poco más en encontrar puntos en común al inicio, para que la persona sienta aún más conexión contigo."</p>
-              </div>
+              <p><em>Elija bien sus palabras. Por ejemplo, si habla con una persona que no tiene antecedentes cristianos, quizas tenga que referirse a la Biblia o a Jesus de forma diferente.</em></p>
             </div>
           </div>
         </div>
@@ -155,32 +136,18 @@ export default function MeetingProgram() {
     },
     {
       id: "maestros-2",
-      title: "5. Empiece conversaciones",
-      participant: "Jackelin Caballero Suárez | Shirley Barrios González",
-      duration: "3 mins",
+      title: "5. Haga revisitas",
+      participant: "Dormelina Martinez | Denis Alicia Frias Jimenez",
+      duration: "4 mins",
       time: "7:34 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>🏠 DE CASA EN CASA</h4>
-            <p><strong>Tema:</strong> Hable del fin de la guerra y la violencia</p>
-            <p><strong>Lección:</strong> Una Obra de amor, Lección 5 punto 4 - Tacto</p>
+            <h4>PREDICACION INFORMAL</h4>
+            <p><strong>Tema:</strong> La persona esta pensando en asistir a la Conmemoracion. Expliquele como sera esta reunion</p>
+            <p><strong>Leccion:</strong> lmd leccion 9 punto 3 - Empatia</p>
             <div class="lesson-description">
-              <p><em>No corrija enseguida a la persona. Deje que la persona se exprese con total libertad. Y, cuando diga algo que no esté de acuerdo con la Biblia, no la contradiga (Sant. 1:19). Si la escucha con atención, logrará entender lo que ella cree y por qué lo cree (Prov. 20:5).</em></p>
-            </div>
-          </div>
-          
-          <div class="evaluation-section">
-            <h5>📝 EVALUACIÓN - Hermana Jackeline</h5>
-            <div class="evaluation-options">
-              <div class="evaluation-good">
-                <h6>✔ Si lo hizo bien:</h6>
-                <p>"Jackeline, me encantó que escuchaste con paciencia y dejaste que la persona se expresara sin interrumpir. Eso muestra respeto y facilita entender su punto de vista."</p>
-              </div>
-              <div class="evaluation-improve">
-                <h6>✏ Si debe mejorar:</h6>
-                <p>"Jackeline, se notó que escuchaste con atención. En otra ocasión, podrías dejar que la persona termine por completo sus ideas antes de responder, para que perciba aún más tu interés."</p>
-              </div>
+              <p><em>Escuche con atencion. Deje que la persona hable y no la interrumpa. Si tiene alguna objecion o le expresa sus sentimientos y preocupaciones, no la ignore. Si le presta atencion, la persona vera que a usted realmente le interesa lo que ella piensa.</em></p>
             </div>
           </div>
         </div>
@@ -191,107 +158,43 @@ export default function MeetingProgram() {
     },
     {
       id: "maestros-3",
-      title: "6. Empiece conversaciones",
-      participant: "Adela Perez | Martha Torres",
-      duration: "2 mins",
-      time: "7:37 p.m.",
+      title: "6. Haga revisitas",
+      participant: "Yohema Diaz Torres | Yanina Diaz Pasos",
+      duration: "5 mins",
+      time: "7:38 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>🌍 PREDICACIÓN PÚBLICA</h4>
-            <p><strong>Tema:</strong> Hable del fin de la guerra y la violencia</p>
-            <p><strong>Lección:</strong> Una Obra de amor, Lección 1 punto 4 - Interés sincero</p>
+            <h4>PREDICACION INFORMAL</h4>
+            <p><strong>Tema:</strong> Al terminar la Conmemoracion, responda las preguntas que le hayan surgido a algun invitado</p>
+            <p><strong>Leccion:</strong> lmd leccion 8 punto 3 - Paciencia</p>
             <div class="lesson-description">
-              <p><em>Sea observador. Pregúntese:</em></p>
-              <ul>
-                <li><em>"¿Qué está haciendo la persona en este momento? ¿En qué estará pensando?"</em></li>
-                <li><em>"¿Qué me dicen su ropa, su apariencia y su vivienda sobre sus creencias o su cultura?"</em></li>
-                <li><em>"¿Es un buen momento para conversar?"</em></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="evaluation-section">
-            <h5>📝 EVALUACIÓN - Hermana Adela</h5>
-            <div class="evaluation-options">
-              <div class="evaluation-good">
-                <h6>✔ Si lo hizo bien:</h6>
-                <p>"Adela, reflejaste un interés sincero, observando y adaptándote a la situación. Eso crea un ambiente agradable para conversar."</p>
-              </div>
-              <div class="evaluation-improve">
-                <h6>✏ Si debe mejorar:</h6>
-                <p>"Adela, tu participación fue muy buena. Sería valioso añadir algunas preguntas relacionadas con lo que observas, para que la conversación resulte todavía más cercana y personal."</p>
-              </div>
+              <p><em>Intente algo diferente. Si al principio la persona no quiere aceptar un curso biblico, no la presione. Pero, si lo ve apropiado, use videos o articulos para mostrarle como son nuestros cursos biblicos y como le ayudaria aceptar uno.</em></p>
             </div>
           </div>
         </div>
       `,
-      isExpanded: false,
-      timerRunning: false,
-      recordedTime: 0,
-    },
-    {
-      id: "maestros-4",
-      title: "7. Empiece conversaciones",
-      participant: "Luisa Echenique González | Marta Meza",
-      duration: "3 mins",
-      time: "7:40 p.m.",
-      expandableContent: `
-        <div class="assignment-content">
-          <div class="assignment-details">
-            <h4>💬 PREDICACIÓN INFORMAL</h4>
-            <p><strong>Tema:</strong> Hable del fin de la guerra y la violencia</p>
-            <p><strong>Lección:</strong> Una Obra de amor, Lección 2 punto 4 - Naturalidad</p>
-            <div class="lesson-description">
-              <p><em>Tenga paciencia. No piense que tiene que ponerse a hablar de la Biblia enseguida. Espere al momento oportuno y saque el tema de forma natural. Quizás tenga que esperar hasta la próxima vez que hable con la persona.</em></p>
-            </div>
-          </div>
-          
-          <div class="evaluation-section">
-            <h5>📝 EVALUACIÓN - Hermana Luisa</h5>
-            <div class="evaluation-options">
-              <div class="evaluation-good">
-                <h6>✔ Si lo hizo bien:</h6>
-                <p>"Luisa, hablaste con mucha naturalidad, introduciendo el tema bíblico de forma sencilla y sin forzarlo. Eso genera confianza en la persona."</p>
-              </div>
-              <div class="evaluation-improve">
-                <h6>✏ Si debe mejorar:</h6>
-                <p>"Luisa, tu forma de expresarte fue clara y agradable. Podrías esperar un poco más el momento oportuno antes de introducir el tema, para que la conversación fluya con mayor naturalidad."</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      isExpanded: false,
-      timerRunning: false,
-      recordedTime: 0,
-    },
-    {
-      id: "vida-1",
-      title: "8. ¿Odia usted la violencia? Análisis con el auditorio",
-      participant: "Leonardo Sotomayor Rueda",
-      time: "7:46 p.m.",
-      duration: "6 mins",
       isExpanded: false,
       timerRunning: false,
       recordedTime: 0,
     },
     {
       id: "vida-2",
-      title: "9. Campaña especial en septiembre",
-      participant: "José Guillermo Galeano Piñeres",
-      time: "8:02 p.m.",
-      duration: "9 mins",
+      title: "7. Aproveche bien el dia mas importante del año",
+      participant: "Luis Diaz Torres",
+      time: "7:43 p.m.",
+      duration: "15 mins",
       isExpanded: false,
       timerRunning: false,
       recordedTime: 0,
     },
     {
       id: "vida-3",
-      title: "10. Estudio bíblico de congregación",
-      participant: "Angel Echenique",
-      time: "8:11 p.m.",
+      title: "8. Estudio biblico de congregacion",
+      participant: "Angel Echenique | Lector: Willian Bustos Montalvo",
+      time: "7:58 p.m.",
       duration: "30 mins",
+      description: "lfb lecciones 72, 73",
       isExpanded: false,
       timerRunning: false,
       recordedTime: 0,
@@ -1387,12 +1290,12 @@ export default function MeetingProgram() {
 
         {/* Opening */}
         <div className="section">
-          <div className="song-prayer song">
-            <strong>Canción:</strong> 150 - ¡Jehová será tu Salvador!
-          </div>
-          <div className="song-prayer prayer">
-            <strong>Oración Inicial:</strong> Adoney Castro
-          </div>
+  <div className="song-prayer song">
+  <strong>Cancion:</strong> 89 - Jehova bendice al que escucha y obedece
+  </div>
+  <div className="song-prayer prayer">
+  <strong>Oracion Inicial:</strong> Santiago Caballero Suarez
+  </div>
         </div>
 
         {/* Program Introduction */}
@@ -1408,39 +1311,34 @@ export default function MeetingProgram() {
           <div className="introduction-content">
             <div className="introduction-text">
               <p className="greeting">
-                <strong>Muy buenas noches, hermanos.</strong> Bienvenidos a nuestra reunión de entre semana. Hoy
-                fortaleceremos nuestra fe con un programa muy edificante.
+                <strong>Muy buenas noches, hermanos.</strong> Bienvenidos a nuestra reunion de entre semana. Hoy fortaleceremos nuestra fe con un programa muy edificante.
               </p>
 
               <div className="program-preview">
                 <div className="preview-section">
                   <span className="preview-icon">💎</span>
                   <div className="preview-content">
-                    <strong>En Tesoros de la Biblia</strong> veremos las diferencias entre el justo y el malvado y
-                    hallaremos valiosas perlas espirituales.
+                    <strong>En Tesoros de la Biblia</strong> veremos como si le prestamos atencion a Jehova, nos ira bien y hallaremos valiosas perlas espirituales.
                   </div>
                 </div>
 
                 <div className="preview-section">
                   <span className="preview-icon">🎯</span>
                   <div className="preview-content">
-                    <strong>Después, en Seamos Mejores Maestros,</strong> aprenderemos cómo iniciar buenas
-                    conversaciones en la predicación.
+                    <strong>Despues, en Seamos Mejores Maestros,</strong> aprenderemos como iniciar conversaciones e invitar a las personas al discurso especial y a la Conmemoracion.
                   </div>
                 </div>
 
                 <div className="preview-section">
                   <span className="preview-icon">❤️</span>
                   <div className="preview-content">
-                    <strong>En Nuestra Vida Cristiana</strong> analizaremos por qué Jehová odia la violencia y
-                    recibiremos ánimo para participar en la campaña especial de septiembre. Terminaremos con nuestro
-                    Estudio Bíblico de Congregación.
+                    <strong>En Nuestra Vida Cristiana</strong> analizaremos como aprovechar bien el dia mas importante del ano. Terminaremos con nuestro Estudio Biblico de Congregacion.
                   </div>
                 </div>
               </div>
 
               <p className="closing-intro">
-                <strong>Sin más, iniciemos nuestro programa.</strong>
+                <strong>Sin mas, iniciemos nuestro programa.</strong>
               </p>
             </div>
 
@@ -1509,12 +1407,11 @@ export default function MeetingProgram() {
                     Ahora, se les invita a todos los que tienen sus asignaciones en la sala auxiliar, dirigirse hacia
                     allá.
                   </strong>
-                  Los estará recibiendo el hermano <strong>Adoney Castro</strong>.
-                </p>
-                <p>
-                  Acá en la sala principal seguimos con una asignación importante en la reunión, la{" "}
-                  <strong>intervención número 3, la lectura de la biblia</strong>, sigamos por favor la lectura de{" "}
-                  <strong>Proverbios 28: 1 - 17</strong> que hará el hermano <strong>Álvaro Salas</strong>.
+  Los estara recibiendo el hermano <strong>Santiago Caballero Suarez</strong>.
+  </p>
+  <p>
+  Aca en la sala principal seguimos con una asignacion importante en la reunion, la{" "}
+  <strong>intervencion numero 3, la lectura de la biblia</strong>, que hara el hermano <strong>Jose Salvador Castellanos</strong>.
                 </p>
               </div>
             </div>
@@ -1528,18 +1425,15 @@ export default function MeetingProgram() {
             <span className="section-time">7:31 p.m.</span>
           </h2>
 
-          <div className="section-introduction">
-            <div className="intro-content">
-              <p>
-                <strong>En esta sección veremos 4 demostraciones</strong> y todas 4 tendrán un marco de circunstancia en
-                común:
-                <span className="highlight-text">"Hable del fin de la guerra y la violencia"</span>. Lo cual nos servirá
-                para la campaña <strong>"Un mundo sin guerra es posible"</strong>.
-              </p>
-            </div>
+  <div className="section-introduction">
+  <div className="intro-content">
+  <p>
+  <strong>En esta seccion veremos 3 demostraciones</strong> enfocadas en invitar a las personas al discurso especial y a la Conmemoracion. Aprenderemos sobre el tacto, la empatia y la paciencia al conversar con las personas.
+  </p>
+  </div>
           </div>
 
-          {assignments.slice(3, 7).map((assignment) => (
+          {assignments.slice(3, 6).map((assignment) => (
             <div key={assignment.id} className={`assignment ${assignment.isExpanded ? "expanded" : ""}`}>
               <div className="assignment-header">
                 <div className="assignment-title" onClick={() => toggleAssignmentExpansion(assignment.id)}>
@@ -1585,11 +1479,11 @@ export default function MeetingProgram() {
             <span className="section-time">7:46 p.m.</span>
           </h2>
 
-          <div className="song-prayer song">
-            <strong>Canción:</strong> 112 - Jehová, el Dios de la paz
-          </div>
+  <div className="song-prayer song">
+  <strong>Cancion:</strong> 107 - Dios nos enseno a amar
+  </div>
 
-          {assignments.slice(7).map((assignment) => (
+          {assignments.slice(6).map((assignment) => (
             <div key={assignment.id} className={`assignment ${assignment.isExpanded ? "expanded" : ""}`}>
               <div className="assignment-header">
                 <div className="assignment-title" onClick={() => toggleAssignmentExpansion(assignment.id)}>
@@ -1628,12 +1522,6 @@ export default function MeetingProgram() {
           ))}
 
           {/* Additional items */}
-          <div className="assignment">
-            <div className="assignment-header">
-              <div className="assignment-title">Lector</div>
-            </div>
-            <div className="assignment-participant">Wilberto Meza Frías</div>
-          </div>
         </div>
 
         {/* Palabras de Conclusión */}
@@ -1656,10 +1544,11 @@ export default function MeetingProgram() {
                 <div className="summary-section">
                   <span className="summary-icon">💎</span>
                   <div className="summary-content">
-                    <strong>En Tesoros de la Biblia</strong> vimos las diferencias entre el justo y el malvado y cómo
-                    confiar en Jehová.
+                  {/*  <strong>En Tesoros de la Biblia</strong>*/} Hoy aprendimos que para que nos vaya bien, debemos prestarle atención a Jehová, tambien vimos 3 cualidades para poner en practica a la hora de invitar a la conmemoracion y finalmente, aprendimos lecciones importantes en el estudio del libro
                   </div>
                 </div>
+
+                {/*
 
                 <div className="summary-section">
                   <span className="summary-icon">🎯</span>
@@ -1684,6 +1573,7 @@ export default function MeetingProgram() {
                     y mantener la paz con los hermanos.
                   </div>
                 </div>
+                */}
               </div>
 
               <p className="closing-message">
@@ -1716,64 +1606,44 @@ export default function MeetingProgram() {
 
           <div className="announcements-list">
             <div className="announcement-item">
-              <h4>💰 Contribuciones</h4>
+              <h4>1. Horario de la Conmemoracion</h4>
               <p>
-                Apoyar las contribuciones: las del tablero son para los gastos del salón y las del lobby son para la
-                obra mundial.
+                Les pedimos con carino que recuerden asistir en el horario que les fue asignado. No es una regla, pero respetar ese horario nos ayuda a que todo fluya bien y evitara sobrepasar el aforo permitido.
               </p>
             </div>
 
             <div className="announcement-item">
-              <h4>🎯 Precursorado Auxiliar - Septiembre</h4>
-              <p>Se anima a hacer el Precursorado auxiliar del mes de septiembre.</p>
-
-              <div className="auxiliary-list">
-                <h5>📋 Precursores auxiliares confirmados para septiembre:</h5>
-                <ul>
-                  <li>Leonardo Sotomayor</li>
-                  <li>Valentina Sotomayor</li>
-                  <li>Carolina Sotomayor</li>
-                  <li>Jennie Briseño</li>
-                  <li>Kerit Echenique</li>
-                  <li>Luisa Echenique</li>
-                  <li>Luis Díaz</li>
-                  <li>Valeria Diaz</li>
-                  <li>Liliana Pedroso</li>
-                  <li>Juan Peinado</li>
-                  <li>Shery Meza de continuo</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="announcement-item">
-              <h4>🔧 Vigilancia y Mantenimiento</h4>
+              <h4>2. Limpieza y decoracion - Jueves festivo a las 7:45 a.m.</h4>
               <p>
-                Para el día <strong>4 de diciembre (Jueves)</strong> hay vigilancia y mantenimiento. Quien desee ir,
-                favor anotarse con el hermano Nehemías Caballero.
+                Los invitamos a unirse! Ese dia prepararemos el Salon del Reino para la Conmemoracion. Comenzaremos con el programa especial de adoracion matutina y despues, entre todos, nos organizaremos para la limpieza y la decoracion. Sera un momento bonito de trabajar juntos.
               </p>
             </div>
 
             <div className="announcement-item">
-              <h4>💧 Bautismo - Asamblea</h4>
-              <p>Quien tenga el deseo de bautizarse para esta asamblea, favor acercarse al hermano Luis Torres.</p>
+              <h4>3. Programa de adoracion matutina - 2 de abril</h4>
+              <p>
+                Para el dia de la Conmemoracion hay un programa especial de adoracion matutina que dura solo <strong>17 minutos</strong>. Los animamos a verlo ese dia. Pueden encontrarlo facilmente en <strong>JW.org</strong> o en la aplicacion <strong>JW Library</strong>.
+              </p>
             </div>
 
             <div className="announcement-item">
-              <h4>🚤 Campaña Caño Del Oro</h4>
+              <h4>4. Informe de cuentas</h4>
               <p>
-                Para el <strong>21 de septiembre (Domingo)</strong> hay campaña para Caño Del Oro, con la revista "Un
-                mundo sin guerra es posible" a las 7:00 pm en el muelle la bodeguita. Se anima a todos participar y
-                animar a los hermanos de allá de Caño.
+                A continuacion se leera el informe de cuentas de la congregacion.
               </p>
             </div>
+
             <div className="announcement-item">
-              <h4>🧹 Aseo Salón del Reino</h4>
+              <h4>5. Reunion entre semana para la Conmemoracion</h4>
               <p>
-                Se ha programado para el día <strong>Domingo</strong>, un aseo general al salón. Se les invita a todos
-                los hermanos a sacar un tiempo para apoyar este arreglo.
+                Durante la semana de la Conmemoracion, la unica reunion sera el <strong>sabado 4 de abril</strong>. No habra reunion entre semana para esa fecha.
               </p>
+            </div>
+
+            <div className="announcement-item">
+              <h4>6. Repaso de la asamblea - Miercoles 11 de abril</h4>
               <p>
-                <strong>Horario:</strong> [4: 00 PM]
+                Si tienen sus notas de la ultima asamblea, traiganlas! Ese miercoles haremos juntos un repaso de todo lo que aprendimos. Ademas, en lugar de la parte habitual de "Necesidades de la congregacion", se presentara el <strong>Informe 2 de 2026</strong>.
               </p>
             </div>
           </div>
@@ -1782,10 +1652,10 @@ export default function MeetingProgram() {
         {/* Final Section */}
         <div className="section">
           <div className="song-prayer song" style={{ marginTop: "20px" }}>
-            <strong>8:35 p.m. - Canción:</strong> 113 - La paz del pueblo de Dios
-          </div>
-          <div className="song-prayer prayer">
-            <strong>Oración Final:</strong> Alberto Angulo
+  <strong>8:35 p.m. - Cancion:</strong> 134 - Los hijos son un regalo de Dios
+  </div>
+  <div className="song-prayer prayer">
+  <strong>Oracion Final:</strong> Alfonso Orlando Ortiz B
             <div style={{ marginTop: "10px", fontSize: "0.9em", fontWeight: "bold", color: "#666" }}>
               🕐 Finalización del programa: 8:35 p.m.
             </div>

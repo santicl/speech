@@ -5,13 +5,14 @@ import DiscourseKingdomForever from './EstudioBiblicoNehemias';
 import DiscourseKingdomForeverBlack from './EstudioBiblicoNehemiasNegro';
 import DiscourseAnnualReport from './ReportAnual';
 import DiscourseCampaign from './Campains';
+import MeetingProgram from './App';
 
 function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/nehemias" element={<DiscourseCampaign />} />
-        <Route path="*" element={<DiscourseCampaign />} />
+        <Route path="/nehemias" element={<MeetingProgram />} />
+        <Route path="*" element={<MeetingProgram />} />
       </Routes>
     </BrowserRouter>
   );
