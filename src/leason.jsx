@@ -168,7 +168,7 @@ export default function DiscourseLessons80And81() {
           </div>
 
           <div className="reflection-section">
-            <h3 className="reflection-title">Que nos ensena este relato acerca de Jehova?</h3>
+            <h3 className="reflection-title">¿Que nos ensena este relato acerca de Jehova?</h3>
             <ul className="reflection-list">
               <li>Jehova escucha las oraciones.</li>
               <li>Jehova guia decisiones importantes.</li>
@@ -178,7 +178,7 @@ export default function DiscourseLessons80And81() {
           </div>
 
           <div className="lessons-section">
-            <h3 className="lessons-title">Lecciones practicas que podemos aprender</h3>
+            <h3 className="lessons-title">¿Qué Lecciones practicas que podemos aprender de este relato?</h3>
             <ul className="lessons-list">
               <li>Orar antes de tomar decisiones importantes.</li>
               <li>Ser humildes y aceptar asignaciones.</li>
@@ -186,6 +186,10 @@ export default function DiscourseLessons80And81() {
               <li>Ser fieles en cualquier responsabilidad.</li>
               <li>Valorar la amistad espiritual.</li>
             </ul>
+          </div>
+
+          <div className="lessons-section">
+            <h3 className="lessons-title">¿Como se podria aplicar la informacion en la familia, la congregacion o predicacion?</h3>
           </div>
         </div>
 
@@ -276,7 +280,7 @@ export default function DiscourseLessons80And81() {
           </div>
 
           <div className="reflection-section">
-            <h3 className="reflection-title">Que nos ensena este relato acerca de Jehova?</h3>
+            <h3 className="reflection-title">¿Que nos ensena este relato acerca de Jehova?</h3>
             <ul className="reflection-list">
               <li>Jehova desea que seamos felices.</li>
               <li>Jehova ensena amor, justicia y misericordia.</li>
@@ -286,7 +290,7 @@ export default function DiscourseLessons80And81() {
           </div>
 
           <div className="lessons-section">
-            <h3 className="lessons-title">Lecciones practicas que podemos aprender</h3>
+            <h3 className="lessons-title">¿Qué Lecciones practicas que podemos aprender de este relato?</h3>
             <ul className="lessons-list">
               <li>Amar a todos sin favoritismo.</li>
               <li>Perdonar rapidamente.</li>
@@ -295,6 +299,9 @@ export default function DiscourseLessons80And81() {
               <li>Buscar primero lo espiritual.</li>
               <li>Imitar la forma de ensenar de Jesus.</li>
             </ul>
+          </div>
+          <div className="lessons-section">
+            <h3 className="lessons-title">¿Como se podria aplicar la informacion en la familia, la congregacion o predicacion?</h3>
           </div>
         </div>
 
