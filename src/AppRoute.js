@@ -6,13 +6,14 @@ import DiscourseKingdomForeverBlack from './EstudioBiblicoNehemiasNegro';
 import DiscourseAnnualReport from './ReportAnual';
 import DiscourseCampaign from './Campains';
 import MeetingProgram from './App';
+import DiscourseLessons80And81 from './leason';
 
 function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/nehemias" element={<MeetingProgram />} />
-        <Route path="*" element={<MeetingProgram />} />
+        <Route path="/nehemias" element={<DiscourseLessons80And81 />} />
+        <Route path="*" element={<DiscourseLessons80And81 />} />
       </Routes>
     </BrowserRouter>
   );
