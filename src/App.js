@@ -1,4 +1,7 @@
+"use client"
+
 import { useState, useEffect } from "react"
+import { ChevronRight, ChevronDown, Play, Pause, Square, Clock, User, Timer, Mic, Heart, BookOpen, Target, AlertCircle, Award } from "lucide-react"
 
 export default function MeetingProgram() {
   const [globalTime, setGlobalTime] = useState(0)
@@ -9,8 +12,8 @@ export default function MeetingProgram() {
   const [assignments, setAssignments] = useState([
     {
       id: "tesoros-1",
-      title: "1. Si le prestamos atención a Jehová, nos irá bien",
-      participant: "Samuel Banquez Martinez",
+      title: "1. ¡Cuánto amamos nuestro paraíso espiritual!",
+      participant: "Josue Briseño",
       time: "7:06 p.m.",
       duration: "10 mins",
       isExpanded: false,
@@ -20,7 +23,7 @@ export default function MeetingProgram() {
     {
       id: "tesoros-2",
       title: "2. Busquemos perlas escondidas",
-      participant: "Nehemias Caballero Arellano",
+      participant: "Samuel Banquez",
       time: "7:16 p.m.",
       duration: "10 mins",
       isExpanded: false,
@@ -30,79 +33,66 @@ export default function MeetingProgram() {
     {
       id: "tesoros-3",
       title: "3. Lectura de la Biblia",
-      participant: "Jose Salvador Castellanos - Isaias 48:9-20",
+      participant: "Alvaro Salas - Isaías 65:17-25",
       duration: "4 mins",
       expandableContent: `
         <div class="bible-reading">
           <div class="bible-verses">
-            <p><strong>9</strong> Pero por causa de mi nombre reprimire mi furia; para mi propia alabanza, me refrenare y no acabare contigo.</p>
-            <p><strong>10</strong> Mira! Te he refinado, pero no como a la plata. Te he probado en el horno de la afliccion.</p>
-            <p><strong>11</strong> Por mi, por mi actuare, porque como voy a dejar que me profanen? Mi gloria no se la doy a nadie.</p>
-            <p><strong>12</strong> Escuchame, oh, Jacob, y tu, Israel, a quien he llamado. Yo soy el mismo. Yo soy el primero, y tambien soy el ultimo.</p>
-            <p><strong>13</strong> Mi propia mano coloco los cimientos de la tierra, y mi mano derecha extendio los cielos. Cuando los llamo, todos ellos se presentan.</p>
-            <p><strong>14</strong> Juntense, todos ustedes, y escuchen. Quien entre ellos ha anunciado estas cosas? Aquel a quien Jehova ha amado cumplira su voluntad contra Babilonia, y su brazo caera sobre los caldeos.</p>
-            <p><strong>15</strong> Yo mismo he hablado y lo he llamado. Lo he traido, y el triunfara en su mision.</p>
-            <p><strong>16</strong> Acerquense a mi y oigan esto. Desde el comienzo, yo nunca he hablado en secreto. Cuando ocurrio, yo estaba alli". Y ahora el Senor Soberano Jehova me ha enviado a mi, y tambien su espiritu.</p>
-            <p><strong>17</strong> Esto es lo que dice Jehova, tu Recomprador, el Santo de Israel: "Yo, Jehova, soy tu Dios, el que te ensena por tu propio bien, el que te guia por el camino en que debes andar.</p>
-            <p><strong>18</strong> Si tan solo prestaras atencion a mis mandamientos! Entonces, tu paz llegaria a ser igual que un rio, y tu justicia, como las olas del mar.</p>
-            <p><strong>19</strong> Tu descendencia llegaria a ser como la arena, y tus descendientes, tan numerosos como los granos de arena. El nombre de ellos nunca seria eliminado ni quitado de mi vista".</p>
-            <p><strong>20</strong> Salgan de Babilonia! Huyan de los caldeos! Anuncienlo gritando de alegria! Proclamenlo! Denlo a conocer hasta los confines de la tierra. Digan: "Jehova ha recomprado a su siervo Jacob.</p>
+            <p><strong>17</strong> “Porque, ¡miren!, voy a crear unos nuevos cielos y una nueva tierra; y las cosas del pasado no serán recordadas ni vendrán al corazón.</p>
+            <p><strong>18</strong> Así que alégrense y estén felices para siempre por lo que voy a crear. Porque, ¡miren!, voy a crear a Jerusalén para que sea un motivo de alegría y a su pueblo para que sea un motivo de felicidad.</p>
+            <p><strong>19</strong> Y me alegraré por Jerusalén y me sentiré feliz por mi pueblo; ya no se oirá más en ella el sonido del llanto ni los gritos de angustia”.</p>
+            <p><strong>20</strong> “Allí ya no habrá bebés que vivan solo unos cuantos días ni viejos que no completen los días de su vejez. Porque al que muera con cien años de edad se le considerará un simple muchacho, y el pecador será maldecido, aunque tenga cien años.</p>
+            <p><strong>21</strong> Construirán casas y vivirán en ellas; plantarán viñas y comerán su fruto.</p>
+            <p><strong>22</strong> No construirán casas para que otros vivan en ellas ni plantarán para que otros coman. Porque los días de mi pueblo serán como los días de un árbol, y mis escogidos disfrutarán al máximo del fruto de su trabajo.</p>
+            <p><strong>23</strong> No se esforzarán en vano ni traerán hijos al mundo para que sufran, porque son la descendencia compuesta por los que Jehová ha bendecido, ellos y sus descendientes.</p>
+            <p><strong>24</strong> Incluso antes de que ellos llamen, yo responderé; mientras todavía estén hablando, yo los escucharé.</p>
+            <p><strong>25</strong> El lobo y el cordero comerán juntos, el león comerá paja igual que el toro, y la serpiente se alimentará de polvo. No harán ningún daño ni destruirán nada en toda mi santa montaña”, dice Jehová.</p>
           </div>
-          
+         
           <div class="lesson-section">
             <div class="lesson-header">
-              <h4>Leccion 11 - Hablar con entusiasmo</h4>
-              <div class="lesson-reference">Romanos 12:11</div>
+              <h4>Lección 10 - Modular la voz</h4>
+              <div class="lesson-reference">Proverbios 8:4, 7</div>
             </div>
-            
+            <div class="lesson-book">Seamos mejores lectores y maestros</div>
+           
             <div class="lesson-summary">
               <h5>RESUMEN:</h5>
-              <p>Hable con el corazon para motivar a sus oyentes.</p>
+              <p>Varíe el volumen, el tono y el ritmo para transmitir claramente las ideas y despertar emociones.</p>
             </div>
-            
+           
             <div class="lesson-content">
-              <h5>COMO HACERLO:</h5>
-              
+              <h5>CÓMO HACERLO:</h5>
+             
               <div class="lesson-point">
-                <h6>Prepare el corazon</h6>
+                <h6>Varíe el volumen</h6>
                 <ul>
-                  <li>Al prepararse, medite en la importancia de su mensaje.</li>
-                  <li>Estudie bien la informacion para que pueda expresarse con conviccion.</li>
+                  <li>Eleve la voz para destacar puntos principales y motivar a sus oyentes.</li>
+                  <li>Haga lo mismo cuando lea una sentencia divina.</li>
+                  <li>Baje la voz para generar expectación o expresar miedo o preocupación.</li>
+                </ul>
+                <div class="tip-box">
+                  <strong>Sugerencia práctica:</strong> No eleve la voz constantemente, o sus oyentes creerán que los está regañando. Evite ser demasiado dramático para no llamar la atención hacia usted mismo.
+                </div>
+              </div>
+             
+              <div class="lesson-point">
+                <h6>Varíe el tono</h6>
+                <ul>
+                  <li>Use un tono de voz más agudo para expresar alegría o para hablar de tamaños o distancias.</li>
+                  <li>Utilice un tono de voz más grave para expresar tristeza o preocupación.</li>
                 </ul>
               </div>
-              
+             
               <div class="lesson-point">
-                <h6>Piense en sus oyentes</h6>
+                <h6>Varíe el ritmo</h6>
                 <ul>
-                  <li>Reflexione en el buen efecto que tendra en los demas lo que les va a decir o leer.</li>
-                  <li>Piense en como presentar la informacion para que sus oyentes la comprendan mejor y la valoren mas.</li>
+                  <li>Hable más deprisa si desea transmitir entusiasmo.</li>
+                  <li>Hable más despacio si va a mencionar un punto importante.</li>
                 </ul>
-              </div>
-              
-              <div class="lesson-point">
-                <h6>Haga que su mensaje cobre vida</h6>
-                <ul>
-                  <li>Hable con el corazon.</li>
-                  <li>Muestre lo que siente mediante expresiones faciales que transmitan sinceridad y ademanes que sean naturales.</li>
-                  <li>Procure no distraer a sus oyentes haciendo continuamente el mismo gesto.</li>
-                  <li>Sus gestos y sus palabras deben estar relacionados.</li>
-                  <li>Transmita entusiasmo sobre todo al analizar los puntos principales o al motivar a sus oyentes a actuar.</li>
-                  <li>Si habla siempre con demasiado entusiasmo, terminara cansando a sus oyentes.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          
-          <div class="evaluation-section">
-            <h5>EVALUACION - Hermano Jose Salvador</h5>
-            <div class="evaluation-options">
-              <div class="evaluation-good">
-                <h6>Si lo hizo bien:</h6>
-                <p>"Jose Salvador, hablaste con entusiasmo y se noto que preparaste el corazon. Tus expresiones faciales y ademanes transmitieron sinceridad y ayudaron a que el mensaje cobrara vida."</p>
-              </div>
-              <div class="evaluation-improve">
-                <h6>Si debe mejorar:</h6>
-                <p>"Jose Salvador, la lectura fue clara. Seria muy provechoso anadir mas expresividad y variedad en el tono para transmitir aun mas entusiasmo al presentar los puntos clave."</p>
+                <div class="tip-box">
+                  <strong>Sugerencia práctica:</strong> No cambie bruscamente de ritmo, o asustará a sus oyentes. No sacrifique la buena pronunciación por hablar demasiado rápido.
+                </div>
               </div>
             </div>
           </div>
@@ -115,17 +105,27 @@ export default function MeetingProgram() {
     {
       id: "maestros-1",
       title: "4. Empiece conversaciones",
-      participant: "Josue Briseño | Dorley Briseño",
+      participant: "Rosa Salas | Delvis Cassiani",
       duration: "3 mins",
       time: "7:31 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>PREDICACION INFORMAL</h4>
-            <p><strong>Tema:</strong> Invite a un familiar inactivo al discurso especial y a la Conmemoracion</p>
-            <p><strong>Leccion:</strong> lmd leccion 5 punto 3 - Tacto</p>
-            <div class="lesson-description">
-              <p><em>Elija bien sus palabras. Por ejemplo, si habla con una persona que no tiene antecedentes cristianos, quizas tenga que referirse a la Biblia o a Jesus de forma diferente.</em></p>
+            <h4>PREDICACIÓN INFORMAL</h4>
+            <p><strong>Instrucción:</strong> Busque una manera natural de hacerle saber a la persona que usted es testigo de Jehová</p>
+          </div>
+         
+          <div class="lesson-section">
+            <div class="lesson-header">
+              <h4>Tacto</h4>
+              <div class="lesson-reference">lmd lección 5 punto 3</div>
+            </div>
+            <div class="lesson-book">Hacer discípulos: una obra de amor</div>
+           
+            <div class="lesson-content">
+              <div class="lesson-point">
+                <p><strong>3.</strong> Elija bien sus palabras. Por ejemplo, si habla con una persona que no tiene antecedentes cristianos, quizás tenga que referirse a la Biblia o a Jesús de forma diferente.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -136,18 +136,28 @@ export default function MeetingProgram() {
     },
     {
       id: "maestros-2",
-      title: "5. Haga revisitas",
-      participant: "Dormelina Martinez | Denis Alicia Frias Jimenez",
-      duration: "4 mins",
+      title: "5. Empiece conversaciones",
+      participant: "Vivian Caballero | Victoria Banquez",
+      duration: "2 mins",
       time: "7:34 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>PREDICACION INFORMAL</h4>
-            <p><strong>Tema:</strong> La persona esta pensando en asistir a la Conmemoracion. Expliquele como sera esta reunion</p>
-            <p><strong>Leccion:</strong> lmd leccion 9 punto 3 - Empatia</p>
-            <div class="lesson-description">
-              <p><em>Escuche con atencion. Deje que la persona hable y no la interrumpa. Si tiene alguna objecion o le expresa sus sentimientos y preocupaciones, no la ignore. Si le presta atencion, la persona vera que a usted realmente le interesa lo que ella piensa.</em></p>
+            <h4>PREDICACIÓN PÚBLICA</h4>
+            <p><strong>Instrucción:</strong> La persona quiere discutir con usted</p>
+          </div>
+         
+          <div class="lesson-section">
+            <div class="lesson-header">
+              <h4>Humildad</h4>
+              <div class="lesson-reference">lmd lección 4 punto 5</div>
+            </div>
+            <div class="lesson-book">Hacer discípulos: una obra de amor</div>
+           
+            <div class="lesson-content">
+              <div class="lesson-point">
+                <p><strong>5.</strong> Sea apacible. No se empeñe en demostrar que usted tiene la razón. Nuestro objetivo no es discutir. La humildad lo ayudará a mantener la calma y a saber cuándo es hora de retirarse (Prov. 17:14; Tito 3:2). Si usted responde de forma amable y muestra apacibilidad, puede que la persona esté dispuesta a conversar con nosotros en otra ocasión.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -158,18 +168,33 @@ export default function MeetingProgram() {
     },
     {
       id: "maestros-3",
-      title: "6. Haga revisitas",
-      participant: "Yohema Diaz Torres | Yanina Diaz Pasos",
-      duration: "5 mins",
-      time: "7:38 p.m.",
+      title: "6. Empiece conversaciones",
+      participant: "Alexandra Gomez | Samuel Gomez",
+      duration: "3 mins",
+      time: "7:36 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>PREDICACION INFORMAL</h4>
-            <p><strong>Tema:</strong> Al terminar la Conmemoracion, responda las preguntas que le hayan surgido a algun invitado</p>
-            <p><strong>Leccion:</strong> lmd leccion 8 punto 3 - Paciencia</p>
-            <div class="lesson-description">
-              <p><em>Intente algo diferente. Si al principio la persona no quiere aceptar un curso biblico, no la presione. Pero, si lo ve apropiado, use videos o articulos para mostrarle como son nuestros cursos biblicos y como le ayudaria aceptar uno.</em></p>
+            <h4>DE CASA EN CASA</h4>
+            <p><strong>Instrucción:</strong> Use un tratado para empezar una conversación</p>
+          </div>
+         
+          <div class="lesson-section">
+            <div class="lesson-header">
+              <h4>Interés sincero</h4>
+              <div class="lesson-reference">lmd lección 1 punto 4</div>
+            </div>
+            <div class="lesson-book">Hacer discípulos: una obra de amor</div>
+           
+            <div class="lesson-content">
+              <div class="lesson-point">
+                <p><strong>4.</strong> Sea observador. Pregúntese:</p>
+                <ul>
+                  <li>"¿Qué está haciendo la persona en este momento? ¿En qué estará pensando?".</li>
+                  <li>"¿Qué me dicen su ropa, su apariencia y su vivienda sobre sus creencias o su cultura?".</li>
+                  <li>"¿Es un buen momento para conversar?".</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -179,10 +204,75 @@ export default function MeetingProgram() {
       recordedTime: 0,
     },
     {
+      id: "maestros-4",
+      title: "7. Explique sus creencias",
+      participant: "Leider Mercado | Melani Meza",
+      time: "7:39 p.m.",
+      duration: "3 mins",
+      expandableContent: `
+        <div class="assignment-content">
+          <div class="assignment-details">
+            <h4>ESCENIFICACIÓN</h4>
+            <p><strong>Tema:</strong> ¿Quién es el anticristo?</p>
+            <p><strong>Referencia:</strong> ijwbq artículo 87</p>
+          </div>
+         
+          <div class="lesson-section">
+            <div class="lesson-header">
+              <h4>Hablar con sencillez</h4>
+              <div class="lesson-reference">th lección 17</div>
+            </div>
+            <div class="lesson-book">Seamos mejores lectores y maestros</div>
+            <div class="lesson-scripture">1 Corintios 14:9</div>
+           
+            <div class="lesson-summary">
+              <h5>RESUMEN:</h5>
+              <p>Ayude a sus oyentes a entender lo que les está diciendo.</p>
+            </div>
+           
+            <div class="lesson-content">
+              <h5>CÓMO HACERLO:</h5>
+             
+              <div class="lesson-point">
+                <h6>Estudie la información a fondo</h6>
+                <p>Debe entender bien el tema para poder explicarlo con sencillez y en sus propias palabras.</p>
+              </div>
+             
+              <div class="lesson-point">
+                <h6>Use frases cortas y expresiones sencillas</h6>
+                <p>Aunque no está mal usar frases largas, es mejor usar frases o expresiones cortas al mencionar un punto principal.</p>
+                <div class="tip-box">
+                  <strong>Sugerencia práctica:</strong> No añada detalles innecesarios que puedan confundir o abrumar a sus oyentes. Evite las expresiones complicadas. Es mejor usar un lenguaje sencillo.
+                </div>
+              </div>
+             
+              <div class="lesson-point">
+                <h6>Explique los términos poco conocidos</h6>
+                <p>Úselos lo menos posible. No olvide dar una explicación cuando mencione expresiones, personajes bíblicos, unidades de medida o costumbres de la antigüedad que sus oyentes no conozcan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      isExpanded: false,
+      timerRunning: false,
+      recordedTime: 0,
+    },
+    {
+      id: "vida-1",
+      title: "8. ¿Tendrás tú una vida llena de cosas buenas?",
+      participant: "Erwin Corrales",
+      time: "7:42 p.m.",
+      duration: "15 mins",
+      isExpanded: false,
+      timerRunning: false,
+      recordedTime: 0,
+    },
+    {
       id: "vida-2",
-      title: "7. Aproveche bien el dia mas importante del año",
-      participant: "Luis Diaz Torres",
-      time: "7:43 p.m.",
+      title: "9. Preparados para las situaciones de emergencia: Esté listo para lo imprevisto",
+      participant: "Angel Echenique",
+      time: "7:57 p.m.",
       duration: "15 mins",
       isExpanded: false,
       timerRunning: false,
@@ -190,11 +280,11 @@ export default function MeetingProgram() {
     },
     {
       id: "vida-3",
-      title: "8. Estudio biblico de congregacion",
-      participant: "Angel Echenique | Lector: Willian Bustos Montalvo",
-      time: "7:58 p.m.",
+      title: "10. Estudio bíblico de la congregación",
+      participant: "Luis Diaz | Lector: José Salvador Castellanos",
+      time: "8:12 p.m.",
       duration: "30 mins",
-      description: "lfb lecciones 72, 73",
+      description: "lfb lecciones 88, 89",
       isExpanded: false,
       timerRunning: false,
       recordedTime: 0,
@@ -497,45 +587,57 @@ export default function MeetingProgram() {
           font-weight: normal;
         }
 
+        /* Estilos mejorados para las asignaciones (especialmente 4 al 7) */
         .assignment {
-          background: #f8f9fa;
-          border-radius: 8px;
-          padding: 15px;
-          margin-bottom: 15px;
-          border: 1px solid #e9ecef;
-          transition: all 0.3s ease;
+          background: #ffffff;
+          border-radius: 16px;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          border: 1px solid #e2e8f0;
+          transition: all 0.25s ease;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+
+        .assignment:hover {
+          border-color: #cbd5e1;
+          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+          transform: translateY(-1px);
         }
 
         .assignment.expanded {
-          background: #e3f2fd;
-          border-color: #2196f3;
-          box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+          border-color: #3b82f6;
+          box-shadow: 0 8px 20px rgba(59,130,246,0.12);
         }
 
         .assignment-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 10px;
+          flex-wrap: wrap;
+          gap: 0.75rem;
         }
 
         .assignment-title {
-          font-weight: bold;
-          color: #2c3e50;
+          font-weight: 700;
+          color: #0f172a;
           cursor: pointer;
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 0.5rem;
           flex: 1;
+          font-size: 1rem;
+          transition: color 0.2s;
         }
 
         .assignment-title:hover {
-          color: #3498db;
+          color: #3b82f6;
         }
 
         .expand-icon {
-          transition: transform 0.3s ease;
-          color: #3498db;
+          display: inline-flex;
+          transition: transform 0.2s ease;
+          color: #3b82f6;
         }
 
         .expand-icon.expanded {
@@ -543,82 +645,105 @@ export default function MeetingProgram() {
         }
 
         .assignment-participant {
-          color: #666;
-          font-style: italic;
-          margin-bottom: 8px;
+          color: #475569;
+          font-size: 0.875rem;
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
         }
 
         .assignment-meta {
           display: flex;
-          gap: 10px;
+          gap: 0.5rem;
           align-items: center;
           flex-wrap: wrap;
         }
 
         .assignment-duration {
-          background: #e74c3c;
+          background: #ef4444;
           color: white;
-          padding: 2px 8px;
-          border-radius: 12px;
-          font-size: 0.8em;
+          padding: 0.25rem 0.75rem;
+          border-radius: 2rem;
+          font-size: 0.75rem;
+          font-weight: 500;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
         }
 
         .assignment-time {
-          background: #27ae60;
+          background: #10b981;
           color: white;
-          padding: 2px 8px;
-          border-radius: 12px;
-          font-size: 0.8em;
+          padding: 0.25rem 0.75rem;
+          border-radius: 2rem;
+          font-size: 0.75rem;
+          font-weight: 500;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
         }
 
         .timer-controls-assignment {
           display: flex;
-          gap: 5px;
+          gap: 0.25rem;
           align-items: center;
         }
 
         .timer-btn-small {
-          padding: 4px 8px;
+          padding: 0.25rem 0.5rem;
           border: none;
-          border-radius: 4px;
+          border-radius: 8px;
           cursor: pointer;
-          font-size: 0.8em;
-          font-weight: bold;
-          transition: all 0.2s ease;
+          font-size: 0.7rem;
+          font-weight: 600;
+          transition: all 0.15s;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          background: #e2e8f0;
+          color: #1e293b;
         }
 
         .timer-btn-small.start {
-          background-color: #4caf50;
+          background-color: #10b981;
           color: white;
         }
 
         .timer-btn-small.pause {
-          background-color: #ff9800;
+          background-color: #f59e0b;
           color: white;
         }
 
         .timer-btn-small.reset {
-          background-color: #f44336;
+          background-color: #ef4444;
           color: white;
+        }
+
+        .timer-btn-small:hover {
+          transform: scale(1.02);
+          filter: brightness(1.05);
         }
 
         .recorded-time {
-          background: #6c757d;
+          background: #64748b;
           color: white;
-          padding: 2px 8px;
-          border-radius: 12px;
-          font-size: 0.8em;
+          padding: 0.25rem 0.75rem;
+          border-radius: 2rem;
+          font-size: 0.75rem;
           font-family: "Courier New", monospace;
+          font-weight: 500;
         }
 
         .expandable-content {
-          margin-top: 15px;
-          padding: 15px;
+          margin-top: 1rem;
+          padding: 1rem;
           background: white;
-          border-radius: 6px;
-          border-left: 3px solid #3498db;
+          border-radius: 12px;
+          border-left: 3px solid #3b82f6;
           animation: slideDown 0.3s ease;
-          line-height: 1.5;
+          line-height: 1.6;
         }
 
         @keyframes slideDown {
@@ -630,9 +755,9 @@ export default function MeetingProgram() {
           }
           to {
             opacity: 1;
-            max-height: 500px;
-            padding-top: 15px;
-            padding-bottom: 15px;
+            max-height: 2000px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
           }
         }
 
@@ -927,19 +1052,19 @@ export default function MeetingProgram() {
             flex-direction: column;
             gap: 15px;
           }
-          
+         
           .introduction-meta, .conclusion-meta {
             flex-direction: row;
             justify-content: center;
             width: 100%;
           }
-          
+         
           .preview-section, .summary-section {
             flex-direction: column;
             gap: 8px;
             text-align: center;
           }
-          
+         
           .preview-icon, .summary-icon {
             align-self: center;
           }
@@ -954,104 +1079,261 @@ export default function MeetingProgram() {
         }
 
         .bible-verses {
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          border: 2px solid #dee2e6;
-          border-radius: 8px;
-          padding: 20px;
-          margin-bottom: 25px;
-          max-height: 300px;
+          background: linear-gradient(135deg, #fafbfc 0%, #f0f4f8 100%);
+          border: 1px solid #e1e8ed;
+          border-radius: 16px;
+          padding: 24px;
+          margin-bottom: 28px;
+          max-height: 350px;
           overflow-y: auto;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .bible-verses::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .bible-verses::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 4px;
+        }
+
+        .bible-verses::-webkit-scrollbar-thumb {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 4px;
         }
 
         .bible-verses p {
-          margin: 8px 0;
-          line-height: 1.6;
+          margin: 12px 0;
+          line-height: 1.8;
+          padding: 8px 12px;
+          border-radius: 8px;
+          transition: background-color 0.2s ease;
+        }
+
+        .bible-verses p:hover {
+          background-color: rgba(102, 126, 234, 0.08);
         }
 
         .bible-verses strong {
-          color: #dc3545;
-          font-weight: bold;
-          margin-right: 8px;
-          font-size: 1.1em;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          font-weight: 700;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          margin-right: 12px;
+          font-size: 0.85em;
+          box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
         }
 
         .lesson-section {
-          background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-          border: 2px solid #2196f3;
-          border-radius: 12px;
-          padding: 20px;
-          margin-top: 20px;
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+          border: 1px solid #e2e8f0;
+          border-radius: 20px;
+          padding: 28px;
+          margin-top: 24px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .lesson-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         }
 
         .lesson-header {
           text-align: center;
-          margin-bottom: 20px;
-          padding-bottom: 15px;
-          border-bottom: 2px solid #2196f3;
+          margin-bottom: 24px;
+          padding-bottom: 20px;
+          border-bottom: 1px solid #e2e8f0;
         }
 
         .lesson-header h4 {
-          color: #1565c0;
-          margin: 0 0 8px 0;
-          font-size: 1.3em;
+          color: #1a202c;
+          margin: 0 0 12px 0;
+          font-size: 1.4em;
+          font-weight: 700;
+          letter-spacing: -0.02em;
         }
 
         .lesson-reference {
-          background: #2196f3;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
-          padding: 4px 12px;
-          border-radius: 15px;
-          font-size: 0.9em;
+          padding: 6px 16px;
+          border-radius: 20px;
+          font-size: 0.85em;
+          display: inline-block;
+          font-weight: 600;
+          box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+          letter-spacing: 0.02em;
+        }
+
+        .lesson-book {
+          color: #6b46c1;
+          font-style: italic;
+          font-size: 0.95em;
+          margin-top: 12px;
+          text-align: center;
+          font-weight: 500;
+          padding: 8px 16px;
+          background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+          border-radius: 10px;
           display: inline-block;
         }
 
+        .lesson-scripture {
+          color: #047857;
+          font-weight: 700;
+          font-size: 0.9em;
+          text-align: center;
+          margin-top: 10px;
+          padding: 6px 14px;
+          background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+          border-radius: 8px;
+          display: inline-block;
+        }
+
+        .tip-box {
+          background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+          border: 1px solid #fbbf24;
+          border-left: 4px solid #f59e0b;
+          border-radius: 12px;
+          padding: 16px 20px;
+          margin-top: 16px;
+          font-size: 0.95em;
+          position: relative;
+          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
+        }
+
+        .tip-box::before {
+          content: '💡';
+          position: absolute;
+          top: -10px;
+          left: 16px;
+          background: white;
+          padding: 0 6px;
+          font-size: 1.1em;
+        }
+
+        .tip-box strong {
+          color: #d97706;
+          font-weight: 700;
+        }
+
         .lesson-summary {
-          background: #fff3e0;
-          border-left: 4px solid #ff9800;
-          padding: 15px;
-          margin-bottom: 20px;
-          border-radius: 0 8px 8px 0;
+          background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+          border-left: 4px solid #f97316;
+          padding: 20px;
+          margin-bottom: 24px;
+          border-radius: 0 16px 16px 0;
+          box-shadow: 0 2px 8px rgba(249, 115, 22, 0.1);
         }
 
         .lesson-summary h5 {
-          color: #f57c00;
-          margin: 0 0 10px 0;
+          color: #c2410c;
+          margin: 0 0 12px 0;
+          font-size: 1em;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .lesson-summary p {
+          color: #7c2d12;
+          line-height: 1.7;
+          margin: 0;
         }
 
         .lesson-content h5 {
-          color: #1565c0;
-          margin: 0 0 15px 0;
+          color: #1e40af;
+          margin: 0 0 20px 0;
+          font-size: 1.1em;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          padding-bottom: 10px;
+          border-bottom: 2px dashed #93c5fd;
         }
 
         .lesson-point {
           background: white;
-          border-radius: 8px;
-          padding: 15px;
-          margin-bottom: 15px;
-          border-left: 4px solid #4caf50;
+          border-radius: 16px;
+          padding: 20px;
+          margin-bottom: 16px;
+          border: 1px solid #e2e8f0;
+          border-left: 4px solid #10b981;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+          transition: all 0.3s ease;
+        }
+
+        .lesson-point:hover {
+          box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);
+          transform: translateY(-2px);
         }
 
         .lesson-point h6 {
-          color: #2e7d32;
-          margin: 0 0 10px 0;
+          color: #047857;
+          margin: 0 0 12px 0;
           font-size: 1.1em;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .lesson-point h6::before {
+          content: '✦';
+          color: #10b981;
+          font-size: 0.8em;
+        }
+
+        .lesson-point p {
+          color: #374151;
+          line-height: 1.7;
+          margin: 0;
         }
 
         .lesson-point ul {
-          margin: 0;
-          padding-left: 20px;
+          margin: 8px 0 0 0;
+          padding-left: 0;
+          list-style: none;
         }
 
         .lesson-point li {
-          margin: 6px 0;
-          line-height: 1.5;
+          margin: 10px 0;
+          line-height: 1.6;
+          padding: 10px 12px 10px 36px;
+          background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+          border-radius: 10px;
+          position: relative;
+          color: #166534;
+        }
+
+        .lesson-point li::before {
+          content: '→';
+          position: absolute;
+          left: 12px;
+          color: #10b981;
+          font-weight: bold;
         }
 
         .lesson-point em {
-          color: #d32f2f;
-          background: #ffebee;
-          padding: 2px 4px;
-          border-radius: 3px;
+          color: #dc2626;
+          background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+          padding: 3px 8px;
+          border-radius: 6px;
+          font-style: normal;
+          font-weight: 500;
         }
 
         .assignment-content {
@@ -1059,106 +1341,236 @@ export default function MeetingProgram() {
         }
 
         .assignment-details {
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          border: 2px solid #dee2e6;
-          border-radius: 8px;
-          padding: 20px;
-          margin-bottom: 25px;
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 24px;
+          margin-bottom: 24px;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .assignment-details::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, #06b6d4 0%, #0891b2 100%);
         }
 
         .assignment-details h4 {
-          color: #495057;
-          margin: 0 0 15px 0;
+          color: #0e7490;
+          margin: 0 0 16px 0;
           font-size: 1.2em;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .assignment-details h4::before {
+          content: '📋';
         }
 
         .assignment-details p {
-          margin: 8px 0;
-          line-height: 1.6;
+          margin: 10px 0;
+          line-height: 1.7;
+          padding: 10px 16px;
+          background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+          border-radius: 10px;
+          color: #155e75;
+        }
+
+        .assignment-details p strong {
+          color: #0e7490;
+          font-weight: 700;
         }
 
         .lesson-description {
-          background: #fff3cd;
-          border-left: 4px solid #ffc107;
-          padding: 15px;
-          margin: 15px 0;
-          border-radius: 0 8px 8px 0;
+          background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+          border-left: 4px solid #f59e0b;
+          padding: 18px;
+          margin: 18px 0;
+          border-radius: 0 12px 12px 0;
+          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
         }
 
         .lesson-description em {
-          color: #856404;
+          color: #92400e;
           font-style: italic;
+          line-height: 1.7;
         }
 
         .lesson-description ul {
-          margin: 10px 0;
-          padding-left: 20px;
+          margin: 12px 0;
+          padding-left: 0;
+          list-style: none;
         }
 
         .lesson-description li {
-          margin: 5px 0;
+          margin: 8px 0;
+          padding-left: 24px;
+          position: relative;
+          color: #78350f;
+        }
+
+        .lesson-description li::before {
+          content: '•';
+          position: absolute;
+          left: 8px;
+          color: #f59e0b;
+          font-weight: bold;
         }
 
         .evaluation-section {
-          background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
-          border: 2px solid #28a745;
-          border-radius: 12px;
-          padding: 20px;
-          margin-top: 20px;
+          background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+          border: 1px solid #bbf7d0;
+          border-radius: 20px;
+          padding: 28px;
+          margin-top: 24px;
+          box-shadow: 0 4px 20px rgba(34, 197, 94, 0.1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .evaluation-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
         }
 
         .evaluation-section h5 {
-          color: #155724;
-          margin: 0 0 15px 0;
+          color: #166534;
+          margin: 0 0 20px 0;
           text-align: center;
           font-size: 1.2em;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+        }
+
+        .evaluation-section h5::before {
+          content: '📝';
         }
 
         .evaluation-options {
           display: flex;
           flex-direction: column;
-          gap: 15px;
+          gap: 18px;
         }
 
         .evaluation-good {
-          background: #d1f2eb;
-          border-left: 4px solid #00d4aa;
-          padding: 15px;
-          border-radius: 0 8px 8px 0;
+          background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+          border: 1px solid #86efac;
+          border-left: 4px solid #22c55e;
+          padding: 20px;
+          border-radius: 0 16px 16px 0;
+          box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
         }
 
         .evaluation-good h6 {
-          color: #00695c;
-          margin: 0 0 8px 0;
+          color: #166534;
+          margin: 0 0 12px 0;
           font-size: 1em;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .evaluation-good h6::before {
+          content: '✓';
+          background: #22c55e;
+          color: white;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75em;
+          font-weight: bold;
         }
 
         .evaluation-improve {
-          background: #fff3cd;
-          border-left: 4px solid #ffc107;
-          padding: 15px;
-          border-radius: 0 8px 8px 0;
+          background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+          border: 1px solid #fde047;
+          border-left: 4px solid #eab308;
+          padding: 20px;
+          border-radius: 0 16px 16px 0;
+          box-shadow: 0 2px 8px rgba(234, 179, 8, 0.1);
         }
 
         .evaluation-improve h6 {
-          color: #856404;
-          margin: 0 0 8px 0;
+          color: #854d0e;
+          margin: 0 0 12px 0;
           font-size: 1em;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .evaluation-improve h6::before {
+          content: '↗';
+          background: #eab308;
+          color: white;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.75em;
+          font-weight: bold;
         }
 
         .evaluation-good p, .evaluation-improve p {
           margin: 0;
           font-style: italic;
-          line-height: 1.5;
+          line-height: 1.7;
+          color: #374151;
+          padding: 12px 16px;
+          background: rgba(255, 255, 255, 0.6);
+          border-radius: 10px;
         }
 
         @media (max-width: 768px) {
           .evaluation-options {
-            gap: 10px;
+            gap: 12px;
           }
-          
+         
           .evaluation-good, .evaluation-improve {
-            padding: 12px;
+            padding: 16px;
+          }
+
+          .lesson-section {
+            padding: 20px;
+            border-radius: 16px;
+          }
+
+          .lesson-point {
+            padding: 16px;
+          }
+
+          .bible-verses {
+            padding: 16px;
+            max-height: 280px;
+          }
+
+          .assignment-details {
+            padding: 18px;
           }
         }
 
@@ -1204,7 +1616,7 @@ export default function MeetingProgram() {
             text-align: center;
             gap: 10px;
           }
-          
+         
           .auxiliary-icon {
             align-self: center;
           }
@@ -1244,7 +1656,7 @@ export default function MeetingProgram() {
             padding: 15px;
             margin-bottom: 20px;
           }
-          
+         
           .intro-content p {
             font-size: 1em;
           }
@@ -1262,10 +1674,11 @@ export default function MeetingProgram() {
                   className={`timer-btn ${isGlobalTimerRunning ? "pause" : "start"}`}
                   onClick={handleGlobalStartPause}
                 >
+                  {isGlobalTimerRunning ? <Pause size={14} style={{ marginRight: 4 }} /> : <Play size={14} style={{ marginRight: 4 }} />}
                   {isGlobalTimerRunning ? "Pausar" : "Iniciar"}
                 </button>
                 <button className="timer-btn reset" onClick={handleGlobalReset}>
-                  Reiniciar
+                  <Square size={14} style={{ marginRight: 4 }} /> Reiniciar
                 </button>
               </div>
               <div className="font-control" onClick={handleControlClick}>
@@ -1281,7 +1694,7 @@ export default function MeetingProgram() {
         {/* Meeting Header */}
         <div className="meeting-header">
           <h1 className="meeting-title">REUNIONES</h1>
-          <div className="meeting-date">MIÉRCOLES, 27 AGOSTO</div>
+          <div className="meeting-date">25-31 DE MAYO | ISAÍAS 65, 66</div>
           <div className="meeting-time">7:00 p.m.</div>
           <div className="president-info">
             <strong>Presidente:</strong> Santiago Caballero Suárez
@@ -1290,12 +1703,14 @@ export default function MeetingProgram() {
 
         {/* Opening */}
         <div className="section">
-  <div className="song-prayer song">
-  <strong>Cancion:</strong> 89 - Jehova bendice al que escucha y obedece
-  </div>
-  <div className="song-prayer prayer">
-  <strong>Oracion Inicial:</strong> Santiago Caballero Suarez
-  </div>
+          <div className="song-prayer song">
+            <Mic size={16} style={{ display: 'inline', marginRight: 8 }} />
+            <strong>Canción:</strong> 24
+          </div>
+          <div className="song-prayer prayer">
+            <Heart size={16} style={{ display: 'inline', marginRight: 8 }} />
+            <strong>Oración Inicial:</strong> Santiago Caballero Suárez
+          </div>
         </div>
 
         {/* Program Introduction */}
@@ -1345,8 +1760,8 @@ export default function MeetingProgram() {
             <div className="introduction-meta">
               <span className="introduction-duration">1 min</span>
               <div className="timer-controls-assignment">
-                <button className="timer-btn-small start">▶</button>
-                <button className="timer-btn-small reset">⏹</button>
+                <button className="timer-btn-small start"><Play size={12} /></button>
+                <button className="timer-btn-small reset"><Square size={12} /></button>
               </div>
             </div>
           </div>
@@ -1355,6 +1770,7 @@ export default function MeetingProgram() {
         {/* Tesoros de la Biblia */}
         <div className="section">
           <h2 className="section-title">
+            <BookOpen size={20} />
             TESOROS DE LA BIBLIA
             <span className="section-time">7:04 p.m.</span>
           </h2>
@@ -1364,22 +1780,24 @@ export default function MeetingProgram() {
               <div className="assignment-header">
                 <div className="assignment-title" onClick={() => toggleAssignmentExpansion(assignment.id)}>
                   {assignment.expandableContent && (
-                    <span className={`expand-icon ${assignment.isExpanded ? "expanded" : ""}`}>▶</span>
+                    <span className={`expand-icon ${assignment.isExpanded ? "expanded" : ""}`}>
+                      {assignment.isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                    </span>
                   )}
                   {assignment.title}
                 </div>
                 <div className="assignment-meta">
-                  {assignment.time && <span className="assignment-time">{assignment.time}</span>}
-                  {assignment.duration && <span className="assignment-duration">{assignment.duration}</span>}
+                  {assignment.time && <span className="assignment-time"><Clock size={12} style={{ marginRight: 4 }} />{assignment.time}</span>}
+                  {assignment.duration && <span className="assignment-duration"><Timer size={12} style={{ marginRight: 4 }} />{assignment.duration}</span>}
                   <div className="timer-controls-assignment">
                     <button
                       className={`timer-btn-small ${assignment.timerRunning ? "pause" : "start"}`}
                       onClick={() => startAssignmentTimer(assignment.id)}
                     >
-                      {assignment.timerRunning ? "⏸" : "▶"}
+                      {assignment.timerRunning ? <Pause size={12} /> : <Play size={12} />}
                     </button>
                     <button className="timer-btn-small reset" onClick={() => resetAssignmentTimer(assignment.id)}>
-                      ⏹
+                      <Square size={12} />
                     </button>
                     {(assignment.recordedTime || 0) > 0 && (
                       <span className="recorded-time">{formatTime(assignment.recordedTime || 0)}</span>
@@ -1387,7 +1805,7 @@ export default function MeetingProgram() {
                   </div>
                 </div>
               </div>
-              {assignment.participant && <div className="assignment-participant">{assignment.participant}</div>}
+              {assignment.participant && <div className="assignment-participant"><User size={14} style={{ marginRight: 6 }} />{assignment.participant}</div>}
               {assignment.isExpanded && assignment.expandableContent && (
                 <div
                   className="expandable-content"
@@ -1407,11 +1825,11 @@ export default function MeetingProgram() {
                     Ahora, se les invita a todos los que tienen sus asignaciones en la sala auxiliar, dirigirse hacia
                     allá.
                   </strong>
-  Los estara recibiendo el hermano <strong>Santiago Caballero Suarez</strong>.
-  </p>
-  <p>
-  Aca en la sala principal seguimos con una asignacion importante en la reunion, la{" "}
-  <strong>intervencion numero 3, la lectura de la biblia</strong>, que hara el hermano <strong>Jose Salvador Castellanos</strong>.
+                  Los estara recibiendo el hermano <strong>Santiago Caballero Suarez</strong>.
+                </p>
+                <p>
+                  Aca en la sala principal seguimos con una asignacion importante en la reunion, la{" "}
+                  <strong>intervencion numero 3, la lectura de la biblia</strong>, que hara el hermano <strong>Jose Salvador Castellanos</strong>.
                 </p>
               </div>
             </div>
@@ -1421,39 +1839,42 @@ export default function MeetingProgram() {
         {/* Seamos Mejores Maestros */}
         <div className="section">
           <h2 className="section-title">
+            <Target size={20} />
             SEAMOS MEJORES MAESTROS
             <span className="section-time">7:31 p.m.</span>
           </h2>
 
-  <div className="section-introduction">
-  <div className="intro-content">
-  <p>
-  <strong>En esta seccion veremos 3 demostraciones</strong> enfocadas en invitar a las personas al discurso especial y a la Conmemoracion. Aprenderemos sobre el tacto, la empatia y la paciencia al conversar con las personas.
-  </p>
-  </div>
+          <div className="section-introduction">
+            <div className="intro-content">
+              <p>
+                <strong>En esta seccion veremos 3 demostraciones</strong> enfocadas en invitar a las personas al discurso especial y a la Conmemoracion. Aprenderemos sobre el tacto, la empatia y la paciencia al conversar con las personas.
+              </p>
+            </div>
           </div>
 
-          {assignments.slice(3, 6).map((assignment) => (
+          {assignments.slice(3, 7).map((assignment) => (
             <div key={assignment.id} className={`assignment ${assignment.isExpanded ? "expanded" : ""}`}>
               <div className="assignment-header">
                 <div className="assignment-title" onClick={() => toggleAssignmentExpansion(assignment.id)}>
                   {assignment.expandableContent && (
-                    <span className={`expand-icon ${assignment.isExpanded ? "expanded" : ""}`}>▶</span>
+                    <span className={`expand-icon ${assignment.isExpanded ? "expanded" : ""}`}>
+                      {assignment.isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                    </span>
                   )}
                   {assignment.title}
                 </div>
                 <div className="assignment-meta">
-                  {assignment.time && <span className="assignment-time">{assignment.time}</span>}
-                  {assignment.duration && <span className="assignment-duration">{assignment.duration}</span>}
+                  {assignment.time && <span className="assignment-time"><Clock size={12} style={{ marginRight: 4 }} />{assignment.time}</span>}
+                  {assignment.duration && <span className="assignment-duration"><Timer size={12} style={{ marginRight: 4 }} />{assignment.duration}</span>}
                   <div className="timer-controls-assignment">
                     <button
                       className={`timer-btn-small ${assignment.timerRunning ? "pause" : "start"}`}
                       onClick={() => startAssignmentTimer(assignment.id)}
                     >
-                      {assignment.timerRunning ? "⏸" : "▶"}
+                      {assignment.timerRunning ? <Pause size={12} /> : <Play size={12} />}
                     </button>
                     <button className="timer-btn-small reset" onClick={() => resetAssignmentTimer(assignment.id)}>
-                      ⏹
+                      <Square size={12} />
                     </button>
                     {(assignment.recordedTime || 0) > 0 && (
                       <span className="recorded-time">{formatTime(assignment.recordedTime || 0)}</span>
@@ -1461,7 +1882,7 @@ export default function MeetingProgram() {
                   </div>
                 </div>
               </div>
-              {assignment.participant && <div className="assignment-participant">{assignment.participant}</div>}
+              {assignment.participant && <div className="assignment-participant"><User size={14} style={{ marginRight: 6 }} />{assignment.participant}</div>}
               {assignment.isExpanded && assignment.expandableContent && (
                 <div
                   className="expandable-content"
@@ -1475,35 +1896,39 @@ export default function MeetingProgram() {
         {/* Nuestra Vida Cristiana */}
         <div className="section">
           <h2 className="section-title">
+            <Heart size={20} />
             NUESTRA VIDA CRISTIANA
             <span className="section-time">7:46 p.m.</span>
           </h2>
 
-  <div className="song-prayer song">
-  <strong>Cancion:</strong> 107 - Dios nos enseno a amar
-  </div>
+          <div className="song-prayer song">
+            <Mic size={16} style={{ display: 'inline', marginRight: 8 }} />
+            <strong>Canción:</strong> 80 - Prueben y vean que Jehová es bueno
+          </div>
 
-          {assignments.slice(6).map((assignment) => (
+          {assignments.slice(7).map((assignment) => (
             <div key={assignment.id} className={`assignment ${assignment.isExpanded ? "expanded" : ""}`}>
               <div className="assignment-header">
                 <div className="assignment-title" onClick={() => toggleAssignmentExpansion(assignment.id)}>
                   {assignment.expandableContent && (
-                    <span className={`expand-icon ${assignment.isExpanded ? "expanded" : ""}`}>▶</span>
+                    <span className={`expand-icon ${assignment.isExpanded ? "expanded" : ""}`}>
+                      {assignment.isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                    </span>
                   )}
                   {assignment.title}
                 </div>
                 <div className="assignment-meta">
-                  {assignment.time && <span className="assignment-time">{assignment.time}</span>}
-                  {assignment.duration && <span className="assignment-duration">{assignment.duration}</span>}
+                  {assignment.time && <span className="assignment-time"><Clock size={12} style={{ marginRight: 4 }} />{assignment.time}</span>}
+                  {assignment.duration && <span className="assignment-duration"><Timer size={12} style={{ marginRight: 4 }} />{assignment.duration}</span>}
                   <div className="timer-controls-assignment">
                     <button
                       className={`timer-btn-small ${assignment.timerRunning ? "pause" : "start"}`}
                       onClick={() => startAssignmentTimer(assignment.id)}
                     >
-                      {assignment.timerRunning ? "⏸" : "▶"}
+                      {assignment.timerRunning ? <Pause size={12} /> : <Play size={12} />}
                     </button>
                     <button className="timer-btn-small reset" onClick={() => resetAssignmentTimer(assignment.id)}>
-                      ⏹
+                      <Square size={12} />
                     </button>
                     {(assignment.recordedTime || 0) > 0 && (
                       <span className="recorded-time">{formatTime(assignment.recordedTime || 0)}</span>
@@ -1511,7 +1936,7 @@ export default function MeetingProgram() {
                   </div>
                 </div>
               </div>
-              {assignment.participant && <div className="assignment-participant">{assignment.participant}</div>}
+              {assignment.participant && <div className="assignment-participant"><User size={14} style={{ marginRight: 6 }} />{assignment.participant}</div>}
               {assignment.isExpanded && assignment.expandableContent && (
                 <div
                   className="expandable-content"
@@ -1520,8 +1945,6 @@ export default function MeetingProgram() {
               )}
             </div>
           ))}
-
-          {/* Additional items */}
         </div>
 
         {/* Palabras de Conclusión */}
@@ -1544,11 +1967,10 @@ export default function MeetingProgram() {
                 <div className="summary-section">
                   <span className="summary-icon">💎</span>
                   <div className="summary-content">
-                  {/*  <strong>En Tesoros de la Biblia</strong>*/} Hoy aprendimos que para que nos vaya bien, debemos prestarle atención a Jehová, tambien vimos 3 cualidades para poner en practica a la hora de invitar a la conmemoracion y finalmente, aprendimos lecciones importantes en el estudio del libro
+                    <strong>En Tesoros de la Biblia</strong> vimos las diferencias entre el justo y el malvado y cómo
+                    confiar en Jehová.
                   </div>
                 </div>
-
-                {/*
 
                 <div className="summary-section">
                   <span className="summary-icon">🎯</span>
@@ -1573,7 +1995,6 @@ export default function MeetingProgram() {
                     y mantener la paz con los hermanos.
                   </div>
                 </div>
-                */}
               </div>
 
               <p className="closing-message">
@@ -1587,18 +2008,18 @@ export default function MeetingProgram() {
             <div className="conclusion-meta">
               <span className="conclusion-duration">1 min</span>
               <div className="timer-controls-assignment">
-                <button className="timer-btn-small start">▶</button>
-                <button className="timer-btn-small reset">⏹</button>
+                <button className="timer-btn-small start"><Play size={12} /></button>
+                <button className="timer-btn-small reset"><Square size={12} /></button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Anuncios */}
+        {/* Anuncios - ACTUALIZADOS SEGÚN SOLICITUD */}
         <div className="section announcements-section">
           <div className="announcements-header">
             <h2 className="announcements-title">
-              <span className="intro-icon">📢</span>
+              <AlertCircle size={20} />
               ANUNCIOS
               <span className="section-time">8:33 p.m.</span>
             </h2>
@@ -1606,45 +2027,38 @@ export default function MeetingProgram() {
 
           <div className="announcements-list">
             <div className="announcement-item">
-              <h4>1. Horario de la Conmemoracion</h4>
-              <p>
-                Les pedimos con carino que recuerden asistir en el horario que les fue asignado. No es una regla, pero respetar ese horario nos ayuda a que todo fluya bien y evitara sobrepasar el aforo permitido.
-              </p>
+              <h4>1. Bienvenida a nuevo hermano bautizado</h4>
+              <p>Le queremos dar la bienvenida al hermano Brandon Castillo como Testigo bautizado.</p>
             </div>
 
             <div className="announcement-item">
-              <h4>2. Limpieza y decoracion - Jueves festivo a las 7:45 a.m.</h4>
-              <p>
-                Los invitamos a unirse! Ese dia prepararemos el Salon del Reino para la Conmemoracion. Comenzaremos con el programa especial de adoracion matutina y despues, entre todos, nos organizaremos para la limpieza y la decoracion. Sera un momento bonito de trabajar juntos.
-              </p>
+              <h4>2. Agradecimiento a voluntarios de la asamblea</h4>
+              <p>El cuerpo de ancianos agradece a los hermanos que participaron en la asamblea como voluntarios. Gracias a su trabajo, las labores quedaron muy bien.</p>
             </div>
 
             <div className="announcement-item">
-              <h4>3. Programa de adoracion matutina - 2 de abril</h4>
-              <p>
-                Para el dia de la Conmemoracion hay un programa especial de adoracion matutina que dura solo <strong>17 minutos</strong>. Los animamos a verlo ese dia. Pueden encontrarlo facilmente en <strong>JW.org</strong> o en la aplicacion <strong>JW Library</strong>.
-              </p>
+              <h4>3. Solicitud de precursores durante visita del superintendente de circuito:</h4>
+              <p><strong>Solicitud de precursores durante visita del superintendente de circuito:</strong> Se invita a los hermanos que desean servir como precursores auxiliares o regulares en la visita del circuito en el mes de julio a pasar su solicitud al comité de servicio, compuesto por:</p>
+              <ul style={{ marginTop: "5px", paddingLeft: "20px" }}>
+                <li>Nehemías Caballero</li>
+                <li>Leonardo Sotomayor</li>
+                <li>Elder Gómez</li>
+              </ul>
             </div>
 
             <div className="announcement-item">
-              <h4>4. Informe de cuentas</h4>
-              <p>
-                A continuacion se leera el informe de cuentas de la congregacion.
-              </p>
+              <h4>4. Listas de alojamiento para asamblea regional</h4>
+              <p>Ha llegado una carta con información sobre la Lista de alojamiento para la asamblea regional y un documento titulado <strong>"Puntos a recordar al reservar hotel para la asamblea regional (CO-39)"</strong>. Se pondrán en el tablero de anuncios cuando termine esta reunión. En la carta se explica cómo acceder a la lista de hoteles y cuándo se pueden empezar a hacer las reservas.</p>
             </div>
 
             <div className="announcement-item">
-              <h4>5. Reunion entre semana para la Conmemoracion</h4>
-              <p>
-                Durante la semana de la Conmemoracion, la unica reunion sera el <strong>sabado 4 de abril</strong>. No habra reunion entre semana para esa fecha.
-              </p>
+              <h4>5. Solicitudes de publicaciones anuales</h4>
+              <p>Cada año se hace una solicitud para publicaciones como: <strong>Examinando las Escrituras</strong>, <strong>Índice de las publicaciones Watchtower 2026</strong>, <strong>Volúmenes 2026</strong>. Invitamos a quienes usan estas publicaciones en físico a que hagan su pedido con el hermano Juan Peinado y Carlos Tafur. La cantidad solicitada a la sucursal corresponde a la cantidad real pedida por los publicadores. La fecha límite para hacer este pedido es el <strong>29 de mayo, este viernes</strong>.</p>
             </div>
 
             <div className="announcement-item">
-              <h4>6. Repaso de la asamblea - Miercoles 11 de abril</h4>
-              <p>
-                Si tienen sus notas de la ultima asamblea, traiganlas! Ese miercoles haremos juntos un repaso de todo lo que aprendimos. Ademas, en lugar de la parte habitual de "Necesidades de la congregacion", se presentara el <strong>Informe 2 de 2026</strong>.
-              </p>
+              <h4>6. Lectura de una carta</h4>
+              <p>Se procederá a leer una carta.</p>
             </div>
           </div>
         </div>
@@ -1652,10 +2066,12 @@ export default function MeetingProgram() {
         {/* Final Section */}
         <div className="section">
           <div className="song-prayer song" style={{ marginTop: "20px" }}>
-  <strong>8:35 p.m. - Cancion:</strong> 134 - Los hijos son un regalo de Dios
-  </div>
-  <div className="song-prayer prayer">
-  <strong>Oracion Final:</strong> Alfonso Orlando Ortiz B
+            <Mic size={16} style={{ display: 'inline', marginRight: 8 }} />
+            <strong>8:35 p.m. - Canción:</strong> 55 - No los temas
+          </div>
+          <div className="song-prayer prayer">
+            <Heart size={16} style={{ display: 'inline', marginRight: 8 }} />
+            <strong>Oración Final:</strong> Victor Santiz
             <div style={{ marginTop: "10px", fontSize: "0.9em", fontWeight: "bold", color: "#666" }}>
               🕐 Finalización del programa: 8:35 p.m.
             </div>

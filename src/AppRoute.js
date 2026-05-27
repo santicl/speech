@@ -7,13 +7,15 @@ import DiscourseAnnualReport from './ReportAnual';
 import DiscourseCampaign from './Campains';
 import MeetingProgram from './App';
 import DiscourseLessons80And81 from './leason';
+import DiscourseSpiritualParadise from './component/ParaisoEspiritual';
 
 function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/nehemias" element={<DiscourseLessons80And81 />} />
-        <Route path="*" element={<DiscourseLessons80And81 />} />
+        <Route path="/meet" element={<MeetingProgram />} />
+        <Route path="/discurso" element={<DiscourseSpiritualParadise />} />
+        <Route path="*" element={<MeetingProgram />} />
       </Routes>
     </BrowserRouter>
   );
