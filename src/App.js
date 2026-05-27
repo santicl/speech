@@ -1,13 +1,17 @@
-"use client"
-
 import { useState, useEffect } from "react"
-import { ChevronRight, ChevronDown, Play, Pause, Square, Clock, User, Timer, Mic, Heart, BookOpen, Target, AlertCircle, Award } from "lucide-react"
+import { ChevronRight, ChevronDown, Play, Pause, Square, Clock, User, Timer, Mic, Heart, BookOpen, Target, AlertCircle, Award, X } from "lucide-react"
+import PDF from './pdf/pdf.pdf'
 
 export default function MeetingProgram() {
   const [globalTime, setGlobalTime] = useState(0)
   const [isGlobalTimerRunning, setIsGlobalTimerRunning] = useState(false)
   const [isTimerExpanded, setIsTimerExpanded] = useState(false)
   const [fontSize, setFontSize] = useState(16)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  // --- CAMBIA ESTA URL POR LA RUTA DE TU PDF ---
+  // Ejemplo: "/carta.pdf" si está en la carpeta public, o una URL externa
+  const pdfUrl = PDF; // <-- REEMPLAZA CON TU ARCHIVO PDF
 
   const [assignments, setAssignments] = useState([
     {
@@ -112,7 +116,7 @@ export default function MeetingProgram() {
         <div class="assignment-content">
           <div class="assignment-details">
             <h4>PREDICACIÓN INFORMAL</h4>
-            <p><strong>Instrucción:</strong> Busque una manera natural de hacerle saber a la persona que usted es testigo de Jehová</p>
+            <p><strong>Marco de circunstancia:</strong> Busque una manera natural de hacerle saber a la persona que usted es testigo de Jehová</p>
           </div>
          
           <div class="lesson-section">
@@ -144,7 +148,7 @@ export default function MeetingProgram() {
         <div class="assignment-content">
           <div class="assignment-details">
             <h4>PREDICACIÓN PÚBLICA</h4>
-            <p><strong>Instrucción:</strong> La persona quiere discutir con usted</p>
+            <p><strong>Marco de circunstancia:</strong> La persona quiere discutir con usted</p>
           </div>
          
           <div class="lesson-section">
@@ -176,7 +180,7 @@ export default function MeetingProgram() {
         <div class="assignment-content">
           <div class="assignment-details">
             <h4>DE CASA EN CASA</h4>
-            <p><strong>Instrucción:</strong> Use un tratado para empezar una conversación</p>
+            <p><strong>Marco de circunstancia:</strong> Use un tratado para empezar una conversación</p>
           </div>
          
           <div class="lesson-section">
@@ -373,6 +377,9 @@ export default function MeetingProgram() {
       Object.values(intervals).forEach((interval) => clearInterval(interval))
     }
   }, [assignments])
+
+  const openModal = () => setIsModalOpen(true)
+  const closeModal = () => setIsModalOpen(false)
 
   return (
     <div style={{ fontSize: `${fontSize}px` }}>
@@ -1021,6 +1028,90 @@ export default function MeetingProgram() {
         .announcement-item p {
           margin: 8px 0;
           line-height: 1.5;
+        }
+
+        /* Estilos para el modal de PDF (pantalla completa) */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.9);
+          z-index: 2000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+          background: white;
+          border-radius: 16px;
+          width: 100%;
+          max-width: 1000px;
+          height: 90vh;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+          animation: modalFadeIn 0.2s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        .modal-close {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: #ef4444;
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: white;
+          transition: all 0.2s;
+          z-index: 10;
+        }
+
+        .modal-close:hover {
+          background: #dc2626;
+          transform: scale(1.05);
+        }
+
+        .pdf-viewer {
+          width: 100%;
+          height: 100%;
+          border: none;
+          border-radius: 16px;
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 640px) {
+          .modal-content {
+            width: 95%;
+            height: 85vh;
+          }
+          .modal-close {
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+          }
         }
 
         .auxiliary-list {
@@ -1705,7 +1796,7 @@ export default function MeetingProgram() {
         <div className="section">
           <div className="song-prayer song">
             <Mic size={16} style={{ display: 'inline', marginRight: 8 }} />
-            <strong>Canción:</strong> 24
+            <strong>Canción:</strong> 24 - Subamos a la montaña de Jehova
           </div>
           <div className="song-prayer prayer">
             <Heart size={16} style={{ display: 'inline', marginRight: 8 }} />
@@ -1733,21 +1824,21 @@ export default function MeetingProgram() {
                 <div className="preview-section">
                   <span className="preview-icon">💎</span>
                   <div className="preview-content">
-                    <strong>En Tesoros de la Biblia</strong> veremos como si le prestamos atencion a Jehova, nos ira bien y hallaremos valiosas perlas espirituales.
+                    <strong>En Tesoros de la Biblia</strong> Analizaremos 3 razones por las que amamos el paraiso espiritual, analizaremos las palabras de Jesus cuando hizo mencion del Gehena.
                   </div>
                 </div>
 
                 <div className="preview-section">
                   <span className="preview-icon">🎯</span>
                   <div className="preview-content">
-                    <strong>Despues, en Seamos Mejores Maestros,</strong> aprenderemos como iniciar conversaciones e invitar a las personas al discurso especial y a la Conmemoracion.
+                    <strong>Despues, en Seamos Mejores Maestros,</strong> aprenderemos como demostrar tacto, apacibilidad, interes sincero, y como hablar con sencillez.
                   </div>
                 </div>
 
                 <div className="preview-section">
                   <span className="preview-icon">❤️</span>
                   <div className="preview-content">
-                    <strong>En Nuestra Vida Cristiana</strong> analizaremos como aprovechar bien el dia mas importante del ano. Terminaremos con nuestro Estudio Biblico de Congregacion.
+                    <strong>En Nuestra Vida Cristiana</strong> analizaremos la posibilidad de darle a Jehova lo mejor que tenemos, como maneternos listos para lo imprevisto y en el estudio de la congregacion estudiaremos las lecciones 88 y 89.
                   </div>
                 </div>
               </div>
@@ -2015,7 +2106,7 @@ export default function MeetingProgram() {
           </div>
         </div>
 
-        {/* Anuncios - ACTUALIZADOS SEGÚN SOLICITUD */}
+        {/* Anuncios con botón para abrir PDF en modal */}
         <div className="section announcements-section">
           <div className="announcements-header">
             <h2 className="announcements-title">
@@ -2038,7 +2129,7 @@ export default function MeetingProgram() {
 
             <div className="announcement-item">
               <h4>3. Solicitud de precursores durante visita del superintendente de circuito:</h4>
-              <p><strong>Solicitud de precursores durante visita del superintendente de circuito:</strong> Se invita a los hermanos que desean servir como precursores auxiliares o regulares en la visita del circuito en el mes de julio a pasar su solicitud al comité de servicio, compuesto por:</p>
+              <p>Se invita a los hermanos que desean servir como precursores auxiliares o regulares en la visita del circuito en el mes de julio a pasar su solicitud al comité de servicio, compuesto por:</p>
               <ul style={{ marginTop: "5px", paddingLeft: "20px" }}>
                 <li>Nehemías Caballero</li>
                 <li>Leonardo Sotomayor</li>
@@ -2059,6 +2150,24 @@ export default function MeetingProgram() {
             <div className="announcement-item">
               <h4>6. Lectura de una carta</h4>
               <p>Se procederá a leer una carta.</p>
+              <button
+                onClick={openModal}
+                style={{
+                  marginTop: "10px",
+                  background: "#ffd700",
+                  color: "#333",
+                  border: "none",
+                  padding: "8px 16px",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  transition: "background 0.2s"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = "#ffc107"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "#ffd700"}
+              >
+                Ver carta (PDF)
+              </button>
             </div>
           </div>
         </div>
@@ -2078,6 +2187,23 @@ export default function MeetingProgram() {
           </div>
         </div>
       </div>
+
+      {/* Modal para mostrar el PDF */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeModal}>
+              <X size={24} />
+            </button>
+            <iframe
+              src={pdfUrl}
+              className="pdf-viewer"
+              title="Carta PDF"
+              frameBorder="0"
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
