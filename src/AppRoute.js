@@ -8,6 +8,7 @@ import DiscourseCampaign from './Campains';
 import MeetingProgram from './App';
 import DiscourseLessons80And81 from './leason';
 import DiscourseSpiritualParadise from './component/ParaisoEspiritual';
+import DiscourseSpiritualHealth from './component/SpiritualHealth';
 
 function AppRoute() {
   return (
@@ -15,6 +16,7 @@ function AppRoute() {
       <Routes>
         <Route path="/meet" element={<MeetingProgram />} />
         <Route path="/discurso" element={<DiscourseSpiritualParadise />} />
+        <Route path="/juda" element={<DiscourseSpiritualHealth />} />
         <Route path="*" element={<MeetingProgram />} />
       </Routes>
     </BrowserRouter>
