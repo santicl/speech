@@ -552,7 +552,7 @@ export default function DiscourseSpiritualHealth() {
       {/* Header */}
       <div className="discourse-header">
         <div className="theme-label">Discurso</div>
-        <h1>Como mantener una buena salud espiritual</h1>
+        <h1>No nos enfermemos espiritualmente como les pasó a los de Judá</h1>
         <div className="scripture-ref">Basado en Jeremias 4-6</div>
       </div>
 
