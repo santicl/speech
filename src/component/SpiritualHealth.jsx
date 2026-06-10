@@ -1,7 +1,47 @@
-import React, { useState } from 'react'
+"use client"
+
+import React, { useState, useEffect } from 'react'
 
 export default function DiscourseSpiritualHealth() {
   const [expandedSections, setExpandedSections] = useState({})
+  const [globalTime, setGlobalTime] = useState(0)
+  const [isGlobalTimerRunning, setIsGlobalTimerRunning] = useState(false)
+  const [isTimerExpanded, setIsTimerExpanded] = useState(false)
+
+  useEffect(() => {
+    let interval = null
+    if (isGlobalTimerRunning) {
+      interval = setInterval(() => {
+        setGlobalTime((prevTime) => prevTime + 1)
+      }, 1000)
+    }
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [isGlobalTimerRunning])
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
+  }
+
+  const handleGlobalStartPause = () => {
+    setIsGlobalTimerRunning(!isGlobalTimerRunning)
+  }
+
+  const handleGlobalReset = () => {
+    setGlobalTime(0)
+    setIsGlobalTimerRunning(false)
+  }
+
+  const toggleTimerExpansion = () => {
+    setIsTimerExpanded(!isTimerExpanded)
+  }
+
+  const handleControlClick = (e) => {
+    e.stopPropagation()
+  }
 
   const toggleSection = (sectionId) => {
     setExpandedSections(prev => ({
@@ -20,6 +60,132 @@ export default function DiscourseSpiritualHealth() {
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
           min-height: 100vh;
+        }
+
+        .timer-container {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: rgba(255, 255, 255, 0.98);
+          color: #2d3748;
+          border-radius: 14px;
+          box-shadow:
+            0 4px 20px rgba(0, 0, 0, 0.1),
+            0 1px 3px rgba(0, 0, 0, 0.08);
+          z-index: 1000;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .timer-container.collapsed {
+          padding: 12px 20px;
+        }
+
+        .timer-container.expanded {
+          padding: 20px;
+          min-width: 240px;
+          cursor: default;
+        }
+
+        .timer-container.collapsed:hover {
+          transform: translateY(-2px) scale(1.03);
+          box-shadow:
+            0 8px 28px rgba(0, 0, 0, 0.14),
+            0 3px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .timer-container.running {
+          border-color: rgba(56, 161, 105, 0.5);
+          box-shadow:
+            0 4px 20px rgba(56, 161, 105, 0.25),
+            0 0 0 3px rgba(56, 161, 105, 0.12);
+        }
+
+        .timer-display {
+          font-weight: 700;
+          text-align: center;
+          font-family: 'JetBrains Mono', 'Courier New', monospace;
+          color: #1a202c;
+          padding: 8px 12px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, #f7fafc 0%, #e2e8f0 100%);
+          border: 1px solid #cbd5e0;
+          letter-spacing: 1px;
+        }
+
+        .timer-container.collapsed .timer-display {
+          font-size: 24px;
+          margin-bottom: 0;
+        }
+
+        .timer-container.expanded .timer-display {
+          font-size: 32px;
+          margin-bottom: 16px;
+        }
+
+        .timer-container.running .timer-display {
+          color: #2f855a;
+          background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+          border-color: #9ae6b4;
+        }
+
+        .timer-controls {
+          display: flex;
+          gap: 10px;
+        }
+
+        .timer-btn {
+          flex: 1;
+          padding: 11px 14px;
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 13px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          color: white;
+        }
+
+        .timer-btn.start {
+          background: #38a169;
+          box-shadow: 0 2px 8px rgba(56, 161, 105, 0.3);
+        }
+
+        .timer-btn.pause {
+          background: #dd6b20;
+          box-shadow: 0 2px 8px rgba(221, 107, 32, 0.3);
+        }
+
+        .timer-btn.reset {
+          background: #e53e3e;
+          box-shadow: 0 2px 8px rgba(229, 62, 62, 0.3);
+        }
+
+        .timer-btn:hover {
+          transform: translateY(-2px);
+          filter: brightness(1.05);
+          box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .timer-btn:active {
+          transform: translateY(0);
+        }
+
+        .expand-hint {
+          font-size: 11px;
+          text-align: center;
+          opacity: 0.7;
+          margin-top: 6px;
+          animation: hint-pulse 2s infinite;
+          color: #4a5568;
+          font-weight: 500;
+        }
+
+        @keyframes hint-pulse {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
         }
 
         .discourse-header {
@@ -548,6 +714,29 @@ export default function DiscourseSpiritualHealth() {
           }
         }
       `}</style>
+
+      {/* Cronometro flotante */}
+      <div
+        className={`timer-container ${isTimerExpanded ? "expanded" : "collapsed"} ${isGlobalTimerRunning ? "running" : ""}`}
+        onClick={toggleTimerExpansion}
+      >
+        <div className="timer-display">{formatTime(globalTime)}</div>
+        {isTimerExpanded ? (
+          <div className="timer-controls" onClick={handleControlClick}>
+            <button
+              className={`timer-btn ${isGlobalTimerRunning ? "pause" : "start"}`}
+              onClick={handleGlobalStartPause}
+            >
+              {isGlobalTimerRunning ? "Pausar" : "Iniciar"}
+            </button>
+            <button className="timer-btn reset" onClick={handleGlobalReset}>
+              Reiniciar
+            </button>
+          </div>
+        ) : (
+          <div className="expand-hint">Toca para abrir</div>
+        )}
+      </div>
 
       {/* Header */}
       <div className="discourse-header">
