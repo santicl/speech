@@ -9,15 +9,19 @@ import MeetingProgram from './App';
 import DiscourseLessons80And81 from './leason';
 import DiscourseSpiritualParadise from './component/ParaisoEspiritual';
 import DiscourseSpiritualHealth from './component/SpiritualHealth';
+import SpeechOutline from './Dis';
+import NavigationButtons from './Buttons';
 
 function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<NavigationButtons />} />
         <Route path="/meet" element={<MeetingProgram />} />
         <Route path="/discurso" element={<DiscourseSpiritualParadise />} />
+        <Route path="/gran-creador" element={<SpeechOutline />} />
         <Route path="/juda" element={<DiscourseSpiritualHealth />} />
-        <Route path="*" element={<MeetingProgram />} />
+        <Route path="*" element={<NavigationButtons />} />
       </Routes>
     </BrowserRouter>
   );

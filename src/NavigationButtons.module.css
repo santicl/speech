@@ -1,0 +1,123 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 1.5rem 0;
+}
+
+/* Card base */
+.card {
+  position: relative;
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 1.4rem 1.25rem;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  transition:
+    border-color 0.25s ease,
+    transform 0.22s ease,
+    background 0.25s ease;
+}
+
+.card:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+  background: #f9f9f8;
+}
+
+.card:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Icon wrapper */
+.iconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.card:hover .iconWrap {
+  transform: scale(1.08);
+}
+
+/* Color variants */
+.purple { background: #EEEDFE; color: #3C3489; }
+.teal   { background: #E1F5EE; color: #0F6E56; }
+.coral  { background: #FAECE7; color: #712B13; }
+.blue   { background: #E6F1FB; color: #0C447C; }
+.amber  { background: #FAEEDA; color: #633806; }
+.pink   { background: #FBEAF0; color: #72243E; }
+
+/* Text block */
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a18;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: 11.5px;
+  color: #888780;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+/* Arrow indicator */
+.arrow {
+  position: absolute;
+  top: 1.2rem;
+  right: 1rem;
+  font-size: 14px;
+  color: #b4b2a9;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.card:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #1e1e1c;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .card:hover {
+    background: #262624;
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  .title  { color: #f1efe8; }
+  .subtitle { color: #888780; }
+  .arrow  { color: #5f5e5a; }
+
+  .purple { background: #26215C; color: #CECBF6; }
+  .teal   { background: #04342C; color: #9FE1CB; }
+  .coral  { background: #4A1B0C; color: #F5C4B3; }
+  .blue   { background: #042C53; color: #B5D4F4; }
+  .amber  { background: #412402; color: #FAC775; }
+  .pink   { background: #4B1528; color: #F4C0D1; }
+}
