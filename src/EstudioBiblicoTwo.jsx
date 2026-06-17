@@ -1,231 +1,247 @@
 import { useState, useEffect, useRef } from "react";
 
 export default function DiscourseHolySpirit() {
-  const [globalTime, setGlobalTime] = useState(0);
-  const [globalRunning, setGlobalRunning] = useState(false);
-  const [timerExpanded, setTimerExpanded] = useState(false);
-  const [fontSize, setFontSize] = useState(16);
-  const intervalRef = useRef(null);
+    const [globalTime, setGlobalTime] = useState(0);
+    const [globalRunning, setGlobalRunning] = useState(false);
+    const [timerExpanded, setTimerExpanded] = useState(false);
+    const [fontSize, setFontSize] = useState(16);
+    const intervalRef = useRef(null);
 
-  useEffect(() => {
-    if (globalRunning) {
-      intervalRef.current = setInterval(() => {
-        setGlobalTime((prev) => prev + 1);
-      }, 1000);
-    } else {
-      clearInterval(intervalRef.current);
-    }
-    return () => clearInterval(intervalRef.current);
-  }, [globalRunning]);
+    useEffect(() => {
+        if (globalRunning) {
+            intervalRef.current = setInterval(() => {
+                setGlobalTime((prev) => prev + 1);
+            }, 1000);
+        } else {
+            clearInterval(intervalRef.current);
+        }
+        return () => clearInterval(intervalRef.current);
+    }, [globalRunning]);
 
-  const formatTime = (s) => {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-  };
+    const formatTime = (s) => {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    };
 
-  return (
-    <div className="page-wrapper" style={{ fontSize: `${fontSize}px` }}>
-      {/* TIMER */}
-      <div
-        className={`timer-float ${timerExpanded ? "expanded" : "collapsed"}`}
-        onClick={() => !timerExpanded && setTimerExpanded(true)}
-      >
-        <div className="timer-display">{formatTime(globalTime)}</div>
-        {timerExpanded ? (
-          <div className="timer-controls">
-            <button
-              className="timer-btn start"
-              onClick={(e) => {
-                e.stopPropagation();
-                setGlobalRunning(!globalRunning);
-              }}
-            >
-              {globalRunning ? "Pausar" : "Iniciar"}
-            </button>
-            <button
-              className="timer-btn reset"
-              onClick={(e) => {
-                e.stopPropagation();
-                setGlobalRunning(false);
-                setGlobalTime(0);
-              }}
-            >
-              Reiniciar
-            </button>
+    return (
+        <div className="page-wrapper" style={{ fontSize: `${fontSize}px` }}>
+            {/* TIMER */}
             <div
-              className="font-control"
-              onClick={(e) => e.stopPropagation()}
+                className={`timer-float ${timerExpanded ? "expanded" : "collapsed"}`}
+                onClick={() => !timerExpanded && setTimerExpanded(true)}
             >
-              <label>Fuente: {fontSize}px</label>
-              <input
-                type="range"
-                min="12"
-                max="28"
-                value={fontSize}
-                onChange={(e) => setFontSize(parseInt(e.target.value))}
-              />
+                <div className="timer-display">{formatTime(globalTime)}</div>
+                {timerExpanded ? (
+                    <div className="timer-controls">
+                        <button
+                            className="timer-btn start"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setGlobalRunning(!globalRunning);
+                            }}
+                        >
+                            {globalRunning ? "Pausar" : "Iniciar"}
+                        </button>
+                        <button
+                            className="timer-btn reset"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setGlobalRunning(false);
+                                setGlobalTime(0);
+                            }}
+                        >
+                            Reiniciar
+                        </button>
+                        <div
+                            className="font-control"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <label>Fuente: {fontSize}px</label>
+                            <input
+                                type="range"
+                                min="12"
+                                max="28"
+                                value={fontSize}
+                                onChange={(e) => setFontSize(parseInt(e.target.value))}
+                            />
+                        </div>
+                        <button
+                            className="timer-btn collapse"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setTimerExpanded(false);
+                            }}
+                        >
+                            Minimizar
+                        </button>
+                    </div>
+                ) : (
+                    <div className="timer-hint">Toca para expandir</div>
+                )}
             </div>
-            <button
-              className="timer-btn collapse"
-              onClick={(e) => {
-                e.stopPropagation();
-                setTimerExpanded(false);
-              }}
-            >
-              Minimizar
-            </button>
-          </div>
-        ) : (
-          <div className="timer-hint">Toca para expandir</div>
-        )}
-      </div>
 
-      {/* CONTENT */}
-      <div className="content-area">
-        {/* SECTION INTRO */}
-        <div className="lesson-card intro-card">
-          <div className="lesson-header">
-            <span className="lesson-number">14</span>
-            <h1 className="lesson-title">Introduccion a la seccion numero 14</h1>
-          </div>
+            {/* CONTENT */}
+            <div className="content-area">
+                {/* SECTION INTRO */}
+                <div className="lesson-card intro-card">
+                    <div className="lesson-header">
+                        <span className="lesson-number">14</span>
+                        <h1 className="lesson-title">Introduccion a la seccion numero 14</h1>
+                    </div>
 
-          <div className="section-label">Que analizara esta seccion?</div>
+                    <div className="section-label">Que analizara esta seccion?</div>
 
-          <div className="main-question">
-            <span className="q-badge main-badge">P2</span>
-            <p>Que lecciones encontraremos?</p>
-          </div>
+                    <div className="section-text">
+                        <p>Los primeros cristianos llevaron las buenas noticias del Reino hasta las partes más lejanas de la Tierra. Jesús los dirigió para que supieran dónde predicar. También los capacitó de forma milagrosa para enseñar la verdad en los idiomas que hablaba la gente. Jehová les dio valor y fuerzas para aguantar cruel persecución.</p>
+                        <p>Jesús dio al apóstol Juan una visión de la gloria de Jehová. En otra visión, le mostró cómo vence el Reino de los cielos a Satanás y acaba para siempre con su dominio. Juan vio a Jesús como Rey y a 144.000 gobernando con él. También vio que la Tierra entera se convierte en un paraíso y que todos adoran a Jehová en paz y unidad.</p>
+                    </div>
 
-          <div className="answer-block">
-            <div className="answer-header">Respuesta fiel numero 2</div>
-            <ul className="answer-list">
-              <li><strong>a)</strong> Jehova nos encargo darle gloria.</li>
-              <li><strong>b)</strong> Dedicar nuestra vida mediante la oracion.</li>
-              <li><strong>c)</strong> Demostraremos que apoyamos su gobierno.</li>
-            </ul>
-          </div>
-        </div>
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P2</span>
+                        <p>Que lecciones encontraremos?</p>
+                    </div>
 
-        {/* TOPIC - DISCIPULOS RECIBEN ESPIRITU SANTO */}
-        <div className="lesson-card">
-          <div className="topic-banner">
-            <span className="topic-label">Tema</span>
-            <h2 className="topic-title">Los discipulos reciben espiritu santo</h2>
-          </div>
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta fiel numero 2</div>
+                        <ul className="answer-list">
+                            <li><strong>a)</strong> Jehova nos encargo darle gloria.</li>
+                            <li><strong>b)</strong> Dedicar nuestra vida mediante la oracion.</li>
+                            <li><strong>c)</strong> Demostraremos que apoyamos su gobierno.</li>
+                        </ul>
+                    </div>
+                </div>
 
-          <div className="section-label">Preguntas principales</div>
+                {/* TOPIC - DISCIPULOS RECIBEN ESPIRITU SANTO */}
+                <div className="lesson-card">
+                    <div className="topic-banner">
+                        <span className="topic-label">Tema</span>
+                        <h2 className="topic-title"><strong>LECCIÓN 94</strong> Los discipulos reciben espiritu santo</h2>
+                    </div>
 
-          <div className="main-question">
-            <span className="q-badge main-badge">P1</span>
-            <p>Que paso en las fiestas del Pentecostes del ano 33?</p>
-          </div>
+                    <div className="section-text">
+                        <p>Ya habían pasado 10 días desde que Jesús había regresado al cielo. Entonces los discípulos de Jesús recibieron espíritu santo. Era la Fiesta de Pentecostés del año 33, y gente de muchos lugares había llegado a Jerusalén para celebrarla. Unos 120 discípulos de Jesús se habían reunido en la habitación de la parte de arriba de una casa cuando, de repente, pasó una cosa asombrosa. Algo como una llama de fuego apareció sobre la cabeza de cada discípulo, y todos empezaron a hablar en diferentes idiomas. Además, se oyó el ruido de un viento fuerte por toda la casa.</p>
+                        <p>La gente que había viajado de otros países a Jerusalén oyó el ruido y corrió hacia la casa para ver qué pasaba. Se sorprendieron mucho cuando oyeron a los discípulos hablando en otros idiomas. Decían: “Estas personas son de Galilea, ¿cómo es que pueden hablar en nuestros propios idiomas?”.</p>
+                        <p>Entonces Pedro y los demás apóstoles se pusieron de pie enfrente de todos. Pedro les explicó: “Ustedes mataron a Jesús, pero Jehová lo resucitó. Ahora Jesús está en el cielo al lado derecho de Dios. Y nos ha dado el espíritu santo que nos había prometido. Por eso es que han visto y oído estos milagros”.</p>
+                        <p>La gente se quedó muy impresionada. Las palabras de Pedro les habían tocado el corazón, por eso preguntaron: “¿Qué debemos hacer?”. Él les respondió: “Arrepiéntanse de sus pecados y bautícense en el nombre de Jesús. Después también recibirán el regalo del espíritu santo”. Unas 3.000 personas se bautizaron ese día. Desde ese momento, empezó a haber cada vez más discípulos en Jerusalén. Los apóstoles formaron más congregaciones con la ayuda del espíritu santo. Así pudieron enseñar a los discípulos todas las cosas que Jesús les había mandado.</p>
+                    </div>
 
-          <div className="answer-block">
-            <div className="answer-header">Respuesta 1</div>
-            <p>120 discipulos se habian reunido. Ocurrio algo asombroso: alli recibieron espiritu santo.</p>
-          </div>
+                    <div className="section-label">Preguntas principales</div>
 
-          <div className="main-question">
-            <span className="q-badge main-badge">P2</span>
-            <p>Por que se bautizaron tantas personas?</p>
-          </div>
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P1</span>
+                        <p>Que paso en las fiestas del Pentecostes del ano 33?</p>
+                    </div>
 
-          <div className="answer-block">
-            <div className="answer-header">Respuesta 2</div>
-            <p>Pedro les explico que se les daria espiritu santo, asegurando la resurreccion a pesar de todo.</p>
-          </div>
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta 1</div>
+                        <p>120 discipulos se habian reunido. Ocurrio algo asombroso: alli recibieron espiritu santo.</p>
+                    </div>
 
-          <div className="main-question">
-            <span className="q-badge main-badge">P3</span>
-            <p>Como podemos aplicar Romanos 10:9?</p>
-          </div>
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P2</span>
+                        <p>Por que se bautizaron tantas personas?</p>
+                    </div>
 
-          <div className="bible-text">
-            <div className="bible-ref">Romanos 10:9 (leer y explicar)</div>
-            <p>"Porque, si declaras publicamente esa palabra que esta en tu propia boca, que Jesus es Senor, y demuestras fe en tu corazon de que Dios lo levanto de entre los muertos, seras salvado".</p>
-          </div>
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta 2</div>
+                        <p>Pedro les explico que se les daria espiritu santo, asegurando la resurreccion a pesar de todo.</p>
+                    </div>
 
-          <div className="reflection-section">
-            <h3 className="reflection-title">Leamos Juan 15:26</h3>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R1</span>
-              <p>Que nos ensena este relato acerca de Jehova?</p>
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P3</span>
+                        <p>Como podemos aplicar Romanos 10:9?</p>
+                    </div>
+
+                    <div className="bible-text">
+                        <div className="bible-ref">Romanos 10:9 (leer y explicar)</div>
+                        <p>"Porque, si declaras publicamente esa palabra que esta en tu propia boca, que Jesus es Senor, y demuestras fe en tu corazon de que Dios lo levanto de entre los muertos, seras salvado".</p>
+                    </div>
+
+                    <div className="reflection-section">
+                        <h3 className="reflection-title">Leamos Juan 15:26</h3>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R1</span>
+                            <p>Que nos ensena este relato acerca de Jehova?</p>
+                        </div>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R2</span>
+                            <p>Que lecciones practicas podemos aprender de este relato?</p>
+                        </div>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R3</span>
+                            <p>Como podemos aplicarlo en la congregacion Torices?</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* LESSON 95 */}
+                <div className="lesson-card">
+
+                    <div className="topic-banner">
+                        <span className="topic-label">Tema</span>
+                        <h2 className="topic-title"><strong>LECCIÓN 95</strong> Nada los detiene</h2>
+                    </div>
+
+                    <div className="section-text">
+                        <p>Un hombre que no podía caminar se sentaba a pedir limosna todos los días en la puerta del templo. Una tarde, vio a Pedro y a Juan llegando al templo y les dijo: “Por favor, denme algo”. Pedro le contestó: “Puedo darte algo que es mejor que el dinero. En el nombre de Jesús, ¡levántate y camina!”. Entonces Pedro lo ayudó a levantarse, y el hombre empezó a caminar. La gente se emocionó tanto al ver este milagro que muchos se hicieron creyentes.</p>
+                        <p>Pero los sacerdotes y los saduceos se pusieron furiosos. Agarraron a los apóstoles, los llevaron al tribunal de líderes religiosos, que se llamaba Sanedrín, y les preguntaron: “¿Quién les dio el poder para curar a ese hombre?”. Pedro les respondió: “El poder nos lo dio Jesucristo, el hombre que ustedes mataron”. Los líderes religiosos les gritaron: “¡Dejen de hablar de Jesús!”. Los apóstoles dijeron: “Tenemos que hablar de él. No vamos a callarnos”.</p>
+                        <p>Entonces liberaron a Pedro y a Juan, y ellos enseguida fueron a contarles a los demás discípulos lo que había pasado. Todos juntos oraron a Jehová: “Por favor, ayúdanos a ser valientes para seguir hablando de ti”. Jehová les dio espíritu santo, y así pudieron seguir predicando y haciendo curaciones. Más y más personas se hacían creyentes. Los saduceos tenían tanta envidia que metieron a los apóstoles en la cárcel. Pero, esa noche, Jehová envió a un ángel que les abrió las puertas de la cárcel y les dijo a los apóstoles: “Vayan otra vez al templo y prediquen allí”.</p>
+                        <p>A la mañana siguiente, alguien fue a decirle al Sanedrín: “¡La cárcel está cerrada con llave, pero los hombres que ustedes arrestaron ya no están dentro! ¡Están en el templo predicando!”. Así que arrestaron a los apóstoles de nuevo y los llevaron al Sanedrín. El sumo sacerdote dijo: “¡Ya les ordenamos que no hablaran más de Jesús!”. Pedro respondió: “Tenemos que obedecer a Dios como gobernante más bien que a los hombres”.</p>
+                        <p>Los líderes religiosos estaban tan enfadados que querían matar a los apóstoles. Entonces un fariseo llamado Gamaliel se puso de pie y dijo: “¡Tengan cuidado! Quizás Dios está con estos hombres. ¿De verdad quieren luchar contra Dios?”. Ellos le hicieron caso. Los dejaron libres, aunque primero los golpearon con varas y les ordenaron otra vez que dejaran de predicar. Pero eso no detuvo a los apóstoles. Continuaron predicando con valor en el templo y de casa en casa.</p>
+                    </div>
+
+                    <div className="section-label">Preguntas principales</div>
+
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P1</span>
+                        <p>Por que no dejaron de predicar los discipulos?</p>
+                    </div>
+
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta 1</div>
+                        <p>Porque oraron a Jehova para que los ayudara a ser valientes ante las necesidades ya vistas.</p>
+                    </div>
+
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P2</span>
+                        <p>Como los ayudo Jehova?</p>
+                    </div>
+
+                    <div className="answer-block">
+                        <div className="answer-header">Respuesta 2</div>
+                        <p>Los ayudo con su espiritu santo. Dios lo ha demostrado...</p>
+                    </div>
+
+                    <div className="bible-text large">
+                        <div className="bible-ref">Hechos 5:29, 30 (leer)</div>
+                        <p><sup>29</sup> "En respuesta, Pedro y los demas apostoles dijeron: 'Tenemos que obedecer a Dios como gobernante mas bien que a los hombres. <sup>30</sup> El Dios de nuestros antepasados resucito a Jesus, a quien ustedes mataron colgandolo en un madero'".</p>
+                    </div>
+
+                    <div className="main-question">
+                        <span className="q-badge main-badge">P3</span>
+                        <p>Que nos ensena Hechos 5:29?</p>
+                    </div>
+
+                    <div className="reflection-section">
+                        <h3 className="reflection-title">Reflexion / Aplicacion - Leccion 95</h3>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R1</span>
+                            <p>Que nos ensena este relato acerca de Jehova?</p>
+                        </div>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R2</span>
+                            <p>Que lecciones practicas podemos aprender de este relato?</p>
+                        </div>
+                        <div className="main-question reflection-q">
+                            <span className="q-badge main-badge">R3</span>
+                            <p>Como aplicarlo en la congregacion?</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R2</span>
-              <p>Que lecciones practicas podemos aprender de este relato?</p>
-            </div>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R3</span>
-              <p>Como podemos aplicarlo en la congregacion Torices?</p>
-            </div>
-          </div>
-        </div>
 
-        {/* LESSON 95 */}
-        <div className="lesson-card">
-          <div className="lesson-header">
-            <span className="lesson-number">95</span>
-            <h1 className="lesson-title">Nada los detiene</h1>
-          </div>
-
-          <div className="topic-banner">
-            <span className="topic-label">Tema</span>
-            <h2 className="topic-title">Nada los detiene</h2>
-          </div>
-
-          <div className="section-label">Preguntas principales</div>
-
-          <div className="main-question">
-            <span className="q-badge main-badge">P1</span>
-            <p>Por que no dejaron de predicar los discipulos?</p>
-          </div>
-
-          <div className="answer-block">
-            <div className="answer-header">Respuesta 1</div>
-            <p>Porque oraron a Jehova para que los ayudara a ser valientes ante las necesidades ya vistas.</p>
-          </div>
-
-          <div className="main-question">
-            <span className="q-badge main-badge">P2</span>
-            <p>Como los ayudo Jehova?</p>
-          </div>
-
-          <div className="answer-block">
-            <div className="answer-header">Respuesta 2</div>
-            <p>Los ayudo con su espiritu santo. Dios lo ha demostrado...</p>
-          </div>
-
-          <div className="main-question">
-            <span className="q-badge main-badge">P3</span>
-            <p>Que nos ensena Hechos 5:29?</p>
-          </div>
-
-          <div className="bible-text large">
-            <div className="bible-ref">Hechos 5:29, 30 (leer)</div>
-            <p><sup>29</sup> "En respuesta, Pedro y los demas apostoles dijeron: 'Tenemos que obedecer a Dios como gobernante mas bien que a los hombres. <sup>30</sup> El Dios de nuestros antepasados resucito a Jesus, a quien ustedes mataron colgandolo en un madero'".</p>
-          </div>
-
-          <div className="reflection-section">
-            <h3 className="reflection-title">Reflexion / Aplicacion - Leccion 95</h3>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R1</span>
-              <p>Que nos ensena este relato acerca de Jehova?</p>
-            </div>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R2</span>
-              <p>Que lecciones practicas podemos aprender de este relato?</p>
-            </div>
-            <div className="main-question reflection-q">
-              <span className="q-badge main-badge">R3</span>
-              <p>Como aplicarlo en la congregacion?</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <style jsx>{`
+            <style jsx>{`
         .page-wrapper {
           min-height: 100vh;
           background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
@@ -317,6 +333,13 @@ export default function DiscourseHolySpirit() {
           display: flex;
           flex-direction: column;
           gap: 4px;
+        }
+        .section-text {
+          display: flex;
+          justify-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 10px;
         }
         .font-control label {
           color: #718096;
@@ -629,6 +652,6 @@ export default function DiscourseHolySpirit() {
           }
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 }
