@@ -4,6 +4,7 @@ export default function DiscourseHolySpirit() {
     const [globalTime, setGlobalTime] = useState(0);
     const [globalRunning, setGlobalRunning] = useState(false);
     const [timerExpanded, setTimerExpanded] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
     const [fontSize, setFontSize] = useState(16);
     const intervalRef = useRef(null);
 
@@ -25,7 +26,15 @@ export default function DiscourseHolySpirit() {
     };
 
     return (
-        <div className="page-wrapper" style={{ fontSize: `${fontSize}px` }}>
+        <div className={`page-wrapper ${darkMode ? "dark" : ""}`} style={{ fontSize: `${fontSize}px` }}>
+            {/* DARK MODE TOGGLE */}
+            <button
+                className="theme-toggle"
+                onClick={() => setDarkMode(!darkMode)}
+                aria-label={darkMode ? "Activar modo dia" : "Activar modo noche"}
+            >
+                {darkMode ? "☀ Modo dia" : "☾ Modo noche"}
+            </button>
             {/* TIMER */}
             <div
                 className={`timer-float ${timerExpanded ? "expanded" : "collapsed"}`}
@@ -328,6 +337,28 @@ export default function DiscourseHolySpirit() {
         }
         .timer-btn.collapse:hover {
           background: #e2e8f0;
+        }
+                  /* ========== THEME TOGGLE ========== */
+        .theme-toggle {
+          position: fixed;
+          top: 12px;
+          left: 12px;
+          z-index: 9999;
+          background: rgba(255, 255, 255, 0.98);
+          border: 1px solid #cbd5e0;
+          border-radius: 14px;
+          padding: 10px 18px;
+          font-size: 0.85em;
+          font-weight: 600;
+          color: #2d3748;
+          cursor: pointer;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+          backdrop-filter: blur(20px);
+          transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+          transform: scale(1.05);
+          box-shadow: 0 10px 40px rgba(0,0,0,0.18);
         }
         .font-control {
           display: flex;
@@ -650,6 +681,86 @@ export default function DiscourseHolySpirit() {
           .bible-text.large p {
             font-size: 1.15em;
           }
+        }
+                  /* ========== DARK MODE ========== */
+        .page-wrapper.dark {
+          background: linear-gradient(135deg, #1a202c 0%, #171923 100%);
+          color: #e2e8f0;
+        }
+        .page-wrapper.dark .theme-toggle {
+          background: rgba(45, 55, 72, 0.98);
+          border-color: #4a5568;
+          color: #e2e8f0;
+        }
+        .page-wrapper.dark .timer-float {
+          background: rgba(45, 55, 72, 0.98);
+          border-color: #4a5568;
+        }
+        .page-wrapper.dark .timer-display {
+          color: #68d391;
+        }
+        .page-wrapper.dark .timer-hint {
+          color: #718096;
+        }
+        .page-wrapper.dark .timer-btn.collapse {
+          background: #4a5568;
+          color: #cbd5e0;
+        }
+        .page-wrapper.dark .timer-btn.collapse:hover {
+          background: #5a6678;
+        }
+        .page-wrapper.dark .font-control label {
+          color: #a0aec0;
+        }
+        .page-wrapper.dark .lesson-card {
+          background: #2d3748;
+          border-color: #4a5568;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+        }
+        .page-wrapper.dark .lesson-title {
+          color: #f7fafc;
+        }
+        .page-wrapper.dark .section-label {
+          background: #22543d;
+          color: #9ae6b4;
+        }
+        .page-wrapper.dark .main-question {
+          background: #22372b;
+        }
+        .page-wrapper.dark .main-question p {
+          color: #9ae6b4;
+        }
+        .page-wrapper.dark .answer-block {
+          background: #283141;
+          border-color: #4a5568;
+        }
+        .page-wrapper.dark .answer-header {
+          color: #63b3ed;
+          border-bottom-color: #3a455a;
+        }
+        .page-wrapper.dark .answer-block p {
+          color: #cbd5e0;
+        }
+        .page-wrapper.dark .answer-list li {
+          background: #2d3748;
+          color: #cbd5e0;
+        }
+        .page-wrapper.dark .answer-list li strong {
+          color: #9ae6b4;
+        }
+        .page-wrapper.dark .bible-text {
+          background: #1d3535;
+        }
+        .page-wrapper.dark .bible-text p {
+          color: #b2f5ea;
+        }
+        .page-wrapper.dark .reflection-section {
+          background: #283141;
+          border-color: #4a5568;
+        }
+        .page-wrapper.dark .reflection-title {
+          color: #f7fafc;
+          border-bottom-color: #4a5568;
         }
       `}</style>
         </div>
