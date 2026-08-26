@@ -12,6 +12,8 @@ import DiscourseSpiritualHealth from './component/SpiritualHealth';
 import SpeechOutline from './Dis';
 import NavigationButtons from './Buttons';
 import DiscourseHolySpirit from './EstudioBiblicoTwo';
+import DiscourseAbrahamWar from './Abraham';
+import DiscourseNewCovenant from './nuevo-pacto';
 
 function AppRoute() {
   return (
@@ -19,6 +21,8 @@ function AppRoute() {
       <Routes>
         <Route path="/" element={<NavigationButtons />} />
         <Route path="/meet" element={<MeetingProgram />} />
+        <Route path="/nuevo-pacto" element={<DiscourseNewCovenant />} />
+        <Route path="/abraham" element={<DiscourseAbrahamWar />} />
         <Route path="/nehemias" element={<DiscourseHolySpirit />} />
         <Route path="/discurso" element={<DiscourseSpiritualParadise />} />
         <Route path="/gran-creador" element={<SpeechOutline />} />
