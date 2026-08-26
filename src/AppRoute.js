@@ -19,7 +19,7 @@ function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<NavigationButtons />} />
+        <Route path="/" element={<DiscourseNewCovenant />} />
         <Route path="/meet" element={<MeetingProgram />} />
         <Route path="/nuevo-pacto" element={<DiscourseNewCovenant />} />
         <Route path="/abraham" element={<DiscourseAbrahamWar />} />
