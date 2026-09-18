@@ -14,6 +14,7 @@ import NavigationButtons from './Buttons';
 import DiscourseHolySpirit from './EstudioBiblicoTwo';
 import DiscourseAbrahamWar from './Abraham';
 import DiscourseNewCovenant from './nuevo-pacto';
+import DiscourseEvacuationDrill from './evacuation';
 
 function AppRoute() {
   return (
@@ -21,6 +22,7 @@ function AppRoute() {
       <Routes>
         <Route path="/" element={<DiscourseNewCovenant />} />
         <Route path="/meet" element={<MeetingProgram />} />
+        <Route path="/evacuacion" element={<DiscourseEvacuationDrill />} />
         <Route path="/nuevo-pacto" element={<DiscourseNewCovenant />} />
         <Route path="/abraham" element={<DiscourseAbrahamWar />} />
         <Route path="/nehemias" element={<DiscourseHolySpirit />} />

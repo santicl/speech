@@ -210,3 +210,329 @@ strong {
     padding: 20px;
   }
 }
+
+
+.speech-container {
+  font-family: "Georgia", "Times New Roman", serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fafafa;
+  min-height: 100vh;
+}
+
+.timer-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  min-width: 200px;
+}
+
+.timer-display {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: "Courier New", monospace;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.timer-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.timer-btn.start {
+  background-color: #4caf50;
+  color: white;
+}
+
+.timer-btn.pause {
+  background-color: #ff9800;
+  color: white;
+}
+
+.timer-btn.reset {
+  background-color: #f44336;
+  color: white;
+}
+
+.timer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.font-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.font-control input[type="range"] {
+  flex: 1;
+}
+
+.font-control span {
+  min-width: 35px;
+  text-align: center;
+}
+
+.speech-content {
+  margin-top: 20px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.speech-title {
+  color: #2c3e50;
+  text-align: center;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  font-size: 1.8em;
+}
+
+.bible-text {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-left: 5px solid #3498db;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bible-text h3 {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  text-decoration: underline;
+}
+
+.bible-text p {
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+.bible-text strong {
+  color: #e74c3c;
+  font-size: 1.1em;
+}
+
+.bible-reference {
+  background-color: #3498db;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.question {
+  color: #e67e22;
+  font-weight: bold;
+  font-style: italic;
+  background-color: #fef9e7;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border-left: 3px solid #f39c12;
+  padding-left: 8px;
+  display: inline-block;
+  margin: 2px 0;
+}
+
+.conclusion {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.closing {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+h2 {
+  color: #2c3e50;
+  margin: 30px 0 20px 0;
+  font-size: 1.4em;
+  text-align: center;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+p {
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+strong {
+  color: #2c3e50;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.theme-toggle button {
+  border: 0;
+  border-radius: 7px;
+  padding: 7px 12px;
+  color: #475569;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.theme-toggle button.active { background: #3498db; color: white; }
+
+.page-wrapper {
+  min-height: 100vh;
+  padding: 72px 20px 48px;
+  background: #f8fafc;
+  color: #1e293b;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.page-wrapper .content-area { max-width: 860px; margin: 0 auto; }
+.page-wrapper .theme-card,
+.page-wrapper .lesson-card { background: #ffffff; border-radius: 16px; padding: 28px 32px; box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08); }
+.page-wrapper .theme-card { margin-bottom: 20px; text-align: center; border-top: 4px solid #3498db; }
+.page-wrapper .theme-title { color: #2c3e50; letter-spacing: 0.08em; }
+.page-wrapper .theme-text { color: #334155; font-size: 1.35em; font-weight: 700; }
+.page-wrapper .section-label { color: #2c3e50; }
+.page-wrapper .additional-label { margin-top: 32px; }
+.page-wrapper .reading-text p { white-space: pre-line; }
+.page-wrapper p.bible-text {
+  margin: 22px 0;
+  padding: 18px 20px;
+  background: #eef6ff;
+  border-left: 5px solid #3498db;
+  border-radius: 0 12px 12px 0;
+  color: #1e3a5f;
+  font-weight: 600;
+  text-align: left;
+  box-shadow: 0 4px 14px rgba(52, 152, 219, 0.12);
+}
+.page-wrapper.dark-mode p.bible-text { background: #172b45; color: #dbeafe; border-left-color: #60a5fa; }
+
+.page-wrapper.dark-mode { background-color: #111827; color: #e5e7eb; }
+.page-wrapper.dark-mode .speech-content,
+.page-wrapper.dark-mode .content-area,
+.page-wrapper.dark-mode .lesson-card,
+.page-wrapper.dark-mode .theme-card { background-color: #1f2937; color: #e5e7eb; }
+.page-wrapper.dark-mode .theme-card .theme-title,
+.page-wrapper.dark-mode .theme-card .theme-text { color: #bfdbfe; }
+.page-wrapper.dark-mode h2,
+.page-wrapper.dark-mode strong,
+.page-wrapper.dark-mode .speech-title,
+.page-wrapper.dark-mode .section-label { color: #bfdbfe; }
+.page-wrapper.dark-mode p { color: #e5e7eb; }
+.page-wrapper.dark-mode .question { background-color: #3f2f16; color: #fed7aa; }
+.page-wrapper.dark-mode .reading-text { color: #e5e7eb; }
+.page-wrapper.dark-mode .theme-toggle { background: #1f2937; }
+.page-wrapper.dark-mode .theme-toggle button { color: #cbd5e1; }
+.page-wrapper.dark-mode .theme-toggle button.active { background: #60a5fa; color: #111827; }
+
+@media (max-width: 768px) {
+  .theme-toggle { top: 10px; left: 10px; }
+  .page-wrapper { padding: 68px 10px 30px; }
+  .page-wrapper .theme-card,
+  .page-wrapper .lesson-card { padding: 20px; }
+
+  .speech-container {
+    padding: 10px;
+    margin-top: 120px;
+  }
+
+  .timer-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+
+  .timer-controls { flex-direction: column; }
+  .speech-title { font-size: 1.4em; }
+  .speech-content { padding: 20px; }
+}
+
+.evacuation-page { min-height: 100vh; padding: 80px 20px 60px; background: #f1f5f9; color: #172033; transition: background .25s, color .25s; }
+.evacuation-content { max-width: 980px; margin: 0 auto; }
+.evacuation-hero, .evacuation-section, .evacuation-safety { background: #fff; border: 1px solid #dbe4ee; border-radius: 18px; padding: 30px 36px; margin-bottom: 22px; box-shadow: 0 12px 30px rgba(15, 23, 42, .07); }
+.evacuation-hero { border-top: 5px solid #e4572e; text-align: center; }
+.evacuation-kicker { margin: 0 0 8px; color: #e4572e; font-size: .75rem; font-weight: 800; letter-spacing: .18em; }
+.evacuation-hero h1 { margin: 0 auto 22px; max-width: 760px; font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.08; color: #17324d; }
+.evacuation-meta { display: grid; gap: 8px; max-width: 700px; margin: auto; color: #526477; line-height: 1.5; }
+.evacuation-section h2, .evacuation-safety h2 { margin: 0 0 20px; color: #17324d; font-size: clamp(1.15rem, 2vw, 1.55rem); border-bottom: 2px solid #e7eef5; padding-bottom: 12px; }
+.evacuation-copy { white-space: pre-line; line-height: 1.72; color: #35465a; }
+.evacuation-plan-section { padding-bottom: 24px; }
+.plan-card { overflow: hidden; border: 1px solid #dbe4ee; border-radius: 14px; background: #f8fafc; }
+.plan-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 20px; }
+.plan-card-heading h3 { margin: 0; color: #17324d; }
+.open-plan-button { border: 0; border-radius: 9px; padding: 11px 15px; background: #e4572e; color: white; font-weight: 800; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; box-shadow: 0 8px 18px rgba(228,87,46,.2); }
+.open-plan-button:hover, .open-plan-button:focus-visible { background: #c94722; transform: translateY(-2px); box-shadow: 0 12px 24px rgba(228,87,46,.3); }
+.plan-card { transition: transform .25s ease, box-shadow .25s ease; }
+.plan-card:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(15,23,42,.12); }
+.plan-modal { animation: plan-modal-in .24s ease-out; }
+.plan-close-button { transition: transform .2s ease, background .2s ease; }
+.plan-close-button:hover, .plan-close-button:focus-visible { background: #ff7048; transform: scale(1.04); }
+@keyframes plan-modal-in { from { opacity: 0; } to { opacity: 1; } }
+.evacuation-plan-image { display: block; width: 100%; max-height: 620px; object-fit: contain; background: white; cursor: zoom-in; }
+.plan-caption { margin: 0; padding: 16px 20px; color: #526477; line-height: 1.7; }
+.evacuation-theme-toggle { position: fixed; z-index: 30; top: 18px; left: 18px; display: flex; gap: 4px; padding: 4px; border-radius: 10px; background: white; box-shadow: 0 5px 18px rgba(15,23,42,.14); }
+.evacuation-theme-toggle button { border: 0; border-radius: 7px; padding: 8px 12px; background: transparent; color: #526477; cursor: pointer; font-weight: 800; }
+.evacuation-theme-toggle button.active { background: #17324d; color: white; }
+.evacuation-night { background: #0e1726; color: #e5edf7; }
+.evacuation-night .evacuation-hero, .evacuation-night .evacuation-section, .evacuation-night .evacuation-safety { background: #172337; border-color: #2b3d55; }
+.evacuation-night .evacuation-hero h1, .evacuation-night .evacuation-section h2, .evacuation-night .evacuation-safety h2, .evacuation-night .plan-card-heading h3 { color: #dcecff; }
+.evacuation-night .evacuation-meta, .evacuation-night .evacuation-copy, .evacuation-night .plan-caption { color: #b7c7d9; }
+.evacuation-night .plan-card { background: #0f1a2b; border-color: #2b3d55; }
+.evacuation-night .evacuation-theme-toggle { background: #172337; }
+.evacuation-night .evacuation-theme-toggle button { color: #b7c7d9; }
+.evacuation-night .evacuation-theme-toggle button.active { background: #e4572e; color: white; }
+.plan-modal { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; background: rgba(3, 10, 20, .94); }
+.plan-close-button { position: absolute; z-index: 3; top: 18px; right: 20px; border: 2px solid white; border-radius: 9px; padding: 10px 16px; background: #e4572e; color: white; font-size: 1rem; font-weight: 800; cursor: pointer; }
+.plan-toolbar { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 18px 150px 12px 20px; color: white; }
+.plan-toolbar button { border: 1px solid #64748b; border-radius: 7px; padding: 8px 12px; background: #172337; color: white; cursor: pointer; font-weight: 700; }
+.plan-viewport { flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center; padding: 20px; cursor: grab; }
+.plan-viewport img { max-width: 90vw; max-height: 78vh; object-fit: contain; transform-origin: center; transition: transform .2s ease; }
+@media (max-width: 640px) { .evacuation-page { padding: 76px 10px 30px; } .evacuation-hero, .evacuation-section, .evacuation-safety { padding: 22px 18px; } .plan-card-heading { align-items: stretch; flex-direction: column; } .open-plan-button { width: 100%; } .plan-toolbar { padding-right: 120px; flex-wrap: wrap; } .plan-close-button { top: 12px; right: 12px; } }
