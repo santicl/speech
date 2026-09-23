@@ -16,8 +16,8 @@ export default function MeetingProgram() {
   const [assignments, setAssignments] = useState([
     {
       id: "tesoros-1",
-      title: "1. ¡Cuánto amamos nuestro paraíso espiritual!",
-      participant: "Josue Briseño",
+      title: "1. Jehová ayuda a quienes apoyan su Reino",
+      participant: "Samuel Banquez",
       time: "7:06 p.m.",
       duration: "10 mins",
       isExpanded: false,
@@ -27,7 +27,7 @@ export default function MeetingProgram() {
     {
       id: "tesoros-2",
       title: "2. Busquemos perlas escondidas",
-      participant: "Samuel Banquez",
+      participant: "Elder Gomez",
       time: "7:16 p.m.",
       duration: "10 mins",
       isExpanded: false,
@@ -37,20 +37,25 @@ export default function MeetingProgram() {
     {
       id: "tesoros-3",
       title: "3. Lectura de la Biblia",
-      participant: "Alvaro Salas - Isaías 65:17-25",
+      participant: "Santiago Castellanos - Jeremias 36:1-13",
       duration: "4 mins",
       expandableContent: `
         <div class="bible-reading">
           <div class="bible-verses">
-            <p><strong>17</strong> “Porque, ¡miren!, voy a crear unos nuevos cielos y una nueva tierra; y las cosas del pasado no serán recordadas ni vendrán al corazón.</p>
-            <p><strong>18</strong> Así que alégrense y estén felices para siempre por lo que voy a crear. Porque, ¡miren!, voy a crear a Jerusalén para que sea un motivo de alegría y a su pueblo para que sea un motivo de felicidad.</p>
-            <p><strong>19</strong> Y me alegraré por Jerusalén y me sentiré feliz por mi pueblo; ya no se oirá más en ella el sonido del llanto ni los gritos de angustia”.</p>
-            <p><strong>20</strong> “Allí ya no habrá bebés que vivan solo unos cuantos días ni viejos que no completen los días de su vejez. Porque al que muera con cien años de edad se le considerará un simple muchacho, y el pecador será maldecido, aunque tenga cien años.</p>
-            <p><strong>21</strong> Construirán casas y vivirán en ellas; plantarán viñas y comerán su fruto.</p>
-            <p><strong>22</strong> No construirán casas para que otros vivan en ellas ni plantarán para que otros coman. Porque los días de mi pueblo serán como los días de un árbol, y mis escogidos disfrutarán al máximo del fruto de su trabajo.</p>
-            <p><strong>23</strong> No se esforzarán en vano ni traerán hijos al mundo para que sufran, porque son la descendencia compuesta por los que Jehová ha bendecido, ellos y sus descendientes.</p>
-            <p><strong>24</strong> Incluso antes de que ellos llamen, yo responderé; mientras todavía estén hablando, yo los escucharé.</p>
-            <p><strong>25</strong> El lobo y el cordero comerán juntos, el león comerá paja igual que el toro, y la serpiente se alimentará de polvo. No harán ningún daño ni destruirán nada en toda mi santa montaña”, dice Jehová.</p>
+            <p><strong>1</strong> En el cuarto año de Jehoiaquim+ hijo de Josías —el rey de Judá—, Jeremías recibió estas palabras de parte de Jehová:</p>
+            <p><strong>2</strong> “Toma un rollo* y escribe en él todas las palabras que te he dicho contra Israel, Judá+ y todas las naciones+ desde el primer día en que te hablé en los días de Josías hasta hoy.</p>
+            <p><strong>3</strong> Cuando los de la casa de Judá escuchen toda la calamidad que tengo pensado mandarles, quizás dejen su mal camino y así pueda perdonarles su error y su pecado”.</p>
+            <p><strong>4</strong> Jeremías entonces llamó a Baruc+ hijo de Nerías y le dictó todas las palabras que Jehová le había dicho, y Baruc las escribió en el rollo.</p>
+            <p><strong>5</strong> Entonces Jeremías le ordenó a Baruc: “Yo tengo prohibido entrar en la casa de Jehová,</p>
+            <p><strong>6</strong> así que tienes que entrar tú y leer del rollo en voz alta las palabras de Jehová que te dicté. Léelas a oídos del pueblo en la casa de Jehová en un día de ayuno; así se las leerás a toda la gente de Judá que viene de sus ciudades.</p>
+            <p><strong>7</strong> Quizás su súplica llegue a Jehová y cada uno deje su mal camino, porque grande es la ira y la furia que Jehová ha expresado contra este pueblo”.</p>
+            <p><strong>8</strong> Así que Baruc hijo de Nerías hizo todo lo que le había mandado el profeta Jeremías; leyó en voz alta en la casa de Jehová las palabras de Jehová que estaban en el rollo.</p>
+            <p><strong>9</strong> En el quinto año de Jehoiaquim+ hijo de Josías —el rey de Judá—, en el noveno mes, toda la gente de Jerusalén y toda la gente que llegó de las ciudades de Judá a Jerusalén recibieron la orden de hacer un ayuno delante de Jehová.</p>
+            <p><strong>10</strong> Baruc entonces leyó en voz alta en la casa de Jehová las palabras de Jeremías que estaban en el rollo.* Las leyó a oídos de todo el pueblo en el cuarto* de Guemarías+ hijo del copista* Safán,+ en el patio superior, a la entrada de la puerta nueva de la casa de Jehová</p>
+            <p><strong>11</strong> Cuando Micaya, hijo de Guemarías, hijo de Safán, oyó todas las palabras de Jehová que estaban en el rollo,</p>
+            <p><strong>12</strong> bajó a la casa* del rey, al cuarto del secretario. Todos los príncipes* estaban allí sentados: el secretario Elisamá,+ Delayá hijo de Semaya, Elnatán+ hijo de Acbor,+ Guemarías hijo de Safán, Sedequías hijo de Hananías, y todos los demás príncipes. </p>
+            <p><strong>13</strong> Micaya les dijo todas las palabras que había oído cuando Baruc leyó el rollo* a oídos del pueblo.</p>
+
           </div>
          
           <div class="lesson-section">
@@ -109,26 +114,26 @@ export default function MeetingProgram() {
     {
       id: "maestros-1",
       title: "4. Empiece conversaciones",
-      participant: "Rosa Salas | Delvis Cassiani",
+      participant: "Dorley Briseño | Liliana Meza",
       duration: "3 mins",
       time: "7:31 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>PREDICACIÓN INFORMAL</h4>
-            <p><strong>Marco de circunstancia:</strong> Busque una manera natural de hacerle saber a la persona que usted es testigo de Jehová</p>
+            <h4>PREDICACIÓN PÚBLICA</h4>
+            <p><strong>Marco de circunstancia:</strong> Ofrézcale un curso de la Biblia a una persona que no tiene antecedentes cristiano.</p>
           </div>
          
           <div class="lesson-section">
             <div class="lesson-header">
               <h4>Tacto</h4>
-              <div class="lesson-reference">lmd lección 5 punto 3</div>
+              <div class="lesson-reference">lmd lección 5 punto 5</div>
             </div>
             <div class="lesson-book">Hacer discípulos: una obra de amor</div>
            
             <div class="lesson-content">
               <div class="lesson-point">
-                <p><strong>3.</strong> Elija bien sus palabras. Por ejemplo, si habla con una persona que no tiene antecedentes cristianos, quizás tenga que referirse a la Biblia o a Jesús de forma diferente.</p>
+                <p><strong>5.</strong> Siempre que sea posible, dele la razón a la persona y felicítela. Recuerde que quizás la persona crea de corazón que está en lo correcto. Primero busque un terreno común y luego ayúdela poco a poco a entender lo que la Biblia enseña.</p>
               </div>
             </div>
           </div>
@@ -140,63 +145,30 @@ export default function MeetingProgram() {
     },
     {
       id: "maestros-2",
-      title: "5. Empiece conversaciones",
-      participant: "Vivian Caballero | Victoria Banquez",
-      duration: "2 mins",
+      title: "5. Haga revisitas",
+      participant: "Melanie Meza | Denis Frias",
+      duration: "4 mins",
       time: "7:34 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>PREDICACIÓN PÚBLICA</h4>
-            <p><strong>Marco de circunstancia:</strong> La persona quiere discutir con usted</p>
-          </div>
-         
-          <div class="lesson-section">
-            <div class="lesson-header">
-              <h4>Humildad</h4>
-              <div class="lesson-reference">lmd lección 4 punto 5</div>
-            </div>
-            <div class="lesson-book">Hacer discípulos: una obra de amor</div>
-           
-            <div class="lesson-content">
-              <div class="lesson-point">
-                <p><strong>5.</strong> Sea apacible. No se empeñe en demostrar que usted tiene la razón. Nuestro objetivo no es discutir. La humildad lo ayudará a mantener la calma y a saber cuándo es hora de retirarse (Prov. 17:14; Tito 3:2). Si usted responde de forma amable y muestra apacibilidad, puede que la persona esté dispuesta a conversar con nosotros en otra ocasión.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      `,
-      isExpanded: false,
-      timerRunning: false,
-      recordedTime: 0,
-    },
-    {
-      id: "maestros-3",
-      title: "6. Empiece conversaciones",
-      participant: "Alexandra Gomez | Samuel Gomez",
-      duration: "3 mins",
-      time: "7:36 p.m.",
-      expandableContent: `
-        <div class="assignment-content">
-          <div class="assignment-details">
             <h4>DE CASA EN CASA</h4>
-            <p><strong>Marco de circunstancia:</strong> Use un tratado para empezar una conversación</p>
+            <p><strong>Marco de circunstancia:</strong> Ofrézcale un curso de la Biblia a una persona que aceptó un tratado en la visita anterior. </p>
           </div>
          
           <div class="lesson-section">
             <div class="lesson-header">
-              <h4>Interés sincero</h4>
-              <div class="lesson-reference">lmd lección 1 punto 4</div>
+              <h4>Empatía</h4>
+              <div class="lesson-reference">lmd lección 9 punto 4</div>
             </div>
             <div class="lesson-book">Hacer discípulos: una obra de amor</div>
            
             <div class="lesson-content">
               <div class="lesson-point">
-                <p><strong>4.</strong> Sea observador. Pregúntese:</p>
+                <p><strong>4.</strong> Piense en la persona. Recuerde lo que han hablado y pregúntese:</p>
                 <ul>
-                  <li>"¿Qué está haciendo la persona en este momento? ¿En qué estará pensando?".</li>
-                  <li>"¿Qué me dicen su ropa, su apariencia y su vivienda sobre sus creencias o su cultura?".</li>
-                  <li>"¿Es un buen momento para conversar?".</li>
+                <li>“¿Por qué necesita conocer la verdad?”.</li>
+                <li>“¿Cómo mejoraría su vida ahora y en el futuro si estudiara la Biblia?”.</li>
                 </ul>
               </div>
             </div>
@@ -208,51 +180,32 @@ export default function MeetingProgram() {
       recordedTime: 0,
     },
     {
-      id: "maestros-4",
-      title: "7. Explique sus creencias",
-      participant: "Leider Mercado | Melani Meza",
-      time: "7:39 p.m.",
-      duration: "3 mins",
+      id: "maestros-3",
+      title: "6. ¿Qué diría?",
+      participant: "PRESIDENTE",
+      duration: "6 mins",
+      time: "7:36 p.m.",
       expandableContent: `
         <div class="assignment-content">
           <div class="assignment-details">
-            <h4>ESCENIFICACIÓN</h4>
-            <p><strong>Tema:</strong> ¿Quién es el anticristo?</p>
-            <p><strong>Referencia:</strong> ijwbq artículo 87</p>
+            <h4>(6 mins.) Análisis con el auditorio. DE CASA EN CASA</h4>
           </div>
          
           <div class="lesson-section">
             <div class="lesson-header">
-              <h4>Hablar con sencillez</h4>
-              <div class="lesson-reference">th lección 17</div>
+              <h4>Naturalidad</h4>
+              <div class="lesson-reference">lmd lección 2 punto 5</div>
             </div>
-            <div class="lesson-book">Seamos mejores lectores y maestros</div>
-            <div class="lesson-scripture">1 Corintios 14:9</div>
-           
-            <div class="lesson-summary">
-              <h5>RESUMEN:</h5>
-              <p>Ayude a sus oyentes a entender lo que les está diciendo.</p>
-            </div>
+            <div class="lesson-book">Hacer discípulos: una obra de amor</div>
            
             <div class="lesson-content">
-              <h5>CÓMO HACERLO:</h5>
-             
               <div class="lesson-point">
-                <h6>Estudie la información a fondo</h6>
-                <p>Debe entender bien el tema para poder explicarlo con sencillez y en sus propias palabras.</p>
-              </div>
-             
-              <div class="lesson-point">
-                <h6>Use frases cortas y expresiones sencillas</h6>
-                <p>Aunque no está mal usar frases largas, es mejor usar frases o expresiones cortas al mencionar un punto principal.</p>
-                <div class="tip-box">
-                  <strong>Sugerencia práctica:</strong> No añada detalles innecesarios que puedan confundir o abrumar a sus oyentes. Evite las expresiones complicadas. Es mejor usar un lenguaje sencillo.
-                </div>
-              </div>
-             
-              <div class="lesson-point">
-                <h6>Explique los términos poco conocidos</h6>
-                <p>Úselos lo menos posible. No olvide dar una explicación cuando mencione expresiones, personajes bíblicos, unidades de medida o costumbres de la antigüedad que sus oyentes no conozcan.</p>
+                <p><strong>5.</strong> Sea adaptable. Puede que la conversación tome un rumbo inesperado. En vez de usar la idea que usted tenía en mente, esté dispuesto a adaptar el mensaje a lo que le preocupa a la persona.</p>
+                <p>LUEGO PREGUNTE:</p>
+                <ul>
+                <li>1. La persona está preocupada por la subida de los precios. ¿Qué le diría para demostrarle que entiende su preocupación?</li>
+                <li>2. ¿Qué texto le mostraría?</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -264,19 +217,9 @@ export default function MeetingProgram() {
     },
     {
       id: "vida-1",
-      title: "8. ¿Tendrás tú una vida llena de cosas buenas?",
-      participant: "Erwin Corrales",
+      title: "7.  Seamos siempre neutrales en nuestro corazón",
+      participant: "Juan Peinado",
       time: "7:42 p.m.",
-      duration: "15 mins",
-      isExpanded: false,
-      timerRunning: false,
-      recordedTime: 0,
-    },
-    {
-      id: "vida-2",
-      title: "9. Preparados para las situaciones de emergencia: Esté listo para lo imprevisto",
-      participant: "Angel Echenique",
-      time: "7:57 p.m.",
       duration: "15 mins",
       isExpanded: false,
       timerRunning: false,
@@ -285,10 +228,10 @@ export default function MeetingProgram() {
     {
       id: "vida-3",
       title: "10. Estudio bíblico de la congregación",
-      participant: "Luis Diaz | Lector: José Salvador Castellanos",
+      participant: "Angel Echenique | Lector: Beder Peinado",
       time: "8:12 p.m.",
       duration: "30 mins",
-      description: "lfb lecciones 88, 89",
+      description: "CAPITULO 9",
       isExpanded: false,
       timerRunning: false,
       recordedTime: 0,
@@ -1785,7 +1728,7 @@ export default function MeetingProgram() {
         {/* Meeting Header */}
         <div className="meeting-header">
           <h1 className="meeting-title">REUNIONES</h1>
-          <div className="meeting-date">25-31 DE MAYO | ISAÍAS 65, 66</div>
+          <div className="meeting-date">21-27 DE SEPTIEMBRE | JEREMÍAS 36, 37</div>
           <div className="meeting-time">7:00 p.m.</div>
           <div className="president-info">
             <strong>Presidente:</strong> Santiago Caballero Suárez
@@ -1796,7 +1739,7 @@ export default function MeetingProgram() {
         <div className="section">
           <div className="song-prayer song">
             <Mic size={16} style={{ display: 'inline', marginRight: 8 }} />
-            <strong>Canción:</strong> 24 - Subamos a la montaña de Jehova
+            <strong>Canción:</strong> 74 Ven a cantar la gran canción del Reino
           </div>
           <div className="song-prayer prayer">
             <Heart size={16} style={{ display: 'inline', marginRight: 8 }} />
@@ -1943,7 +1886,7 @@ export default function MeetingProgram() {
             </div>
           </div>
 
-          {assignments.slice(3, 7).map((assignment) => (
+          {assignments.slice(3, 6).map((assignment) => (
             <div key={assignment.id} className={`assignment ${assignment.isExpanded ? "expanded" : ""}`}>
               <div className="assignment-header">
                 <div className="assignment-title" onClick={() => toggleAssignmentExpansion(assignment.id)}>
@@ -1994,10 +1937,10 @@ export default function MeetingProgram() {
 
           <div className="song-prayer song">
             <Mic size={16} style={{ display: 'inline', marginRight: 8 }} />
-            <strong>Canción:</strong> 80 - Prueben y vean que Jehová es bueno
+            <strong>Canción:</strong> 142 Aferrémonos a nuestra esperanza
           </div>
 
-          {assignments.slice(7).map((assignment) => (
+          {assignments.slice(6, 8).map((assignment) => (
             <div key={assignment.id} className={`assignment ${assignment.isExpanded ? "expanded" : ""}`}>
               <div className="assignment-header">
                 <div className="assignment-title" onClick={() => toggleAssignmentExpansion(assignment.id)}>
@@ -2176,7 +2119,7 @@ export default function MeetingProgram() {
         <div className="section">
           <div className="song-prayer song" style={{ marginTop: "20px" }}>
             <Mic size={16} style={{ display: 'inline', marginRight: 8 }} />
-            <strong>8:35 p.m. - Canción:</strong> 55 - No los temas
+            <strong>8:35 p.m. - Canción:</strong> 134 Los hijos son un regalo de Dios
           </div>
           <div className="song-prayer prayer">
             <Heart size={16} style={{ display: 'inline', marginRight: 8 }} />

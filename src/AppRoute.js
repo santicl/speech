@@ -20,7 +20,7 @@ function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<DiscourseNewCovenant />} />
+        <Route path="/" element={<MeetingProgram />} />
         <Route path="/meet" element={<MeetingProgram />} />
         <Route path="/evacuacion" element={<DiscourseEvacuationDrill />} />
         <Route path="/nuevo-pacto" element={<DiscourseNewCovenant />} />
