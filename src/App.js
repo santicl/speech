@@ -1767,21 +1767,21 @@ export default function MeetingProgram() {
                 <div className="preview-section">
                   <span className="preview-icon">💎</span>
                   <div className="preview-content">
-                    <strong>En Tesoros de la Biblia</strong> Analizaremos 3 razones por las que amamos el paraiso espiritual, analizaremos las palabras de Jesus cuando hizo mencion del Gehena.
+                    <strong>En la seccion Tesoros de la Biblia</strong> Veremos como Jehova ayuda a quienes deciden apoyar su Reino. Y analizaremos el como se cumplio la profecia de JEHOVA EN CONTRA DE UNO DE LOS HIJOS DE JOSIAS.
                   </div>
                 </div>
 
                 <div className="preview-section">
                   <span className="preview-icon">🎯</span>
                   <div className="preview-content">
-                    <strong>Despues, en Seamos Mejores Maestros,</strong> aprenderemos como demostrar tacto, apacibilidad, interes sincero, y como hablar con sencillez.
+                    <strong>Despues, en Seamos Mejores Maestros,</strong> aprenderemos como demostrar tacto, Empatia, y con su ayuda veremos como ser adaptables en DE CASA EN CASA.
                   </div>
                 </div>
 
                 <div className="preview-section">
                   <span className="preview-icon">❤️</span>
                   <div className="preview-content">
-                    <strong>En Nuestra Vida Cristiana</strong> analizaremos la posibilidad de darle a Jehova lo mejor que tenemos, como maneternos listos para lo imprevisto y en el estudio de la congregacion estudiaremos las lecciones 88 y 89.
+                    <strong>En Nuestra Vida Cristiana</strong> hablaremos sobre la neutralidad cristiana y finalmente tendremos el estudio del libro con el capitulo 9.
                   </div>
                 </div>
               </div>
@@ -2061,37 +2061,28 @@ export default function MeetingProgram() {
 
           <div className="announcements-list">
             <div className="announcement-item">
-              <h4>1. Bienvenida a nuevo hermano bautizado</h4>
-              <p>Le queremos dar la bienvenida al hermano Brandon Castillo como Testigo bautizado.</p>
+              <h4>1. Felicitar apoyo a Caño del Oro</h4>
+              <p>Queremos agradecer y felicitar a los hermanos que apoyaron el Reino, en la visita hecha a Caño el domingo pasado. </p>
             </div>
 
             <div className="announcement-item">
-              <h4>2. Agradecimiento a voluntarios de la asamblea</h4>
-              <p>El cuerpo de ancianos agradece a los hermanos que participaron en la asamblea como voluntarios. Gracias a su trabajo, las labores quedaron muy bien.</p>
+              <h4>2. Campaña con exhibidores</h4>
+              <p>Se les invita a todos a participar en la campaña con los exhibidores este domingo 27 de Septiembre. Lugar: Salon del Reino, Hora: 9: 00 AM.</p>
+              <p>Cada superintendente de grupo o su auxiliar se encargará de los miembros de su grupo. Durante esta semana se les asignará el territorio donde predicarán con el exhibidor, para que puedan organizarse con anticipación.</p>
             </div>
 
             <div className="announcement-item">
-              <h4>3. Solicitud de precursores durante visita del superintendente de circuito:</h4>
-              <p>Se invita a los hermanos que desean servir como precursores auxiliares o regulares en la visita del circuito en el mes de julio a pasar su solicitud al comité de servicio, compuesto por:</p>
-              <ul style={{ marginTop: "5px", paddingLeft: "20px" }}>
-                <li>Nehemías Caballero</li>
-                <li>Leonardo Sotomayor</li>
-                <li>Elder Gómez</li>
-              </ul>
+              <h4>3. Cambio en la guia de actividades del mes de Octubre:</h4>
+              <p>Para la semana del 5 de Octubre, se adicionará el Informe del Cuerpo Gobernante del año 2026.</p>
             </div>
 
             <div className="announcement-item">
-              <h4>4. Listas de alojamiento para asamblea regional</h4>
-              <p>Ha llegado una carta con información sobre la Lista de alojamiento para la asamblea regional y un documento titulado <strong>"Puntos a recordar al reservar hotel para la asamblea regional (CO-39)"</strong>. Se pondrán en el tablero de anuncios cuando termine esta reunión. En la carta se explica cómo acceder a la lista de hoteles y cuándo se pueden empezar a hacer las reservas.</p>
+              <h4>4. Buses para asamblea</h4>
+              <p>Se les recuerda a todos el arreglo de los buses para nuestra Asamblea Regional Felices para siempre. Quienes deseen apartar su cupo, pueden dirigirse al hermano, Nehemias Caballero.</p>
             </div>
 
             <div className="announcement-item">
-              <h4>5. Solicitudes de publicaciones anuales</h4>
-              <p>Cada año se hace una solicitud para publicaciones como: <strong>Examinando las Escrituras</strong>, <strong>Índice de las publicaciones Watchtower 2026</strong>, <strong>Volúmenes 2026</strong>. Invitamos a quienes usan estas publicaciones en físico a que hagan su pedido con el hermano Juan Peinado y Carlos Tafur. La cantidad solicitada a la sucursal corresponde a la cantidad real pedida por los publicadores. La fecha límite para hacer este pedido es el <strong>29 de mayo, este viernes</strong>.</p>
-            </div>
-
-            <div className="announcement-item">
-              <h4>6. Lectura de una carta</h4>
+              <h4>5. Lectura de una carta</h4>
               <p>Se procederá a leer una carta.</p>
               <button
                 onClick={openModal}
