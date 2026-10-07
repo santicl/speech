@@ -15,12 +15,14 @@ import DiscourseHolySpirit from './EstudioBiblicoTwo';
 import DiscourseAbrahamWar from './Abraham';
 import DiscourseNewCovenant from './nuevo-pacto';
 import DiscourseEvacuationDrill from './evacuation';
+import VideoSpeedCalculator from './component/Calculate';
 
 function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MeetingProgram />} />
+        <Route path="/calculate" element={<VideoSpeedCalculator />} />
         <Route path="/meet" element={<MeetingProgram />} />
         <Route path="/evacuacion" element={<DiscourseEvacuationDrill />} />
         <Route path="/nuevo-pacto" element={<DiscourseNewCovenant />} />
