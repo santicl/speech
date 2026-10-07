@@ -16,6 +16,7 @@ import DiscourseAbrahamWar from './Abraham';
 import DiscourseNewCovenant from './nuevo-pacto';
 import DiscourseEvacuationDrill from './evacuation';
 import VideoSpeedCalculator from './component/Calculate';
+import Astrolab from './component/AstroF';
 
 function AppRoute() {
   return (
@@ -23,6 +24,7 @@ function AppRoute() {
       <Routes>
         <Route path="/" element={<MeetingProgram />} />
         <Route path="/calculate" element={<VideoSpeedCalculator />} />
+        <Route path="/astro" element={<Astrolab />} />
         <Route path="/meet" element={<MeetingProgram />} />
         <Route path="/evacuacion" element={<DiscourseEvacuationDrill />} />
         <Route path="/nuevo-pacto" element={<DiscourseNewCovenant />} />
