@@ -17,12 +17,14 @@ import DiscourseNewCovenant from './nuevo-pacto';
 import DiscourseEvacuationDrill from './evacuation';
 import VideoSpeedCalculator from './component/Calculate';
 import Astrolab from './component/AstroF';
+import DiscourseJehovahProtectsWidows from './component/Widows';
 
 function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MeetingProgram />} />
+        <Route path="/" element={<DiscourseJehovahProtectsWidows />} />
+        <Route path="/widows" element={<DiscourseJehovahProtectsWidows />} />
         <Route path="/calculate" element={<VideoSpeedCalculator />} />
         <Route path="/astro" element={<Astrolab />} />
         <Route path="/meet" element={<MeetingProgram />} />
