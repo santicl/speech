@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from "react"
 
 const sections = [
@@ -118,7 +116,6 @@ function Scripture({ reference, children }) {
 }
 
 export default function DiscourseConfirmationBias() {
-  const [openSection, setOpenSection] = useState("contexto")
   const [time, setTime] = useState(0)
   const [running, setRunning] = useState(false)
   const [timerOpen, setTimerOpen] = useState(false)
@@ -150,8 +147,8 @@ export default function DiscourseConfirmationBias() {
         .intro strong { color: #176b5d; }
         .section-list { display: grid; gap: 15px; }
         .section-card { overflow: hidden; border: 1px solid #cfdfdc; border-radius: 18px; background: rgba(255,255,255,.88); box-shadow: 0 6px 20px rgba(28,58,52,.07); }
-        .section-trigger { display: flex; align-items: center; gap: 16px; width: 100%; padding: 20px 22px; border: 0; color: #213d38; background: transparent; text-align: left; cursor: pointer; }
-        .section-trigger:hover { background: #f1f8f6; }
+        .section-trigger { display: flex; align-items: center; gap: 16px; width: 100%; padding: 20px 22px; border: 0; color: #213d38; background: transparent; text-align: left; }
+        .section-trigger:hover { background: transparent; }
         .section-number { display: grid; flex: 0 0 42px; place-items: center; width: 42px; height: 42px; border-radius: 13px; color: white; background: #176b5d; font-weight: 800; }
         .section-title { flex: 1; font-size: 1.08rem; font-weight: 800; }
         .chevron { color: #176b5d; font-size: 1.35rem; transition: transform .3s; }
@@ -208,19 +205,15 @@ export default function DiscourseConfirmationBias() {
         </section>
 
         <section className="section-list" aria-label="Contenido del discurso">
-          {sections.map((section) => {
-            const isOpen = openSection === section.id
-            return (
-              <article className="section-card" key={section.id}>
-                <button className="section-trigger" onClick={() => setOpenSection(isOpen ? "" : section.id)} aria-expanded={isOpen}>
-                  <span className="section-number">{section.number}</span>
-                  <span className="section-title">{section.title}</span>
-                  <span className={`chevron ${isOpen ? "open" : ""}`} aria-hidden="true">⌄</span>
-                </button>
-                {isOpen && <div className="section-body">{section.content}</div>}
-              </article>
-            )
-          })}
+          {sections.map((section) => (
+            <article className="section-card" key={section.id}>
+              <div className="section-trigger">
+                <span className="section-number">{section.number}</span>
+                <span className="section-title">{section.title}</span>
+              </div>
+              <div className="section-body">{section.content}</div>
+            </article>
+          ))}
         </section>
 
         <footer className="conclusion">
