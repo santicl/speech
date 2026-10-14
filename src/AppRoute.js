@@ -18,12 +18,14 @@ import DiscourseEvacuationDrill from './evacuation';
 import VideoSpeedCalculator from './component/Calculate';
 import Astrolab from './component/AstroF';
 import DiscourseJehovahProtectsWidows from './component/Widows';
+import DiscourseConfirmationBias from './component/Sesgo';
 
 function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<DiscourseJehovahProtectsWidows />} />
+        <Route path="/" element={<DiscourseConfirmationBias />} />
+        <Route path="/sesgo" element={<DiscourseConfirmationBias />} />
         <Route path="/widows" element={<DiscourseJehovahProtectsWidows />} />
         <Route path="/calculate" element={<VideoSpeedCalculator />} />
         <Route path="/astro" element={<Astrolab />} />
