@@ -70,7 +70,6 @@ const sections = [
 ]
 
 export default function TrainingGuidance() {
-  const [open, setOpen] = useState("PERTURBADORES-0")
   const [seconds, setSeconds] = useState(0)
   const [running, setRunning] = useState(false)
 
@@ -97,10 +96,10 @@ export default function TrainingGuidance() {
         .timer button:last-child { background: #dbe5ec; color: #243247; }
         .section { margin-top: 28px; padding: 24px; border-radius: 18px; background: white; box-shadow: 0 8px 25px rgba(32,52,78,.08); border-top: 5px solid var(--section-color); }
         .section h2 { margin: 0 0 20px; color: var(--section-color); font-size: clamp(1.35rem, 3vw, 1.8rem); }
-        .question { border-top: 1px solid #e6ebf0; padding: 18px 0 0; margin-top: 18px; }
-        .question:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
-        .question summary { cursor: pointer; color: #243247; font-weight: 700; font-size: 1.08rem; }
-        .question-body { padding: 10px 0 0 23px; }
+        .question { margin-top: 24px; padding: 22px 24px; border: 1px solid #e4eaf0; border-radius: 14px; background: #fbfcfd; box-shadow: 0 3px 10px rgba(32,52,78,.035); }
+        .question:first-of-type { margin-top: 0; }
+        .question-title { margin: 0 0 14px; color: #243247; font: 700 1.08rem/1.4 Arial, sans-serif; }
+        .question-body { padding: 0; }
         p { margin: 0 0 13px; } ul { margin: 8px 0 16px; padding-left: 24px; } li { margin: 7px 0; }
         .reference { color: #52657a; font-style: italic; }
         .scenario { margin: 14px 0; padding: 15px 16px; border-left: 4px solid var(--section-color); border-radius: 0 10px 10px 0; background: #f5f7f9; }
@@ -108,12 +107,12 @@ export default function TrainingGuidance() {
         .idea { margin-top: 18px; padding: 14px 16px; border-radius: 10px; color: #20344e; background: #eef4f7; font-weight: 700; }
         .references { margin-top: 28px; padding: 24px; border-radius: 18px; color: #31465c; background: #e9eff3; }
         .references h2 { margin-top: 0; font-size: 1.25rem; }
-        @media (max-width: 620px) { .training-page { padding: 16px 10px 48px; } .hero { padding: 30px 20px; } .section { padding: 18px 15px; } .timer { margin: -12px 8px 20px auto; } .question-body { padding-left: 4px; } }
+        @media (max-width: 620px) { .training-page { padding: 16px 10px 48px; } .hero { padding: 30px 20px; } .section { padding: 18px 14px; } .timer { margin: -12px 8px 20px auto; } .question { padding: 18px 16px; } .question-title { font-size: 1rem; } }
       `}</style>
       <div className="training-shell">
         <header className="hero"><p className="eyebrow">CAPACITACIÓN PARA LOS PUBLICADORES</p><h1>Perturbadores, expulsados y medios de comunicación</h1><p>Principios y situaciones prácticas para actuar con prudencia, respeto y empatía.</p></header>
         <div className="timer" aria-label="Cronómetro"><strong>{formatTime(seconds)}</strong><div><button type="button" onClick={() => setRunning((value) => !value)}>{running ? "Pausar" : "Iniciar"}</button><button type="button" onClick={() => { setSeconds(0); setRunning(false) }}>Reiniciar</button></div></div>
-        {sections.map((section) => <section className="section" style={{ "--section-color": section.color }} key={section.title}><h2>{section.title}</h2>{section.questions.map((question, index) => { const id = `${section.title}-${index}`; return <details className="question" key={id} open={open === id} onToggle={(event) => event.currentTarget.open && setOpen(id)}><summary>{question.title}</summary><div className="question-body">{question.content}</div></details> })}</section>)}
+        {sections.map((section) => <section className="section" style={{ "--section-color": section.color }} key={section.title}><h2>{section.title}</h2>{section.questions.map((question, index) => <article className="question" key={`${section.title}-${index}`}><h3 className="question-title">{question.title}</h3><div className="question-body">{question.content}</div></article>)}</section>)}
         <section className="references"><h2>Referencias para preparar esta capacitación</h2><ul><li>Guía S-148-S: Pautas para la predicación pública. Apartados sobre perturbadores, expulsados y medios de comunicación.</li><li>¡Despertad!, 22 de noviembre de 2001, páginas 23-25: «¿Qué hago si alguien se enoja conmigo?».</li><li>La Atalaya, 15 de abril de 2015, páginas 29-31: «La expulsión: una muestra de amor».</li><li>La Atalaya, junio de 2020, páginas 24-29: «Vuelvan a mí».</li><li><a href="https://www.jw.org/es/testigos-de-jehova/?utm_source=chatgpt.com">jw.org — Sobre nosotros</a>.</li><li><a href="https://www.jw.org/es/noticias/?utm_source=chatgpt.com">jw.org — Prensa</a>.</li></ul><p>Nota: Los diálogos de los ejemplos son situaciones hipotéticas para practicar. Las instrucciones y principios se basan en la guía S-148 y en las publicaciones citadas.</p></section>
       </div>
     </main>
