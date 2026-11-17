@@ -1,3 +1,25 @@
+# Programa de la reunión
+
+## Probar en local
+
+Desde PowerShell, en la carpeta del proyecto, ejecuta:
+
+```powershell
+npm.cmd ci
+npm.cmd start
+```
+
+Abre [el programa local](http://localhost:3000). La API de la guía se inicia junto con React.
+Si el puerto está ocupado, usa la dirección que indique la terminal. Se necesita internet para
+consultar por primera vez una guía, un texto bíblico o una lección en WOL.
+
+## Publicar en Netlify
+
+Conecta el repositorio a Netlify. El archivo `netlify.toml` en la raíz define la compilación,
+la carpeta de publicación y la función de la API. Los datos de preparación se guardan
+por semana en el navegador. Usa el mismo navegador y la misma dirección para recuperarlos.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

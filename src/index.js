@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SpeechOutline from './Dis';
-import DiscourseThoughtsEntertainment from './Festi';
-import DiscourseTrueLove from './Love';
-import DiscourseSpoil from './Despojan';
-import DiscoursePioneers from './component/Precursores';
 import AppRoute from './AppRoute';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

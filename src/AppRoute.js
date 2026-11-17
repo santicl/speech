@@ -1,12 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import DiscoursePioneers from './component/Precursores';
-import DiscourseSupportBrothers from './component/Nehemias';
-import DiscourseKingdomForever from './EstudioBiblicoNehemias';
-import DiscourseKingdomForeverBlack from './EstudioBiblicoNehemiasNegro';
-import DiscourseAnnualReport from './ReportAnual';
-import DiscourseCampaign from './Campains';
 import MeetingProgram from './App';
-import DiscourseLessons80And81 from './leason';
 import DiscourseSpiritualParadise from './component/ParaisoEspiritual';
 import DiscourseSpiritualHealth from './component/SpiritualHealth';
 import SpeechOutline from './Dis';
@@ -25,7 +18,7 @@ function AppRoute() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<DiscourseConfirmationBias />} />
+        <Route path="/" element={<MeetingProgram />} />
         <Route path="/148" element={<TrainingGuidance />} />
         <Route path="/sesgo" element={<DiscourseConfirmationBias />} />
         <Route path="/widows" element={<DiscourseJehovahProtectsWidows />} />
