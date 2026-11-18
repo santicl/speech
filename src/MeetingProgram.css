@@ -450,3 +450,20 @@
 .mp-study-question > .mp-guide-paragraph { color: var(--ink); font-weight: 600; }
 .mp-study-answer { color: var(--muted); }
 .mp .mp-study-answer textarea { min-height: 74px; scroll-margin-block-start: 7rem; font-weight: 400; }
+
+.mp-presider-reading {
+  padding: clamp(.85rem, 3vw, 1.3rem);
+  border: 1px solid var(--line); border-inline-start: 3px solid var(--accent);
+  border-radius: .75rem; background: var(--surface); color: var(--ink);
+  font-size: clamp(1rem, 2vw, 1.18rem); line-height: 1.75;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.mp .mp-presider-script-editor textarea { min-height: 9rem; line-height: 1.55; }
+.mp-script-picker { display: grid; gap: .6rem; padding: .65rem; border: 1px solid var(--line); border-radius: .65rem; background: var(--tint); }
+.mp-script-picker > button { justify-self: start; }
+.mp-script-references { display: flex; flex-wrap: wrap; gap: .35rem; }
+.mp .mp-script-references button { min-height: 33px; padding: .25rem .55rem; font-size: .8rem; color: var(--accent); text-align: start; }
+.mp-script-references button span { min-width: 0; overflow-wrap: anywhere; }
+.mp-script-references button svg { flex: none; }
+.mp .mp-presider-heading .mp-danger { color: var(--ink); background: var(--surface); border-color: var(--line); }
+.mp .mp-presider-point-top .mp-actions { justify-content: flex-end; }

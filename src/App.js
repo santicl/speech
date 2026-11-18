@@ -94,8 +94,8 @@ function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollap
       </>}
       {view === 'outline' && <div id={partControl(part.id, 'outline')} tabIndex={-1}>
         {presider
-          ? <PresiderOutline closing={closing} items={presiderPoints(entry, closing)} topics={topics}
-            onChange={presiderOutline => onChange({ presiderOutline, notes: '' })} />
+          ? <PresiderOutline closing={closing} items={presiderPoints(entry, closing)} script={entry.presiderScript} topics={topics}
+            onChange={patch => onChange({ ...patch, notes: '' })} />
           : <MeetingOutline part={part} values={entry.outline} initiallyReading={reading} onChange={outline => onChange({ outline })} />}
       </div>}
       {view === 'transition' && <div className="mp-preparation">

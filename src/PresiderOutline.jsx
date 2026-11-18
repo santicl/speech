@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Pencil, Plus } from 'lucide-react'
-import { sections } from './meetingData'
+import { Pencil, Plus, Trash2 } from 'lucide-react'
+import PresiderScript, { previousIntroduction } from './PresiderScript'
 
 const kinds = {
   program: 'Punto del programa',
@@ -9,118 +9,112 @@ const kinds = {
   other: 'Otro',
 }
 
-const programSections = sections.filter(([id]) => id !== 'apertura' && id !== 'cierre')
-const sectionNames = Object.fromEntries(programSections)
-
-function PointForm({ point, closing, topics, onSave, onCancel, onDelete }) {
+function PointForm({ point, onSave, onCancel }) {
   const firstField = useRef(null)
-  const [section, setSection] = useState(point?.section || '')
-  const visibleTopics = topics.filter(topic => topic.section === section)
   useEffect(() => { firstField.current?.focus() }, [])
 
-  function submit(event) {
+  return <form className="mp-presider-editor" aria-label={point ? 'Editar punto' : 'Nuevo punto'} onSubmit={event => {
     event.preventDefault()
     const values = new FormData(event.currentTarget)
-    const text = values.get('text').trim()
-    if (!closing) {
-      const topic = visibleTopics.find(item => item.id === values.get('topic'))
-      if (topic) onSave({ kind: 'program', partId: topic.id, section: topic.section, title: topic.title, text })
-      return
-    }
-
     const title = values.get('title').trim()
-    if (title) onSave({ kind: values.get('kind'), title, text })
+    if (title) onSave({ kind: values.get('kind'), title, text: values.get('text').trim() })
     else firstField.current?.focus()
-  }
-
-  return (
-    <form className="mp-presider-editor" aria-label={point ? 'Editar punto' : 'Nuevo punto'} onSubmit={submit}>
-      {closing ? <div className="mp-grid">
-        <label>Tipo de punto<select name="kind" defaultValue={point?.kind || 'program'}>
-          {Object.entries(kinds).map(([id, label]) => <option key={id} value={id}>{label}</option>)}
-        </select></label>
-        <label>Título del punto<input name="title" ref={firstField} required maxLength={150} defaultValue={point?.title || ''} /></label>
-      </div> : <div className="mp-grid">
-        <label>Sección de la reunión<select ref={firstField} required value={section} onChange={event => setSection(event.target.value)}>
-          <option value="" disabled>Selecciona una sección</option>
-          {programSections.filter(([id]) => topics.some(topic => topic.section === id)).map(([id, label]) => <option key={id} value={id}>{label}</option>)}
-        </select></label>
-        <label>Punto del programa<select key={section} name="topic" required disabled={!section}
-          defaultValue={visibleTopics.some(topic => topic.id === point?.partId) ? point.partId : ''}>
-          <option value="" disabled>Selecciona un punto</option>
-          {visibleTopics.map(topic => <option key={topic.id} value={topic.id}>
-            {topic.number ? topic.number + '. ' : ''}{topic.title}
-          </option>)}
-        </select></label>
-      </div>}
-      <label>Mis palabras<textarea name="text" rows={4} defaultValue={point?.text || ''} /></label>
-      <div className="mp-actions">
-        <button type="submit" className="mp-primary">Guardar punto</button>
-        <button type="button" onClick={onCancel}>Cancelar</button>
-        {onDelete && <button type="button" className="mp-danger" onClick={onDelete}>Eliminar punto</button>}
-      </div>
-    </form>
-  )
+  }}>
+    <div className="mp-grid">
+      <label>Tipo de punto<select name="kind" defaultValue={point?.kind || 'announcement'}>
+        {Object.entries(kinds).map(([id, label]) => <option key={id} value={id}>{label}</option>)}
+      </select></label>
+      <label>Título del punto<input name="title" ref={firstField} required maxLength={150} defaultValue={point?.title || ''} /></label>
+    </div>
+    <label>Mis palabras<textarea name="text" rows={4} defaultValue={point?.text || ''} /></label>
+    <div className="mp-actions">
+      <button type="submit" className="mp-primary">Guardar punto</button>
+      <button type="button" onClick={onCancel}>Cancelar</button>
+    </div>
+  </form>
 }
 
-export default function PresiderOutline({ closing, items, topics, onChange }) {
+export default function PresiderOutline({ closing, items, script, topics, onChange }) {
   const [editing, setEditing] = useState(null)
+  const editWords = useRef(null)
   const addButton = useRef(null)
   const editButton = useRef(null)
+  const part = closing ? 'conclusión' : 'introducción'
+  const title = 'Bosquejo de ' + part
+  const text = script ?? (closing ? '' : previousIntroduction(items))
+  const points = closing ? items : []
 
   function finish(button) {
     setEditing(null)
     button?.focus()
   }
 
-  return (
-    <section className="mp-presider-outline" aria-label={closing ? 'Bosquejo de conclusión' : 'Bosquejo de introducción'}>
-      <div className="mp-presider-heading">
-        <h4>{closing ? 'Bosquejo de conclusión' : 'Bosquejo de introducción'}</h4>
-        <button type="button" ref={addButton} disabled={!closing && !topics.length} aria-expanded={editing === 'new'} onClick={() => setEditing(editing === 'new' ? null : 'new')}>
-          <Plus size={16} /> Añadir punto
+  function clear() {
+    if (!window.confirm('¿Borrar todo el contenido de la ' + part + '?')) return
+    onChange({ presiderScript: '', presiderOutline: [] })
+    finish(editWords.current)
+  }
+
+  return <section className="mp-presider-outline" aria-label={title}>
+    <div className="mp-presider-heading">
+      <h4>{title}</h4>
+      <div className="mp-actions">
+        <button type="button" ref={editWords} aria-expanded={editing === 'script'}
+          onClick={() => setEditing(editing === 'script' ? null : 'script')}>
+          <Pencil size={16} aria-hidden="true" /> {text.trim() ? 'Editar palabras' : 'Escribir palabras'}
+        </button>
+        {(text.trim() || points.length > 0) && <button type="button" className="mp-danger" onClick={clear}>
+          <Trash2 size={16} aria-hidden="true" /> Borrar {part}
+        </button>}
+      </div>
+    </div>
+    {editing === 'script' ? <PresiderScript text={text} topics={topics} onCancel={() => finish(editWords.current)} onSave={value => {
+      onChange({ presiderScript: value, presiderOutline: points })
+      finish(editWords.current)
+    }} /> : text.trim() && <p className="mp-presider-reading">{text}</p>}
+    {closing && <>
+      <div className="mp-actions">
+        <button type="button" ref={addButton} aria-expanded={editing === 'new'} onClick={() => setEditing(editing === 'new' ? null : 'new')}>
+          <Plus size={16} aria-hidden="true" /> Añadir punto
         </button>
       </div>
-      {editing === 'new' && <PointForm closing={closing} topics={topics} onCancel={() => finish(addButton.current)} onSave={point => {
+      {editing === 'new' && <PointForm onCancel={() => finish(addButton.current)} onSave={point => {
         const id = 'point|' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2)
-        onChange([...items, { ...point, id }])
+        onChange({ presiderOutline: [...points, { ...point, id }] })
         finish(addButton.current)
       }} />}
-      {!items.length && editing !== 'new' && <p className="mp-presider-empty">
-        {closing ? 'Aún no hay puntos en el bosquejo.' : topics.length
-          ? 'Elige un punto de la reunión y escribe cómo lo presentarás.'
-          : 'La guía de esta semana aún no ofrece puntos para presentar.'}
-      </p>}
-      {items.length > 0 && <ol className="mp-presider-points">
-        {items.map((item, index) => (
-          <li key={item.id} className="mp-presider-point">
-            <span className="mp-presider-number" aria-hidden="true">{index + 1}</span>
-            <div className="mp-presider-point-content">
-              <div className="mp-presider-point-top">
-                <div>
-                  <span className="mp-presider-type" data-kind={item.kind}>{closing ? kinds[item.kind] || kinds.other : sectionNames[item.section] || kinds.program}</span>
-                  <h5>{item.title}</h5>
-                </div>
+      {points.length > 0 && <ol className="mp-presider-points">
+        {points.map((item, index) => <li key={item.id} className="mp-presider-point">
+          <span className="mp-presider-number" aria-hidden="true">{index + 1}</span>
+          <div className="mp-presider-point-content">
+            <div className="mp-presider-point-top">
+              <div>
+                <span className="mp-presider-type" data-kind={item.kind}>{kinds[item.kind] || kinds.other}</span>
+                <h5>{item.title}</h5>
+              </div>
+              <div className="mp-actions">
                 <button type="button" className="mp-icon mp-presider-edit" aria-label={'Editar ' + item.title}
                   aria-expanded={editing === item.id} onClick={event => {
                     editButton.current = event.currentTarget
                     setEditing(editing === item.id ? null : item.id)
-                  }}><Pencil size={15} /></button>
+                  }}><Pencil size={15} aria-hidden="true" /></button>
+                <button type="button" className="mp-icon mp-danger" aria-label={'Eliminar ' + item.title}
+                  onClick={() => {
+                    if (!window.confirm('¿Eliminar este punto de la conclusión?')) return
+                    onChange({ presiderOutline: points.filter(point => point.id !== item.id) })
+                    finish(addButton.current)
+                  }}><Trash2 size={15} aria-hidden="true" /></button>
               </div>
-              {editing === item.id
-                ? <PointForm point={item} closing={closing} topics={topics} onCancel={() => finish(editButton.current)} onSave={patch => {
-                  onChange(items.map(point => point.id === item.id ? { ...point, ...patch } : point))
-                  finish(editButton.current)
-                }} onDelete={() => {
-                  if (!window.confirm('¿Eliminar este punto del bosquejo?')) return
-                  onChange(items.filter(point => point.id !== item.id))
-                  finish(addButton.current)
-                }} />
-                : item.text && <p className="mp-presider-text">{item.text}</p>}
             </div>
-          </li>
-        ))}
+            {editing === item.id
+              ? <PointForm point={item} onCancel={() => finish(editButton.current)} onSave={patch => {
+                onChange({ presiderOutline: points.map(point => point.id === item.id ? { ...point, ...patch } : point) })
+                finish(editButton.current)
+              }} />
+              : item.text && <p className="mp-presider-text">{item.text}</p>}
+          </div>
+        </li>)}
       </ol>}
-    </section>
-  )
+    </>}
+  </section>
 }
