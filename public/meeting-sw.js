@@ -30,7 +30,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(fallback(request, shellCache, new URL('/', url).href))
   } else if (url.pathname === '/api/meeting') {
     event.respondWith(fallback(request, contentCache))
-  } else if (url.pathname.startsWith('/static/')) {
+  } else if (url.pathname.startsWith('/static/') || url.pathname.startsWith('/pdfjs/')) {
     event.respondWith(fallback(request, shellCache))
   }
 })

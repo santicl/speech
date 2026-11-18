@@ -37,7 +37,7 @@ async function transaction(mode, action) {
 }
 
 export async function validatePdf(file) {
-  if (!file || !/\.pdf$/iu.test(file.name)) throw new Error('Elige un archivo PDF.')
+  if (!file || (!/\.pdf$/iu.test(file.name) && file.type !== 'application/pdf')) throw new Error('Elige un archivo PDF.')
   const header = await new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => resolve(String(reader.result))
@@ -49,13 +49,20 @@ export async function validatePdf(file) {
 
 export async function savePdf(file) {
   await validatePdf(file)
-  const id = window.crypto.randomUUID()
-  await transaction('readwrite', store => store.put({ id, blob: file }))
+  const id = window.crypto.randomUUID?.() || Array.from(window.crypto.getRandomValues(new Uint8Array(24)), byte => byte.toString(16).padStart(2, '0')).join('')
+  const data = await new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo seleccionado.'))
+    reader.readAsArrayBuffer(file)
+  })
+  await transaction('readwrite', store => store.put({ id, data }))
   return { id, name: file.name, size: file.size }
 }
 
 export async function readPdf(id) {
   const result = await transaction('readonly', store => store.get(id))
+  if (result?.data) return new Blob([result.data], { type: 'application/pdf' })
   if (!result?.blob) throw new Error('Este PDF no está disponible en este navegador. Puedes volver a adjuntarlo al editar el punto.')
   return result.blob
 }

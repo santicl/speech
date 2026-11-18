@@ -1,0 +1,20 @@
+
+.mp-pdf-fullscreen {
+  position: fixed; inset: 0; margin: 0; padding: 0; border: 0;
+  width: 100vw; width: 100dvw; max-width: none; height: 100vh; height: 100dvh;
+  max-height: none; color: var(--ink); background: var(--surface);
+}
+.mp-pdf-fullscreen[open] { display: flex; flex-direction: column; }
+.mp-pdf-fullscreen::backdrop { background: #102432bb; }
+.mp-pdf-fullscreen-header {
+  display: flex; align-items: center; justify-content: space-between; gap: .6rem;
+  padding: max(.6rem, env(safe-area-inset-top)) max(.8rem, env(safe-area-inset-right)) .6rem max(.8rem, env(safe-area-inset-left));
+  border-bottom: 1px solid var(--line);
+}
+.mp-pdf-fullscreen-header > span { display: flex; align-items: center; gap: .5rem; min-width: 0; }
+.mp-pdf-fullscreen-header strong { font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mp-pdf-fullscreen-header svg, .mp-pdf-fullscreen-header button { flex-shrink: 0; }
+.mp-pdf-fullscreen .mp-pdf-document { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 0; }
+.mp-pdf-fullscreen .mp-pdf-toolbar { border: 0; border-radius: 0; padding: .4rem; }
+.mp-pdf-fullscreen .mp-pdf-document > p { margin: 0; padding: .5rem 1rem; }
+.mp-pdf-fullscreen .mp-pdf-pages { flex: 1; min-height: 0; max-height: none; border-radius: 0; padding-bottom: max(12px, env(safe-area-inset-bottom)); }

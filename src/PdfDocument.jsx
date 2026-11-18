@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Minus, Plus } from 'lucide-react'
-import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/build/pdf.mjs'
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf.mjs'
 import { pdfWorkerUrl } from './pdfRuntime'
 import { readPdf } from './meetingAttachments'
 
@@ -47,13 +47,15 @@ export default function PdfDocument({ pdf }) {
       const original = sheet.getViewport({ scale: 1 })
       const viewport = sheet.getViewport({ scale: Math.min(width / original.width, 2) * zoom })
       const density = Math.min(window.devicePixelRatio || 1, 2)
-      const target = canvas.current
+      const target = window.document.createElement('canvas')
+      target.setAttribute('role', 'img')
+      target.setAttribute('aria-label', 'Página ' + page + ' de ' + pdf.name)
       target.width = Math.floor(viewport.width * density)
       target.height = Math.floor(viewport.height * density)
       target.style.width = viewport.width + 'px'
       target.style.height = viewport.height + 'px'
       drawing = sheet.render({ canvasContext: target.getContext('2d'), viewport, transform: [density, 0, 0, density, 0, 0] })
-      return drawing.promise
+      return drawing.promise.then(() => { if (active) canvas.current.replaceChildren(target) })
     }).then(() => { if (active) setRendering(false) }).catch(error => {
       if (active && error.name !== 'RenderingCancelledException') {
         setRendering(false)
@@ -61,7 +63,7 @@ export default function PdfDocument({ pdf }) {
       }
     })
     return () => { active = false; drawing?.cancel() }
-  }, [document, page, width, zoom])
+  }, [document, page, width, zoom, pdf.name])
 
   return <div ref={container} className="mp-pdf-document" aria-label={'Visor PDF · ' + pdf.name}>
     {document && <div className="mp-pdf-toolbar" role="group" aria-label="Controles del PDF">
@@ -74,6 +76,6 @@ export default function PdfDocument({ pdf }) {
     </div>}
     {error && <p role="alert">{error}</p>}
     {!error && (!document || rendering) && <p role="status">Cargando página…</p>}
-    <div className="mp-pdf-pages"><canvas ref={canvas} role="img" aria-label={'Página ' + page + ' de ' + pdf.name} /></div>
+    <div className="mp-pdf-pages"><div ref={canvas} /></div>
   </div>
 }
