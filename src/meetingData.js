@@ -32,8 +32,26 @@ export function readLocal(key, fallback) {
   }
 }
 
+export function meetingUrl(params) {
+  return api + '?' + new URLSearchParams(params)
+}
+
+export function referenceRequest(reference) {
+  const url = new URL(reference.url)
+  const video = url.searchParams.get('lank')
+  if (reference.bible || url.pathname.includes('/wol/bc/')) return ['verse', url.pathname]
+  if (video) return ['video', video]
+  return ['document', url.pathname]
+}
+
+export function meetingImage(url) {
+  const image = new URL(url)
+  return image.origin === 'https://wol.jw.org' && image.pathname.startsWith('/es/wol/mp/r4/lp-s/')
+    ? meetingUrl({ image: image.pathname }) : url
+}
+
 export async function loadMeeting(params, signal) {
-  const response = await fetch(api + '?' + new URLSearchParams(params), { signal })
+  const response = await fetch(meetingUrl(params), { signal })
   const result = await response.json()
   if (!response.ok) throw new Error(result.error)
   return result
@@ -63,25 +81,34 @@ export function prepareParts(parts) {
     const pieces = part.title.split(/\s*[|｜]\s*/)
     const words = pieces.find(title => /^Palabras de (introducción|conclusión)/iu.test(title))
     const song = pieces.find(title => /^Canción\b/iu.test(title))
-    if (!words) return [{ ...part, kind: song && !part.number ? 'song' : 'assignment' }]
+    const songTitle = song?.replace(/\s+y oración\b/iu, '')
+    if (!words) return [song && !part.number
+      ? { ...part, title: songTitle, kind: 'song' }
+      : { ...part, kind: 'assignment' }]
 
     const closing = /conclusión/iu.test(words)
     const timed = {
       ...part, title: words, kind: closing ? 'closing' : 'opening', minutes: closing ? 3 : 1,
       links: (part.links || []).filter(link => !/^Canción\b/iu.test(link.label)),
     }
-    if (!song) return [timed]
-
-    const interlude = {
-      ...part, id: part.id + '|cancion', title: song, kind: 'song', minutes: 0, number: null,
-      details: [], blocks: [], links: (part.links || []).filter(link => /^Canción\b/iu.test(link.label)),
+    const prayer = {
+      id: part.id + '|oracion', title: closing ? 'Oración final' : 'Oración inicial',
+      kind: 'prayer', section: part.section, minutes: 0,
     }
-    return closing ? [timed, interlude] : [interlude, timed]
+    const songs = song ? [{
+      ...part, id: part.id + '|cancion', title: songTitle, kind: 'song', minutes: 0, number: null,
+      details: [], blocks: [], links: (part.links || []).filter(link => /^Canción\b/iu.test(link.label)),
+    }] : []
+    return closing ? [timed, ...songs, prayer] : [...songs, prayer, timed]
   })
 }
 
 export function hasAssignee(part) {
-  return part.kind === 'assignment' || part.custom
+  return part.kind === 'assignment' || part.kind === 'prayer' || part.custom
+}
+
+export function isCongregationStudy(part) {
+  return /^Estudio bíblico de la congregación\b/iu.test(part.title)
 }
 
 export function presiderPoints(entry, closing) {

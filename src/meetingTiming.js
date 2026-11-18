@@ -87,6 +87,7 @@ export function useMeetingTiming(week, schedule) {
         ...latest.current,
         scheduleRevision: schedule.revision,
         general: emptyTimer,
+        generalStartedAt: null,
         manual: false,
         warningSeen: false,
       })
@@ -121,8 +122,9 @@ export function useMeetingTiming(week, schedule) {
   }, [canStart, save, schedule.revision, shouldRearm, start])
 
   const running = session.general.started !== null || session.parts[session.active]?.started != null
+  const projecting = session.programStartedAt != null && session.finishedAt == null
   useEffect(() => {
-    if (!running) return
+    if (!running && !projecting) return
     function refresh() {
       const at = Date.now()
       const current = latest.current
@@ -133,7 +135,7 @@ export function useMeetingTiming(week, schedule) {
       setNow(at)
     }
     refresh()
-    const tick = setInterval(refresh, 250)
+    const tick = setInterval(refresh, running ? 250 : 1000)
     window.addEventListener('focus', refresh)
     document.addEventListener('visibilitychange', refresh)
     return () => {
@@ -141,31 +143,80 @@ export function useMeetingTiming(week, schedule) {
       window.removeEventListener('focus', refresh)
       document.removeEventListener('visibilitychange', refresh)
     }
-  }, [running, save])
+  }, [projecting, running, save])
 
   function toggleGeneral() {
     const at = Date.now()
     const current = latest.current
     setNow(at)
-    save({ ...current, manual: true, general: toggleTime(current.general, at) })
+    save({
+      ...current, manual: true, general: toggleTime(current.general, at),
+      generalStartedAt: current.generalStartedAt ?? at - elapsedTime(current.general, at),
+    })
   }
 
   function resetGeneral() {
     const at = Date.now()
     setNow(at)
-    save({ ...latest.current, general: timerForSchedule(start, at) ?? emptyTimer, manual: false, warningSeen: false })
+    save({ ...latest.current, general: timerForSchedule(start, at) ?? emptyTimer, generalStartedAt: null, manual: false, warningSeen: false })
+  }
+
+  function stopPart(current, at) {
+    const timer = current.parts[current.active]
+    return timer?.started != null ? { ...current.parts, [current.active]: toggleTime(timer, at) } : current.parts
   }
 
   function togglePart(id) {
     const at = Date.now()
     const current = latest.current
-    const parts = { ...current.parts }
-    if (current.active && current.active !== id && parts[current.active]?.started != null) {
-      parts[current.active] = toggleTime(parts[current.active], at)
-    }
-    parts[id] = toggleTime(parts[id] || emptyTimer, at)
+    const parts = current.active === id ? current.parts : stopPart(current, at)
+    const timer = toggleTime(parts[id] || emptyTimer, at)
     setNow(at)
-    save({ ...current, parts, active: id })
+    save({
+      ...current, parts: { ...parts, [id]: timer }, active: id, anchor: null,
+      programStartedAt: current.programStartedAt ?? at, finishedAt: null,
+    })
+  }
+
+  function advanceProgram(id) {
+    const at = Date.now()
+    const current = latest.current
+    if (id === current.active || (!id && current.finishedAt != null)) return
+    const parts = stopPart(current, at)
+    const presented = current.active ? { ...current.presented, [current.active]: true } : current.presented
+    setNow(at)
+    if (id) {
+      save({
+        ...current, active: id, anchor: null, presented, parts: {
+          ...parts, [id]: { ...(parts[id] || emptyTimer), started: at },
+        },
+        programStartedAt: current.programStartedAt ?? at, finishedAt: null,
+      })
+    } else {
+      const general = current.general.started !== null ? toggleTime(current.general, at) : current.general
+      save({
+        ...current, active: null, anchor: current.active || current.anchor, parts, presented,
+        general, manual: current.manual || current.general.started !== null, finishedAt: at,
+      })
+    }
+  }
+
+  function resetProgram() {
+    const at = Date.now()
+    setNow(at)
+    save({
+      ...latest.current, active: null, anchor: null, presented: {}, parts: {},
+      programStartedAt: null, finishedAt: null, generalStartedAt: null,
+      general: timerForSchedule(start, at) ?? emptyTimer, manual: false, warningSeen: false,
+    })
+  }
+
+  function releasePart(id, anchor) {
+    const current = latest.current
+    if (current.active !== id) return
+    const at = Date.now()
+    setNow(at)
+    save({ ...current, active: null, anchor, parts: stopPart(current, at) })
   }
 
   function resetPart(id) {
@@ -178,6 +229,7 @@ export function useMeetingTiming(week, schedule) {
 
   return {
     session, now, storageError, toggleGeneral, resetGeneral, togglePart, resetPart,
+    advanceProgram, releasePart, resetProgram, start,
     dismissWarning: () => save({ ...latest.current, warningSeen: true }),
   }
 }

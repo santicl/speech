@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { GuideReference, OutlineVerse } from './GuideContent'
 
-export default function MeetingOutline({ part, values = {}, onChange }) {
-  const [reading, setReading] = useState(false)
+export default function MeetingOutline({ part, values = {}, onChange, initiallyReading = false }) {
+  const [reading, setReading] = useState(initiallyReading)
   const selected = part.points.filter(point => values.points?.[point.id]?.selected)
   const visible = reading ? selected : part.points
 

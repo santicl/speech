@@ -99,12 +99,18 @@ test('mantiene activo un cronómetro por parte y separa el cronómetro general',
   try {
     await act(async () => { render(<App />) })
     const first = screen.getByRole('button', { name: 'Iniciar Tema del discurso' })
-    fireEvent.click(within(screen.getByRole('complementary')).getByRole('button', { name: 'Iniciar' }))
+    const clock = within(screen.getByRole('complementary', { name: 'Cronómetro general' }))
     fireEvent.click(first)
+    expect(clock.getByRole('button', { name: 'Iniciar' })).toBeInTheDocument()
+    expect(clock.getByRole('status')).toHaveTextContent('En cursoTema del discurso')
+    fireEvent.click(clock.getByRole('button', { name: 'Iniciar' }))
     act(() => jest.advanceTimersByTime(2000))
+    fireEvent.click(screen.getByRole('button', { name: 'Pausar Tema del discurso' }))
+    expect(clock.getByRole('status')).toHaveTextContent('En pausaTema del discurso')
     fireEvent.click(screen.getByRole('button', { name: 'Iniciar Empecemos conversaciones' }))
+    expect(clock.getByRole('status')).toHaveTextContent('En cursoEmpecemos conversaciones')
     act(() => jest.advanceTimersByTime(1000))
-    expect(within(screen.getByRole('complementary')).getByText('00:03')).toBeInTheDocument()
+    expect(clock.getByText('00:03')).toBeInTheDocument()
     expect(within(screen.getByRole('region', { name: 'Tesoros de la Biblia' })).getByText('00:02')).toBeInTheDocument()
     expect(within(screen.getByRole('region', { name: 'Seamos Mejores Maestros' })).getByText('00:01')).toBeInTheDocument()
   } finally {
@@ -124,22 +130,34 @@ test('separa las canciones de las partes del presidente y asigna sus tiempos', a
       ],
     }),
   })
-  await act(async () => { render(<App />) })
-  const open = screen.getByRole('region', { name: 'Apertura' })
-  expect(within(open).getAllByRole('button').slice(0, 2).map(button => button.textContent)).toEqual([
-    'Canción 28 y oración', 'Palabras de introducción',
-  ])
+  const first = render(<App />)
+  const open = await screen.findByRole('region', { name: 'Apertura' })
+  const rowTitles = scope => within(scope).getAllByRole('button')
+    .filter(button => button.classList.contains('mp-part-label'))
+    .map(button => button.querySelector('strong').textContent)
+  expect(rowTitles(open)).toEqual(['Canción 28', 'Oración inicial', 'Palabras de introducción'])
   expect(within(open).getByText('1 minuto')).toBeInTheDocument()
-  expect(within(open).queryByText('Sin asignar')).not.toBeInTheDocument()
   expect(within(open).queryByRole('button', { name: /iniciar canción/i })).not.toBeInTheDocument()
   const close = screen.getByRole('region', { name: 'Cierre' })
   expect(within(close).getByText('3 minutos')).toBeInTheDocument()
+  expect(rowTitles(close)).toEqual(['Palabras de conclusión', 'Canción 75', 'Oración final'])
+  for (const [section, title, person] of [
+    [open, 'Oración inicial', 'Ana'],
+    [close, 'Oración final', 'David'],
+  ]) {
+    fireEvent.click(within(section).getByRole('button', { name: title + ' Sin asignar' }))
+    fireEvent.change(within(section).getByLabelText('Persona asignada'), { target: { value: person } })
+  }
   fireEvent.click(within(close).getByRole('button', { name: 'Palabras de conclusión' }))
   fireEvent.click(within(close).getByRole('button', { name: 'Guía' }))
   expect(within(close).getByText(/incluye los anuncios y recordatorios/i)).toBeInTheDocument()
   fireEvent.click(within(close).getByRole('button', { name: 'Bosquejo' }))
   expect(within(close).queryByLabelText('Persona asignada')).not.toBeInTheDocument()
   expect(within(close).getByRole('button', { name: 'Añadir punto' })).toBeInTheDocument()
+  first.unmount()
+  await act(async () => { render(<App />) })
+  expect(screen.getByRole('button', { name: 'Oración inicial Ana' })).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Oración final David' })).toBeInTheDocument()
 })
 
 test('abre el contenido de una cita dentro de su párrafo', async () => {
@@ -395,7 +413,7 @@ test('oculta una ficha desde su pie y devuelve el foco a su fila', async () => {
   global.fetch.mockResolvedValue({ ok: true, json: async () => ({ ...guide, parts: [reading, study] }) })
   await act(async () => { render(<App />) })
   for (const part of [reading, study]) {
-    const row = screen.getByRole('button', { name: part.title + ' Sin asignar' })
+    const row = screen.getByRole('button', { name: new RegExp('^' + part.title) })
     fireEvent.click(row)
     expect(screen.getByText(part.details[0])).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Ocultar información' }))
@@ -403,4 +421,167 @@ test('oculta una ficha desde su pie y devuelve el foco a su fila', async () => {
     expect(row).toHaveAttribute('aria-expanded', 'false')
     expect(row).toHaveFocus()
   }
+})
+
+
+test('muestra el capítulo y guarda sus respuestas, encargado, lector y tema', async () => {
+  const study = {
+    id: 'study', title: 'Estudio bíblico de la congregación', number: 8, minutes: 30, section: 'vida',
+    links: [{ label: 'wcg cap. 17', url: 'https://wol.jw.org/es/wol/pc/r4/lp-s/12345/9/0' }],
+  }
+  const chapter = {
+    title: 'La más bendita de las mujeres',
+    context: 'Capítulo 17',
+    blocks: [
+      { kind: 'heading', text: 'Aprenda de Jael' },
+      { kind: 'image', url: 'https://wol.jw.org/es/wol/mp/r4/lp-s/wcg/2025/422', alt: 'Jael en su tienda' },
+      { kind: 'paragraph', runs: [{ text: 'Jael actuó con valor.' }] },
+      {
+        kind: 'paragraph', runs: [{ text: '¿Cómo mostró valor? ¿Qué aprendemos?' }],
+        questions: [{ id: 'q1', label: '¿Cómo mostró valor?' }, { id: 'q2', label: '¿Qué aprendemos?' }],
+      },
+    ],
+  }
+  global.fetch.mockImplementation(async url => ({
+    ok: true,
+    json: async () => url.includes('document=') ? chapter : { ...guide, parts: [study] },
+  }))
+  const first = render(<App />)
+  fireEvent.click(await screen.findByRole('button', { name: /^Estudio bíblico de la congregación/ }))
+  expect(await screen.findByRole('heading', { name: chapter.title })).toBeInTheDocument()
+  expect(screen.getByRole('img', { name: 'Jael en su tienda' })).toBeInTheDocument()
+  expect(screen.getByText('Jael actuó con valor.')).toBeInTheDocument()
+  fireEvent.change(screen.getByRole('textbox', { name: /Cómo mostró valor/ }), { target: { value: 'Mi primera respuesta' } })
+  fireEvent.change(screen.getByRole('textbox', { name: /Qué aprendemos/ }), { target: { value: 'Mi segunda respuesta' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Preparación' }))
+  fireEvent.change(screen.getByLabelText('Encargado del estudio'), { target: { value: 'Daniel' } })
+  fireEvent.change(screen.getByLabelText('Lector'), { target: { value: 'Luis' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Modo oscuro' }))
+  first.unmount()
+
+  await act(async () => { render(<App />) })
+  expect(screen.getByRole('main').closest('[data-theme]')).toHaveAttribute('data-theme', 'dark')
+  fireEvent.click(screen.getByRole('button', { name: 'Modo claro' }))
+  expect(screen.getByRole('main').closest('[data-theme]')).toHaveAttribute('data-theme', 'light')
+  fireEvent.click(screen.getByRole('button', { name: /Estudio bíblico de la congregación Encargado · Daniel Lector · Luis/ }))
+  expect(await screen.findByRole('textbox', { name: /Cómo mostró valor/ })).toHaveValue('Mi primera respuesta')
+  expect(screen.getByRole('textbox', { name: /Qué aprendemos/ })).toHaveValue('Mi segunda respuesta')
+})
+
+test('muestra el número, título y texto bíblico de una canción en la ficha', async () => {
+  const link = { label: 'Canción 28', url: 'https://wol.jw.org/es/wol/pc/r4/lp-s/12345/0/0' }
+  const scripture = { label: 'Salmo 15', url: 'https://wol.jw.org/es/wol/bc/r4/lp-s/1102016828/0/0', bible: true }
+  const song = { title: 'Cómo hacernos amigos de Jehová', stanzas: [['Jehová, tu gran bondad']], themeScriptures: [scripture] }
+  const opening = { id: 'open', title: 'Canción 28 y oración | Palabras de introducción', section: 'apertura', links: [link] }
+  global.fetch.mockImplementation(async url => ({
+    ok: true,
+    json: async () => {
+      if (url.includes('document=')) return song
+      if (url.includes('verse=')) return [{ number: 1, text: 'Jehová, ¿quién puede ser huésped en tu tienda?' }]
+      return { ...guide, parts: [opening] }
+    },
+  }))
+  await act(async () => { render(<App />) })
+  fireEvent.click(screen.getByRole('button', { name: 'Canción 28' }))
+  expect(await screen.findByRole('heading', { name: song.title })).toBeInTheDocument()
+  const publishedText = within(screen.getByRole('region', { name: 'Texto bíblico de la canción' }))
+  expect(publishedText.getByText('Salmo 15')).toBeInTheDocument()
+  expect(await publishedText.findByText(/quién puede ser huésped/)).toBeInTheDocument()
+})
+
+test('encadena las partes, conserva el tiempo y calcula el atraso respecto al horario', async () => {
+  jest.useFakeTimers()
+  const start = shiftDate(week, 2).setHours(19, 0, 0, 0)
+  jest.setSystemTime(start)
+  localStorage.setItem('meeting:week:' + week, JSON.stringify({
+    entries: { [guide.parts[1].id]: { title: guide.parts[1].title, person: 'Sara' } }, extras: [],
+  }))
+  try {
+    const chair = () => within(screen.getByRole('region', { name: 'Conducción de la reunión' }))
+    const status = () => screen.getByText('En curso').parentElement
+    let first
+    await act(async () => { first = render(<App />) })
+    fireEvent.click(chair().getByRole('button', { name: 'Empezar programa' }))
+    expect(status()).toHaveTextContent('Tema del discurso')
+    expect(chair().getByText('Empecemos conversaciones')).toBeInTheDocument()
+    expect(chair().getByText('Sara')).toBeInTheDocument()
+    expect(chair().getByText('A tiempo')).toBeInTheDocument()
+
+    act(() => jest.advanceTimersByTime(16 * 60 * 1000))
+    expect(chair().getByText('6 min de retraso')).toBeInTheDocument()
+    fireEvent.click(chair().getByRole('button', { name: 'Pasar a la siguiente' }))
+    expect(status()).toHaveTextContent('Empecemos conversaciones')
+    expect(within(screen.getByRole('region', { name: 'Tesoros de la Biblia' })).getByText('16:00')).toBeInTheDocument()
+
+    first.unmount()
+    await act(async () => { render(<App />) })
+    expect(status()).toHaveTextContent('Empecemos conversaciones')
+    fireEvent.click(chair().getByRole('button', { name: 'Finalizar programa' }))
+    expect(chair().getByText('Programa finalizado')).toBeInTheDocument()
+    expect(chair().getByText('Hora de cierre')).toBeInTheDocument()
+    expect(screen.queryByText('En curso')).not.toBeInTheDocument()
+    const confirm = jest.spyOn(window, 'confirm').mockReturnValue(true)
+    try {
+      fireEvent.click(chair().getByRole('button', { name: 'Reiniciar recorrido' }))
+      expect(chair().getByRole('button', { name: 'Empezar programa' })).toBeInTheDocument()
+      expect(within(screen.getByRole('region', { name: 'Tesoros de la Biblia' })).getByText('00:00')).toBeInTheDocument()
+      expect(chair().getByText('16 min de retraso')).toBeInTheDocument()
+    } finally {
+      confirm.mockRestore()
+    }
+  } finally {
+    jest.useRealTimers()
+  }
+})
+
+test('reemplaza sin borrar notas, abre el bosquejo listo y conserva el orden y las omisiones', async () => {
+  const extra = { id: 'vida|8|avisos', title: 'Avisos de la congregación', section: 'vida', number: 8, minutes: 5 }
+  const [speech, second] = guide.parts
+  global.fetch.mockResolvedValue({ ok: true, json: async () => ({ ...guide, parts: [...guide.parts, extra] }) })
+  localStorage.setItem('meeting:week:' + week, JSON.stringify({
+    entries: {
+      [speech.id]: { title: speech.title, person: 'Luis', outline: { intro: 'Bosquejo que ya preparé' } },
+      [second.id]: { title: second.title, person: 'Sara', assessment: 'Evaluación guardada' },
+    }, extras: [],
+  }))
+  let first
+  await act(async () => { first = render(<App />) })
+  const chair = () => within(screen.getByRole('region', { name: 'Conducción de la reunión' }))
+  const menu = title => {
+    fireEvent.click(screen.getByRole('button', { name: 'Cambios para ' + title }))
+    return within(screen.getByRole('region', { name: 'Cambios para ' + title }))
+  }
+
+  fireEvent.click(menu(speech.title).getByRole('button', { name: 'Abrir mi bosquejo' }))
+  expect(screen.getByText('Bosquejo que ya preparé')).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Editar bosquejo' })).toBeInTheDocument()
+
+  let changes = menu(second.title)
+  fireEvent.click(changes.getByRole('button', { name: 'Reemplazar' }))
+  fireEvent.change(changes.getByLabelText('Persona asignada'), { target: { value: 'Rosa' } })
+  fireEvent.click(changes.getByRole('button', { name: 'Guardar reemplazo' }))
+  fireEvent.click(chair().getByRole('button', { name: 'Empezar programa' }))
+  expect(chair().getByText('Rosa')).toBeInTheDocument()
+
+  changes = menu(speech.title)
+  fireEvent.click(changes.getByRole('button', { name: 'Mover' }))
+  fireEvent.change(changes.getByLabelText('Nueva posición'), { target: { value: extra.id } })
+  fireEvent.click(changes.getByRole('button', { name: 'Guardar posición' }))
+  expect(screen.queryByText('En curso')).not.toBeInTheDocument()
+  expect(chair().getByText(second.title)).toBeInTheDocument()
+  fireEvent.click(menu(second.title).getByRole('button', { name: 'Omitir parte' }))
+  expect(chair().getByText(extra.title)).toBeInTheDocument()
+  first.unmount()
+
+  await act(async () => { render(<App />) })
+  expect(chair().getByText(extra.title)).toBeInTheDocument()
+  const life = screen.getByRole('region', { name: 'Nuestra Vida Cristiana' })
+  expect(Array.from(life.querySelectorAll('.mp-part-information strong'), element => element.textContent)).toEqual([extra.title, speech.title])
+  fireEvent.click(menu(second.title).getByRole('button', { name: 'Volver a incluir' }))
+  expect(chair().getByText('Rosa')).toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: /Empecemos conversaciones Rosa/ }))
+  fireEvent.click(screen.getByRole('button', { name: 'Preparación' }))
+  expect(screen.getByLabelText('Evaluación y observaciones')).toHaveValue('Evaluación guardada')
+  fireEvent.click(menu(speech.title).getByRole('button', { name: 'Restaurar posición' }))
+  expect(within(screen.getByRole('region', { name: 'Tesoros de la Biblia' })).getByRole('button', { name: /Tema del discurso Luis/ })).toBeInTheDocument()
 })

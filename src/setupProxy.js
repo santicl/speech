@@ -8,7 +8,7 @@ module.exports = function setupProxy(app) {
       const result = await handle(new Request(url))
       response.status(result.status)
       result.headers.forEach((value, header) => response.set(header, value))
-      response.send(await result.text())
+      response.send(Buffer.from(await result.arrayBuffer()))
     } catch (error) {
       next(error)
     }

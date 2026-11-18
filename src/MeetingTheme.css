@@ -1,0 +1,88 @@
+.mp[data-theme=dark] {
+  color-scheme: dark;
+  --ink: #e8f2f7;
+  --muted: #b3c6d2;
+  --line: #344b5d;
+  --surface: #172a38;
+  --field: #101e2a;
+  --hover: #253c4b;
+  --primary: #8aded0;
+  --focus: #9fead9;
+  background: #0e1923;
+}
+:where(.mp)[data-theme=dark] :where(strong) { color: inherit; }
+.mp[data-theme=dark] .mp-header { background: linear-gradient(110deg, #101e2b, #173441 65%, #124945); }
+.mp[data-theme=dark] h2 { color: var(--ink); border-color: #508b91; }
+.mp[data-theme=dark] .mp-section {
+  --accent: #bdd7e6; --wash: #253b4b; --tint: #142532;
+  background: var(--surface);
+}
+.mp[data-theme=dark] .mp-tesoros { --accent: #a6e7d0; --wash: #20443e; --tint: #152c2e; }
+.mp[data-theme=dark] .mp-maestros { --accent: #f2d09e; --wash: #493b2c; --tint: #2d2927; }
+.mp[data-theme=dark] .mp-vida { --accent: #f0bad1; --wash: #493246; --tint: #2e2432; }
+.mp[data-theme=dark] .mp-song .mp-row { background: var(--tint); }
+.mp[data-theme=dark] .mp-active .mp-row { background: #1c403d; border-color: var(--primary); }
+.mp[data-theme=dark] .mp-over strong, .mp[data-theme=dark] .mp-danger { color: #ffb4be; }
+
+.mp[data-theme=dark] button:hover:not(:disabled),
+.mp[data-theme=dark] .mp-button:hover { background: var(--hover); }
+.mp[data-theme=dark] .mp-primary,
+.mp[data-theme=dark] .mp-primary:hover:not(:disabled) {
+  color: #102d32; background: var(--primary); border-color: var(--primary);
+}
+.mp[data-theme=dark] input:not([type=checkbox]),
+.mp[data-theme=dark] select,
+.mp[data-theme=dark] textarea {
+  color-scheme: dark; color: var(--ink); background: var(--field); border-color: var(--line);
+}
+.mp[data-theme=dark] .mp-week-controls input { width: auto; }
+.mp[data-theme=dark] .mp-preparation,
+.mp[data-theme=dark] .mp-guide-copy,
+.mp[data-theme=dark] .mp-guide-feature,
+.mp[data-theme=dark] .mp-presider-note,
+.mp[data-theme=dark] .mp-outline,
+.mp[data-theme=dark] .mp-point,
+.mp[data-theme=dark] .mp-reference,
+.mp[data-theme=dark] .mp-guide-gallery figure,
+.mp[data-theme=dark] .mp-presider-point,
+.mp[data-theme=dark] .mp-presider-editor,
+.mp[data-theme=dark] .mp-extra,
+.mp[data-theme=dark] .mp-notice,
+.mp[data-theme=dark] .mp-schedule-dialog {
+  background: var(--surface); border-color: var(--line);
+}
+.mp[data-theme=dark] .mp-guide-gallery img { background: var(--field); }
+.mp[data-theme=dark] .mp-views [aria-pressed=true] { background: var(--field); border-color: var(--line); }
+.mp[data-theme=dark] .mp-cite {
+  background: #1d3c3c; border-color: #3d6462; color: #bcf3e5;
+}
+.mp[data-theme=dark] .mp-cite[aria-expanded=true] { background: #28504b; }
+.mp[data-theme=dark] .mp-private-note,
+.mp[data-theme=dark] .mp-review,
+.mp[data-theme=dark] .mp-notice[role=alert],
+.mp[data-theme=dark] .mp-time-warning {
+  background: #352d20; border-color: #685638; color: #ffe1a9;
+}
+.mp[data-theme=dark] .mp-private-note h4 { color: #ffe1a9; }
+.mp[data-theme=dark] .mp-time-warning button { border-color: #685638; }
+
+.mp[data-theme=dark] .mp-schedule { background: linear-gradient(155deg, #203e42, #172a38 55%); }
+.mp[data-theme=dark] .mp-schedule p,
+.mp[data-theme=dark] .mp-modal-close,
+.mp[data-theme=dark] .mp-presider-point .mp-presider-text { color: var(--muted); }
+.mp[data-theme=dark] .mp-schedule-actions { border-color: var(--line); }
+.mp[data-theme=dark] .mp-schedule-symbol,
+.mp[data-theme=dark] .mp-presider-heading button {
+  color: #b7f0df; background: #254944; border-color: #3e6b61;
+}
+.mp[data-theme=dark] .mp-presider-outline { background: var(--tint); border-color: var(--line); }
+.mp[data-theme=dark] .mp-presider-heading { border-color: var(--line); }
+.mp[data-theme=dark] .mp-presider-number,
+.mp[data-theme=dark] .mp-presider-type,
+.mp[data-theme=dark] .mp-presider-edit {
+  color: #c3deee; background: #253f50;
+}
+.mp[data-theme=dark] .mp-presider-type[data-kind=program] { color: #aee9d0; background: #234738; }
+.mp[data-theme=dark] .mp-presider-type[data-kind=announcement] { color: #bfdaf6; background: #263e57; }
+.mp[data-theme=dark] .mp-presider-type[data-kind=reminder] { color: #ffe1a9; background: #4b3b28; }
+.mp[data-theme=dark] .mp-detail-footer button { border-color: var(--line); }

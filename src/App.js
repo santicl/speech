@@ -1,15 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronUp, Clock, Music2, Pause, Play, Plus, RotateCcw } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronUp, Clock, Ellipsis, Moon, Music2, Pause, Play, Plus, RotateCcw, Sun } from 'lucide-react'
 import GuideContent from './GuideContent'
 import MeetingClock from './MeetingClock'
 import MeetingSchedule from './MeetingSchedule'
 import MeetingOutline from './MeetingOutline'
 import PresiderOutline from './PresiderOutline'
-import { dateKey, formatTime, hasAssignee, loadMeeting, moveClosingOutlinePoints, orderParts, prepareParts, presiderPoints, readLocal, sections, shiftDate, weekKey } from './meetingData'
+import ProgramChanges from './ProgramChanges'
+import OfflineWeek from './OfflineWeek'
+import { hasPreparedOutline, nextProgramPart, programOrder, projectedFinish } from './meetingRun'
+import { dateKey, formatTime, hasAssignee, isCongregationStudy, loadMeeting, moveClosingOutlinePoints, orderParts, prepareParts, presiderPoints, readLocal, sections, shiftDate, weekKey } from './meetingData'
 import { elapsedTime, emptyTimer, readSchedule, scheduleKey, useMeetingTiming } from './meetingTiming'
 import './MeetingProgram.css'
+import './MeetingTheme.css'
+import './MeetingTools.css'
 
 const emptyWeek = { entries: {}, extras: [] }
+const themeKey = 'meeting:theme'
 const dateFormat = new Intl.DateTimeFormat('es-CO', { weekday: 'long', day: 'numeric', month: 'long' })
 
 
@@ -42,11 +48,15 @@ function ExtraForm({ parts, initial, onSave, onCancel }) {
   )
 }
 
-function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollapse }) {
+function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollapse, reading }) {
   const closing = part.kind === 'closing'
   const presider = closing || part.kind === 'opening'
   const song = part.kind === 'song'
-  const [view, setView] = useState(presider ? 'outline' : part.custom ? 'prepare' : 'guide')
+  const prayer = part.kind === 'prayer'
+  const study = isCongregationStudy(part)
+  const [view, setView] = useState(presider || reading ? 'outline' : part.custom || prayer ? 'prepare' : 'guide')
+  const detail = useRef(null)
+  useEffect(() => { if (reading) detail.current?.focus() }, [reading])
   const assignable = hasAssignee(part)
 
   function field(name, label, multiline = false) {
@@ -55,9 +65,9 @@ function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollap
   }
 
   return (
-    <div className="mp-details">
+    <div className="mp-details" ref={detail} tabIndex={reading ? -1 : undefined}>
       {!song && <div className="mp-views" role="group" aria-label="Vista de la parte">
-        <button type="button" aria-pressed={view === 'guide'} onClick={() => setView('guide')}>Guía</button>
+        {!prayer && <button type="button" aria-pressed={view === 'guide'} onClick={() => setView('guide')}>Guía</button>}
         {!presider && <button type="button" aria-pressed={view === 'prepare'} onClick={() => setView('prepare')}>Preparación</button>}
         {(presider || part.speech) && <button type="button" aria-pressed={view === 'outline'} onClick={() => setView('outline')}>Bosquejo</button>}
       </div>}
@@ -66,16 +76,17 @@ function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollap
           <h4>Mis notas</h4>
           <p>{entry.notes}</p>
         </section>}
-        <GuideContent part={part} />
+        <GuideContent part={part} answers={entry.answers}
+          onAnswerChange={(id, text) => onChange({ answers: { ...entry.answers, [id]: text } })} />
       </>}
       {view === 'outline' && (presider
         ? <PresiderOutline closing={closing} items={presiderPoints(entry, closing)} topics={topics}
           onChange={presiderOutline => onChange({ presiderOutline, notes: '' })} />
-        : <MeetingOutline part={part} values={entry.outline} onChange={outline => onChange({ outline })} />)}
+        : <MeetingOutline part={part} values={entry.outline} initiallyReading={reading} onChange={outline => onChange({ outline })} />)}
       {view === 'prepare' && <div className="mp-preparation">
         {assignable && <div className="mp-grid">
-          {field('person', 'Persona asignada')}
-          {field('helper', 'Ayudante o segundo participante')}
+          {field('person', study ? 'Encargado del estudio' : 'Persona asignada')}
+          {!prayer && field('helper', study ? 'Lector' : 'Ayudante o segundo participante')}
         </div>}
         {field('notes', 'Notas para dirigir la parte', true)}
         {part.section === 'maestros' && assignable && <div className="mp-grid">
@@ -107,9 +118,11 @@ function MeetingWeek({ week, schedule }) {
   const [adding, setAdding] = useState(false)
   const [editing, setEditing] = useState(null)
   const [open, setOpen] = useState(null)
+  const [changes, setChanges] = useState(null)
+  const [backup, setBackup] = useState(null)
   const openPartButton = useRef(null)
   const timing = useMeetingTiming(week, schedule)
-  const { session, now, resetPart, togglePart } = timing
+  const { session, now, resetPart, togglePart, releasePart, advanceProgram, resetProgram, start } = timing
   const { active, parts: times } = session
   const [targets, setTargets] = useState({})
 
@@ -129,9 +142,18 @@ function MeetingWeek({ week, schedule }) {
   }, [attempt, guideKey, week])
 
 
+  useEffect(() => {
+    function sync(event) {
+      if (event.key === localKey || event.key === null) setData(readLocal(localKey, emptyWeek))
+    }
+    window.addEventListener('storage', sync)
+    return () => window.removeEventListener('storage', sync)
+  }, [localKey])
+
   function collapsePart() {
     openPartButton.current?.focus()
     setOpen(null)
+    setBackup(null)
     setEditing(null)
   }
 
@@ -160,7 +182,10 @@ function MeetingWeek({ week, schedule }) {
   function remove(id, custom = false) {
     const entries = { ...data.entries }
     delete entries[id]
-    save({ entries, extras: custom ? data.extras.filter(part => part.id !== id) : data.extras })
+    const omitted = { ...data.omitted }
+    delete omitted[id]
+    const moves = (data.moves || []).filter(move => move.id !== id && move.after !== id)
+    save({ ...data, entries, omitted, moves, extras: custom ? data.extras.filter(part => part.id !== id) : data.extras })
     if (custom) resetPart(id)
     if (custom && editing === id) setEditing(null)
   }
@@ -177,16 +202,52 @@ function MeetingWeek({ week, schedule }) {
     save({ ...data, entries })
   }
 
-  const published = prepareParts(guide?.parts || [])
+  const published = useMemo(() => prepareParts(guide?.parts || []), [guide])
   const topics = published.filter(part => part.kind === 'assignment' && ['tesoros', 'maestros', 'vida'].includes(part.section))
-  const parts = orderParts(published, data.extras)
-  const runningPart = parts.find(part => part.id === active)
+  const parts = useMemo(() => programOrder(orderParts(published, data.extras), data.moves), [published, data.extras, data.moves])
+  const omitted = data.omitted || {}
+  const moved = new Set(data.moves?.map(move => move.id))
+  const runningPart = parts.find(part => part.id === active && !omitted[part.id])
+  const next = session.finishedAt == null ? nextProgramPart(parts, session, omitted) : undefined
+  const cursor = parts.findIndex(part => part.id === (active || session.anchor))
+
+  function move(part, index, after) {
+    releasePart(part.id, parts[index - 1]?.id ?? null)
+    save({ ...data, moves: after === undefined
+      ? data.moves.filter(move => move.id !== part.id)
+      : [...(data.moves || []), { id: part.id, after }] })
+    closeChanges(part)
+  }
+
+  function closeChanges(part) {
+    document.getElementById('mp-change-' + encodeURIComponent(part.id))?.focus()
+    setChanges(null)
+  }
+
+  function omit(part) {
+    if (!omitted[part.id]) releasePart(part.id, parts[parts.indexOf(part) - 1]?.id ?? null)
+    save({ ...data, omitted: { ...omitted, [part.id]: !omitted[part.id] } })
+    closeChanges(part)
+  }
+
+  function assignee(part) {
+    if (!part || !hasAssignee(part)) return ''
+    const entry = data.entries[part.id]
+    if (isCongregationStudy(part)) return 'Encargado · ' + (entry?.person || 'sin asignar') + ' · Lector · ' + (entry?.helper || 'sin asignar')
+    return [entry?.person || 'Sin asignar', entry?.helper].filter(Boolean).join(' · ')
+  }
+
+  const chair = parts.length ? {
+    next, assignee: assignee(next), projection: projectedFinish(parts, session, omitted, start, now),
+    onAdvance: () => advanceProgram(next?.id),
+    onReset: () => { if (window.confirm('¿Reiniciar el recorrido y todos los cronómetros de esta reunión?')) resetProgram() },
+  } : null
   const missing = guide ? Object.entries(data.entries).filter(([id, entry]) => (
     !parts.some(part => part.id === id) && Object.keys(entry).some(key => key !== 'title' && entry[key])
   )) : []
 
   return <>
-    <MeetingClock timing={timing} activePart={runningPart} />
+    <MeetingClock timing={timing} activePart={runningPart} chair={chair} />
 
     <div className="mp-program-toolbar">
       <div>
@@ -194,7 +255,7 @@ function MeetingWeek({ week, schedule }) {
         {guide?.reading && <p><BookOpen size={15} /> {guide.reading}</p>}
       </div>
       <div className="mp-actions">
-
+        <OfflineWeek guide={guide} />
         <button type="button" onClick={() => { setEditing(null); setAdding(value => !value) }}><Plus size={17} /> Añadir parte</button>
       </div>
     </div>
@@ -239,7 +300,7 @@ function MeetingWeek({ week, schedule }) {
     }} />}
 
     {sections.map(([section, label]) => {
-      const rows = parts.filter(part => part.section === section)
+      const rows = parts.filter(part => part.programSection === section)
       if (!rows.length) return null
       return (
         <section className={'mp-section mp-' + section} key={section} aria-label={label}>
@@ -249,36 +310,68 @@ function MeetingWeek({ week, schedule }) {
             const timer = times[part.id] || emptyTimer
             const timed = elapsedTime(timer, now)
             const expanded = open === part.id
+            const changing = changes === part.id
+            const skipped = !!omitted[part.id]
+            const relocated = moved.has(part.id)
+            const canReorder = cursor < parts.indexOf(part) || active === part.id
+            const flag = skipped ? 'Omitida' : session.presented?.[part.id] ? 'Presentada' : relocated ? 'Reubicada' : ''
             const playing = timer.started !== null
             const assignable = hasAssignee(part)
             const song = part.kind === 'song'
+            const study = isCongregationStudy(part)
             const duration = part.minutes ? part.minutes + (part.minutes === 1 ? ' minuto' : ' minutos') : 'Tiempo libre'
             return (
-              <article className={'mp-part' + (active === part.id ? ' mp-active' : '') + (song ? ' mp-song' : '')} key={part.id}>
+              <article className={'mp-part' + (active === part.id ? ' mp-active' : '') + (song ? ' mp-song' : '')} data-omitted={skipped} key={part.id}>
                 <div className="mp-row">
-                  <button className="mp-part-label" type="button" ref={expanded ? openPartButton : null} aria-expanded={expanded} onClick={() => setOpen(expanded ? null : part.id)}>
+                  <button className="mp-part-label" type="button" ref={expanded ? openPartButton : null} aria-expanded={expanded} onClick={() => { setBackup(null); setOpen(expanded ? null : part.id) }}>
                     <span className="mp-part-mark" aria-hidden="true">{part.number || (song ? <Music2 size={16} /> : <Clock size={16} />)}</span>
                     <span className="mp-part-information">
                       <strong>{part.title}</strong>
-                      {assignable && <small>{entry.person || 'Sin asignar'}{entry.helper && ' · ' + entry.helper}{part.custom && ' · Parte añadida'}</small>}
+                      {study ? <small className="mp-study-roles">
+                        <span>Encargado · {entry.person || 'Sin asignar'}</span>
+                        <span>Lector · {entry.helper || 'Sin asignar'}</span>
+                      </small> : assignable && <small>{entry.person || 'Sin asignar'}{entry.helper && ' · ' + entry.helper}{part.custom && ' · Parte añadida'}</small>}
+                      {flag && <span className="mp-part-flag">{flag}</span>}
                     </span>
                     <ChevronDown size={16} className={expanded ? 'mp-expanded' : ''} />
                   </button>
-                  {!song && <div className="mp-part-time">
+                  <div className="mp-part-time">
+                    {!song && !skipped && <>
                     <div className={part.minutes && timed > part.minutes * 60000 ? 'mp-over' : ''}>
                       <strong>{formatTime(timed)}</strong>
-                      <small>{duration}</small>
+                      {part.kind !== 'prayer' && <small>{duration}</small>}
                     </div>
                     <button className={'mp-icon' + (playing ? ' mp-primary' : '')} type="button" onClick={() => togglePart(part.id)} aria-label={(playing ? 'Pausar ' : 'Iniciar ') + part.title} title={playing ? 'Pausar parte' : 'Iniciar parte'}>{playing ? <Pause size={17} /> : <Play size={17} />}</button>
                     {(timed > 0 || playing) && <button className="mp-icon mp-reset-part" type="button" aria-label={'Reiniciar ' + part.title} title="Reiniciar parte" onClick={() => resetPart(part.id)}><RotateCcw size={16} /></button>}
-                  </div>}
+                    </>}
+                    <button type="button" className="mp-icon mp-row-changes" id={'mp-change-' + encodeURIComponent(part.id)}
+                      aria-label={'Cambios para ' + part.title} aria-expanded={changing} onClick={() => setChanges(changing ? null : part.id)}>
+                      <Ellipsis size={19} />
+                    </button>
+                  </div>
                 </div>
+                {changing && <ProgramChanges part={part} entry={entry}
+                  group={{
+                    candidates: canReorder ? parts.filter((candidate, index) => index > cursor
+                      && candidate.id !== part.id && !omitted[candidate.id] && !session.presented?.[candidate.id]) : [],
+                    canMoveToStart: cursor === -1 && parts[0]?.id !== part.id,
+                    omitted: skipped, moved: relocated && canReorder,
+                  }}
+                  onSave={patch => { update(part, patch); closeChanges(part) }}
+                  onOmit={() => omit(part)}
+                  onMove={after => move(part, parts.indexOf(part), after)}
+                  onRestore={() => move(part, parts.indexOf(part), undefined)}
+                  onOutline={hasPreparedOutline(part, entry.outline) ? () => {
+                    setChanges(null)
+                    setBackup(part.id)
+                    setOpen(part.id)
+                  } : undefined} />}
                 {expanded && editing === part.id && <ExtraForm parts={published} initial={part} onCancel={() => setEditing(null)} onSave={patch => {
                   const extras = data.extras.map(extra => extra.id === part.id ? { ...extra, ...patch } : extra)
                   save({ ...data, extras })
                   setEditing(null)
                 }} />}
-                {expanded && <PartDetails key={part.id} part={part} entry={entry} topics={topics} onCollapse={collapsePart} onChange={patch => update(part, patch)}
+                {expanded && <PartDetails key={part.id + (backup === part.id ? '|lectura' : '')} part={part} entry={entry} topics={topics} reading={backup === part.id} onCollapse={collapsePart} onChange={patch => update(part, patch)}
                   onEdit={part.custom ? () => { setAdding(false); setEditing(part.id) } : null}
                   onRemove={part.custom ? () => { if (window.confirm('¿Eliminar esta parte y sus notas?')) remove(part.id, true) } : null} />}
               </article>
@@ -300,16 +393,24 @@ function MeetingWeek({ week, schedule }) {
 
 export default function MeetingProgram() {
   const [date, setDate] = useState(dateKey)
+  const [theme, setTheme] = useState(() => readLocal(themeKey, 'light') === 'dark' ? 'dark' : 'light')
   const [schedule, setSchedule] = useState(readSchedule)
   const [scheduleError, setScheduleError] = useState(false)
 
   useEffect(() => {
     function sync(event) {
       if (event.key === scheduleKey || event.key === null) setSchedule(readSchedule())
+      if (event.key === themeKey || event.key === null) setTheme(readLocal(themeKey, 'light') === 'dark' ? 'dark' : 'light')
     }
     window.addEventListener('storage', sync)
     return () => window.removeEventListener('storage', sync)
   }, [])
+
+  function toggleTheme() {
+    const next = theme === 'dark' ? 'light' : 'dark'
+    setTheme(next)
+    try { localStorage.setItem(themeKey, JSON.stringify(next)) } catch {}
+  }
 
   function changeSchedule(next) {
     if (next.day === schedule.day && next.time === schedule.time) return
@@ -324,11 +425,17 @@ export default function MeetingProgram() {
   }
   const week = weekKey(date)
   return (
-    <main className="mp">
+    <main className="mp" data-theme={theme}>
       <header className="mp-header">
         <div className="mp-header-inner">
           <div>
-            <div className="mp-kicker"><span><BookOpen size={17} /></span> Vida y Ministerio</div>
+            <div className="mp-brand-line">
+              <div className="mp-kicker"><span><BookOpen size={17} /></span> Vida y Ministerio</div>
+              <button type="button" className="mp-theme-toggle" onClick={toggleTheme}>
+                {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+                {theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+              </button>
+            </div>
             <h1>Programa de la reunión</h1>
             <p>{dateFormat.format(shiftDate(date, 0))}</p>
           </div>

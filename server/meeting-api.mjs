@@ -33,7 +33,7 @@ async function fetchPage(path) {
       throw new Error('No se pudo conectar con WOL. Comprueba tu conexión y vuelve a intentar.')
     }
     if (response.ok) {
-      return { document: parse(await response.text()), fragment: decodeURIComponent(url.hash.slice(1)) }
+      return { document: parse(await response.text()), fragment: decodeURIComponent(url.hash.slice(1)), pathname: url.pathname }
     }
     const location = response.headers.get('location')
     if (response.status >= 300 && response.status < 400 && location) {
@@ -181,11 +181,14 @@ async function weeklyProgram(input) {
 
 async function bibleText(path) {
   if (!biblePath.test(path)) throw new InvalidRequest('Referencia bíblica inválida.')
-  const { document, fragment } = await fetchPage(path)
+  const { document, fragment, pathname } = await fetchPage(path)
   const citation = fragment.match(/^v=(\d+):(\d+):(\d+)(?:-(?:(\d+):(\d+):)?(\d+))?$/)
-  if (!citation) throw new Error('WOL no devolvió una referencia bíblica reconocible.')
-  const [, book, chapter, first, lastBook, lastChapter, last = first] = citation
-  if ((lastBook && (lastBook !== book || lastChapter !== chapter)) || Number(last) < Number(first)) {
+  const chapterPage = pathname.match(/\/b\/r4\/lp-s\/[a-z0-9]+\/(\d+)\/(\d+)$/)
+  if (!citation && (fragment || !chapterPage)) throw new Error('WOL no devolvió una referencia bíblica reconocible.')
+  const [, book, chapter] = citation || chapterPage
+  const first = Number(citation?.[3] ?? 0)
+  const last = Number(citation?.[6] ?? citation?.[3] ?? Infinity)
+  if ((citation?.[4] && (citation[4] !== book || citation[5] !== chapter)) || last < first) {
     throw new Error('Consulta el pasaje completo mediante su enlace en WOL.')
   }
 
@@ -193,7 +196,7 @@ async function bibleText(path) {
   const spans = document.querySelectorAll('span.v[id^="v' + book + '-' + chapter + '-"]')
   for (const span of spans) {
     const number = Number(span.getAttribute('id').split('-')[2])
-    if (number < Number(first) || number > Number(last)) continue
+    if (number < first || number > last) continue
     for (const anchor of span.querySelectorAll('a')) {
       if (anchor.classList.contains('vl') || anchor.classList.contains('b') || /^[*+]$/.test(clean(anchor.text))) {
         anchor.remove()
@@ -203,15 +206,79 @@ async function bibleText(path) {
     lines.push(clean(span.text))
     verses.set(number, lines)
   }
-  if (verses.size !== Number(last) - Number(first) + 1) {
+  if (!verses.size || (citation && verses.size !== last - first + 1)) {
     throw new Error('No se encontró el texto completo de la cita en WOL.')
   }
   return Array.from(verses, ([number, lines]) => ({ number, text: lines.join(' ') }))
 }
 
+function publicationImage(node) {
+  const image = node.tagName === 'IMG'
+  const src = node.getAttribute(image ? 'src' : 'data-bg-image')
+  if (!src) return null
+  let url
+  try {
+    url = new URL(src, origin)
+  } catch {
+    return null
+  }
+  if (url.origin !== origin || !url.pathname.startsWith('/es/wol/mp/r4/lp-s/')) return null
+
+  const alt = clean(node.getAttribute(image ? 'alt' : 'data-bg-image-label') || '')
+  const caption = clean(node.closest('figure')?.querySelector('figcaption')?.text)
+  if (!alt && !caption && !node.closest('a') && (!image || node.closest('header'))) return null
+
+  return { url: url.href, alt, caption }
+}
+
+function publicationBlocks(article, pathname, fragment) {
+  if (!article) return []
+  let nodes = article.querySelectorAll('header img, header [data-bg-image], .bodyTxt h2, .bodyTxt h3, .bodyTxt h4, .bodyTxt h5, .bodyTxt p, .bodyTxt img, .bodyTxt [data-bg-image]')
+  if (fragment) {
+    const range = fragment.match(/^h=(\d+):\d+(?:-(\d+):(\d+))?$/)
+    if (!range) return []
+    const first = Number(range[1])
+    const last = range[2] === undefined ? first : Number(range[2]) - (range[3] === '0' ? 1 : 0)
+    const included = nodes.map((node, index) => ({ id: Number(node.getAttribute('data-pid')), index }))
+      .filter(node => node.id >= first && node.id <= last)
+    if (!included.length) return []
+    nodes = nodes.slice(included[0].index, included[included.length - 1].index + 1)
+  }
+
+  const seenImages = new Set()
+  const blocks = []
+  for (const node of nodes) {
+    if (node.tagName === 'IMG' || node.hasAttribute('data-bg-image')) {
+      const image = publicationImage(node)
+      if (image && !seenImages.has(image.url)) {
+        seenImages.add(image.url)
+        blocks.push({ kind: 'image', ...image })
+      }
+      if (!/^(?:H[2-5]|P)$/.test(node.tagName)) continue
+    }
+    if (node.closest('figcaption') || node.closest('.gen-field')) continue
+    const text = clean(node.text)
+    if (!text) continue
+    if (node.tagName !== 'P') {
+      blocks.push({ kind: 'heading', text })
+      continue
+    }
+    const questionBlock = node.nextElementSibling?.classList.contains('gen-field')
+      || node.classList.contains('qu') || node.classList.contains('question')
+    const prompts = questionBlock ? [text] : /^Preguntas?\s*:/iu.test(text) ? text.match(/¿[^?]+\?/gu) || [text] : []
+    const uid = node.getAttribute('data-pid') || createHash('sha256').update(text).digest('hex')
+    blocks.push({
+      kind: node.closest('.stdPullQuote') ? 'quote' : 'paragraph',
+      runs: guideRuns(node),
+      questions: prompts.map((label, index) => ({ id: pathname + '#' + uid + '-' + index, label })),
+    })
+  }
+  return blocks
+}
+
 async function publicationText(path) {
   if (!lessonPath.test(path) && !/^\/es\/wol\/d\/r4\/lp-s\/\d+$/.test(path)) throw new InvalidRequest('Enlace de lección inválido.')
-  const { document, fragment } = await fetchPage(path)
+  const { document, fragment, pathname } = await fetchPage(path)
   const article = document.querySelector('article#article')
   const title = clean(article?.querySelector('h1')?.text)
   let paragraphs = []
@@ -236,7 +303,13 @@ async function publicationText(path) {
   const stanzas = (article?.querySelectorAll('.bodyTxt ol.source > li') || [])
     .filter(stanza => stanza.querySelector('.txtSrcBullet'))
     .map(stanza => stanza.querySelectorAll('p').map(line => clean(line.text)).filter(Boolean))
-  return { title, paragraphs, stanzas }
+  const scripture = article?.querySelector('.themeScrp')
+  return {
+    title, paragraphs, stanzas,
+    themeScriptures: scripture ? references(scripture).filter(reference => reference.bible) : [],
+    context: clean(article?.querySelector('header .contextTtl')?.text),
+    blocks: publicationBlocks(article, pathname, fragment),
+  }
 }
 
 async function videoSource(id) {
@@ -257,6 +330,22 @@ async function videoSource(id) {
   return { title: item.title, video: video.progressiveDownloadURL }
 }
 
+async function publicationImageResponse(path) {
+  if (!/^\/es\/wol\/mp\/r4\/lp-s\/[a-z0-9_-]+\/\d+\/\d+$/i.test(path || '')) {
+    throw new InvalidRequest('Imagen de la guía inválida.')
+  }
+  const upstream = await fetch(new URL(path, origin), {
+    redirect: 'error', signal: AbortSignal.timeout(12000),
+  })
+  const type = upstream.headers.get('content-type')?.split(';')[0].trim()
+  if (!upstream.ok || !/^image\/(?:jpeg|png|webp|gif|avif)$/i.test(type || '')) {
+    throw new Error('No se encontró la imagen en WOL.')
+  }
+  return new Response(upstream.body, {
+    headers: { 'content-type': type, 'cache-control': 'public, max-age=86400' },
+  })
+}
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -268,6 +357,7 @@ export default async function meetingApi(request) {
   if (request.method !== 'GET') return json({ error: 'Método no permitido.' }, 405)
   const query = new URL(request.url).searchParams
   try {
+    if (query.has('image')) return await publicationImageResponse(query.get('image'))
     if (query.has('verse')) return json(await bibleText(query.get('verse')))
     if (query.has('document')) return json(await publicationText(query.get('document')))
     if (query.has('lesson')) return json(await publicationText(query.get('lesson')))
