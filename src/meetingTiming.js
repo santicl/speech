@@ -5,6 +5,7 @@ export const scheduleKey = 'meeting:schedule'
 export const defaultSchedule = { day: 3, time: '19:00', revision: 0 }
 export const meetingDuration = 105 * 60 * 1000
 export const warningTime = meetingDuration - 10 * 60 * 1000
+const undoWindow = 20000
 
 export const emptyTimer = { elapsed: 0, started: null }
 const emptySession = { general: emptyTimer, parts: {}, active: null, manual: false, warningSeen: false }
@@ -47,8 +48,8 @@ export function formatMeetingTime(milliseconds) {
   return units.map(value => String(value).padStart(2, '0')).join(':')
 }
 
-export function useMeetingTiming(week, schedule) {
-  const key = 'meeting:timers:' + week
+export function useMeetingTiming(week, schedule, rehearsal = false) {
+  const key = (rehearsal ? 'meeting:rehearsal:' : 'meeting:timers:') + week
   const [session, setSession] = useState(() => readLocal(key, emptySession))
   const latest = useRef(session)
   const [now, setNow] = useState(Date.now)
@@ -81,6 +82,7 @@ export function useMeetingTiming(week, schedule) {
   const canStart = !session.manual && session.general.started === null && session.general.elapsed === 0
   const shouldRearm = week === weekKey(dateKey()) && (session.scheduleRevision ?? 0) !== schedule.revision
   useEffect(() => {
+    if (rehearsal) return
     if (shouldRearm) {
       setNow(Date.now())
       save({
@@ -89,7 +91,7 @@ export function useMeetingTiming(week, schedule) {
         general: emptyTimer,
         generalStartedAt: null,
         manual: false,
-        warningSeen: false,
+        warningSeen: false, undo: null,
       })
     } else if (!canStart) {
       return
@@ -119,7 +121,7 @@ export function useMeetingTiming(week, schedule) {
       window.removeEventListener('focus', checkSchedule)
       document.removeEventListener('visibilitychange', checkSchedule)
     }
-  }, [canStart, save, schedule.revision, shouldRearm, start])
+  }, [canStart, rehearsal, save, schedule.revision, shouldRearm, start])
 
   const running = session.general.started !== null || session.parts[session.active]?.started != null
   const projecting = session.programStartedAt != null && session.finishedAt == null
@@ -145,12 +147,20 @@ export function useMeetingTiming(week, schedule) {
     }
   }, [projecting, running, save])
 
+  const undoUntil = session.undo?.until
+  useEffect(() => {
+    if (!undoUntil) return
+    const timeout = setTimeout(() => setNow(Date.now()), Math.max(0, undoUntil - Date.now()))
+    return () => clearTimeout(timeout)
+  }, [undoUntil])
+
   function toggleGeneral() {
     const at = Date.now()
     const current = latest.current
     setNow(at)
     save({
       ...current, manual: true, general: toggleTime(current.general, at),
+      undo: current.undo?.clock ? null : current.undo,
       generalStartedAt: current.generalStartedAt ?? at - elapsedTime(current.general, at),
     })
   }
@@ -158,7 +168,9 @@ export function useMeetingTiming(week, schedule) {
   function resetGeneral() {
     const at = Date.now()
     setNow(at)
-    save({ ...latest.current, general: timerForSchedule(start, at) ?? emptyTimer, generalStartedAt: null, manual: false, warningSeen: false })
+    const current = latest.current
+    save({ ...current, general: rehearsal ? emptyTimer : timerForSchedule(start, at) ?? emptyTimer,
+      generalStartedAt: null, manual: false, warningSeen: false, undo: current.undo?.clock ? null : current.undo })
   }
 
   function stopPart(current, at) {
@@ -174,7 +186,7 @@ export function useMeetingTiming(week, schedule) {
     setNow(at)
     save({
       ...current, parts: { ...parts, [id]: timer }, active: id, anchor: null,
-      programStartedAt: current.programStartedAt ?? at, finishedAt: null,
+      programStartedAt: current.programStartedAt ?? at, finishedAt: null, undo: null,
     })
   }
 
@@ -184,21 +196,48 @@ export function useMeetingTiming(week, schedule) {
     if (id === current.active || (!id && current.finishedAt != null)) return
     const parts = stopPart(current, at)
     const presented = current.active ? { ...current.presented, [current.active]: true } : current.presented
+    const { active, anchor = null, programStartedAt = null, finishedAt = null, general, generalStartedAt = null, manual } = current
+    const startsPractice = id && rehearsal && !manual && general.started === null && general.elapsed === 0
+    const stopsGeneral = !id && general.started !== null
+    const undo = {
+      until: at + undoWindow,
+      progress: { active, anchor, programStartedAt, finishedAt, parts: current.parts, presented: current.presented || {} },
+      clock: startsPractice || stopsGeneral ? { general, generalStartedAt, manual } : null,
+    }
     setNow(at)
     if (id) {
+      const clock = startsPractice ? { general: { ...emptyTimer, started: at }, generalStartedAt: at, manual: true } : {}
       save({
-        ...current, active: id, anchor: null, presented, parts: {
+        ...current, ...clock, undo, active: id, anchor: null, presented, parts: {
           ...parts, [id]: { ...(parts[id] || emptyTimer), started: at },
         },
-        programStartedAt: current.programStartedAt ?? at, finishedAt: null,
+        programStartedAt: programStartedAt ?? at, finishedAt: null,
       })
     } else {
-      const general = current.general.started !== null ? toggleTime(current.general, at) : current.general
       save({
-        ...current, active: null, anchor: current.active || current.anchor, parts, presented,
-        general, manual: current.manual || current.general.started !== null, finishedAt: at,
+        ...current, undo, active: null, anchor: active || anchor, parts, presented,
+        general: stopsGeneral ? toggleTime(general, at) : general,
+        manual: manual || stopsGeneral, finishedAt: at,
       })
     }
+  }
+
+  function undoAdvance() {
+    const current = latest.current
+    const at = Date.now()
+    if (!current.undo || at >= current.undo.until) return
+    setNow(at)
+    save({ ...current, ...current.undo.progress, ...current.undo.clock, undo: null })
+  }
+
+  function pausePractice() {
+    const current = latest.current
+    const at = Date.now()
+    const parts = stopPart(current, at)
+    const general = current.general.started === null ? current.general : toggleTime(current.general, at)
+    if (parts === current.parts && general === current.general) return
+    setNow(at)
+    save({ ...current, parts, general, undo: null })
   }
 
   function resetProgram() {
@@ -207,29 +246,37 @@ export function useMeetingTiming(week, schedule) {
     save({
       ...latest.current, active: null, anchor: null, presented: {}, parts: {},
       programStartedAt: null, finishedAt: null, generalStartedAt: null,
-      general: timerForSchedule(start, at) ?? emptyTimer, manual: false, warningSeen: false,
+      general: rehearsal ? emptyTimer : timerForSchedule(start, at) ?? emptyTimer,
+      manual: false, warningSeen: false, undo: null,
     })
   }
 
   function releasePart(id, anchor) {
     const current = latest.current
-    if (current.active !== id) return
+    if (current.active !== id) {
+      if (current.undo) save({ ...current, undo: null })
+      return
+    }
     const at = Date.now()
     setNow(at)
-    save({ ...current, active: null, anchor, parts: stopPart(current, at) })
+    save({ ...current, active: null, anchor, parts: stopPart(current, at), undo: null })
   }
 
   function resetPart(id) {
     const current = latest.current
-    if (!current.parts[id]) return
+    if (!current.parts[id]) {
+      if (current.undo) save({ ...current, undo: null })
+      return
+    }
     const parts = { ...current.parts }
     delete parts[id]
-    save({ ...current, parts, active: current.active === id ? null : current.active })
+    save({ ...current, parts, active: current.active === id ? null : current.active, undo: null })
   }
 
   return {
     session, now, storageError, toggleGeneral, resetGeneral, togglePart, resetPart,
-    advanceProgram, releasePart, resetProgram, start,
+    advanceProgram, releasePart, resetProgram, undoAdvance, pausePractice, start, rehearsal,
+    canUndo: Boolean(undoUntil && now < undoUntil),
     dismissWarning: () => save({ ...latest.current, warningSeen: true }),
   }
 }

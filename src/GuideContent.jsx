@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BookOpen, ChevronDown, CirclePlay, Music2, ScrollText } from 'lucide-react'
-import { isCongregationStudy, loadMeeting, meetingImage, readLocal, referenceRequest } from './meetingData'
+import { isCongregationStudy, loadMeeting, meetingImage, readLocal, referenceRequest, teachingReference } from './meetingData'
 
 function useReference(reference, open) {
   const [type, value] = referenceRequest(reference)
@@ -131,7 +131,7 @@ function StudyContent({ content, answers, onAnswerChange }) {
 
 export default function GuideContent({ part, answers, onAnswerChange }) {
   const refs = Array.from(new Map((part.links || []).map(ref => [ref.url, ref])).values())
-  const lesson = refs.find(ref => /\blección\b/i.test(ref.label))
+  const lesson = teachingReference(part)
   const study = isCongregationStudy(part)
   const featured = study ? refs.filter(ref => referenceRequest(ref)[0] === 'document')
     : (part.kind === 'song' ? [refs[0]] : [lesson]).filter(Boolean)

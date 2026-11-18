@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronUp, Clock, Ellipsis, Moon, Music2, Pause, Play, Plus, RotateCcw, Sun } from 'lucide-react'
-import GuideContent from './GuideContent'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronUp, ClipboardList, Clock, Ellipsis, FlaskConical, Moon, Music2, Pause, Play, Plus, RotateCcw, Sun } from 'lucide-react'
+import GuideContent, { GuideReference } from './GuideContent'
 import MeetingClock from './MeetingClock'
+import MeetingReview from './MeetingReview'
 import MeetingSchedule from './MeetingSchedule'
 import MeetingOutline from './MeetingOutline'
 import PresiderOutline from './PresiderOutline'
 import ProgramChanges from './ProgramChanges'
 import OfflineWeek from './OfflineWeek'
 import { hasPreparedOutline, nextProgramPart, programOrder, projectedFinish } from './meetingRun'
-import { dateKey, formatTime, hasAssignee, isCongregationStudy, loadMeeting, moveClosingOutlinePoints, orderParts, prepareParts, presiderPoints, readLocal, sections, shiftDate, weekKey } from './meetingData'
+import { dateKey, formatTime, hasAssignee, isCongregationStudy, loadMeeting, moveClosingOutlinePoints, orderParts, prepareParts, presiderPoints, readLocal, sections, shiftDate, teachingReference, weekKey } from './meetingData'
 import { elapsedTime, emptyTimer, readSchedule, scheduleKey, useMeetingTiming } from './meetingTiming'
 import './MeetingProgram.css'
 import './MeetingTheme.css'
@@ -48,29 +49,41 @@ function ExtraForm({ parts, initial, onSave, onCancel }) {
   )
 }
 
-function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollapse, reading }) {
+function partControl(id, control) {
+  return 'mp-part-' + encodeURIComponent(id) + '-' + control
+}
+
+function focusAt(element, clock) {
+  if (!element) return
+  element.style.scrollMarginTop = ((clock?.offsetHeight || 0) + 16) + 'px'
+  element.focus({ preventScroll: true })
+  element.scrollIntoView?.({ block: 'start' })
+}
+
+function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollapse, reading, initialView }) {
   const closing = part.kind === 'closing'
   const presider = closing || part.kind === 'opening'
   const song = part.kind === 'song'
   const prayer = part.kind === 'prayer'
   const study = isCongregationStudy(part)
-  const [view, setView] = useState(presider || reading ? 'outline' : part.custom || prayer ? 'prepare' : 'guide')
-  const detail = useRef(null)
-  useEffect(() => { if (reading) detail.current?.focus() }, [reading])
+  const [view, setView] = useState(initialView || (presider ? 'outline' : part.custom || prayer ? 'prepare' : 'guide'))
   const assignable = hasAssignee(part)
+  const coaching = part.section === 'maestros' && assignable
+  const lesson = coaching && teachingReference(part)
 
   function field(name, label, multiline = false) {
-    const props = { value: entry[name] || '', onChange: event => onChange({ [name]: event.target.value }) }
+    const props = { id: partControl(part.id, name), value: entry[name] || '', onChange: event => onChange({ [name]: event.target.value }) }
     return <label>{label}{multiline ? <textarea {...props} /> : <input {...props} />}</label>
   }
 
   return (
-    <div className="mp-details" ref={detail} tabIndex={reading ? -1 : undefined}>
-      {!song && <div className="mp-views" role="group" aria-label="Vista de la parte">
+    <div className="mp-details">
+      <div className="mp-views" role="group" aria-label="Vista de la parte">
         {!prayer && <button type="button" aria-pressed={view === 'guide'} onClick={() => setView('guide')}>Guía</button>}
-        {!presider && <button type="button" aria-pressed={view === 'prepare'} onClick={() => setView('prepare')}>Preparación</button>}
+        {!presider && !song && <button type="button" aria-pressed={view === 'prepare'} onClick={() => setView('prepare')}>Preparación</button>}
         {(presider || part.speech) && <button type="button" aria-pressed={view === 'outline'} onClick={() => setView('outline')}>Bosquejo</button>}
-      </div>}
+        <button type="button" aria-pressed={view === 'transition'} onClick={() => setView('transition')}>Transición</button>
+      </div>
       {view === 'guide' && <>
         {!presider && entry.notes?.trim() && <section className="mp-private-note">
           <h4>Mis notas</h4>
@@ -79,20 +92,36 @@ function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollap
         <GuideContent part={part} answers={entry.answers}
           onAnswerChange={(id, text) => onChange({ answers: { ...entry.answers, [id]: text } })} />
       </>}
-      {view === 'outline' && (presider
-        ? <PresiderOutline closing={closing} items={presiderPoints(entry, closing)} topics={topics}
-          onChange={presiderOutline => onChange({ presiderOutline, notes: '' })} />
-        : <MeetingOutline part={part} values={entry.outline} initiallyReading={reading} onChange={outline => onChange({ outline })} />)}
+      {view === 'outline' && <div id={partControl(part.id, 'outline')} tabIndex={-1}>
+        {presider
+          ? <PresiderOutline closing={closing} items={presiderPoints(entry, closing)} topics={topics}
+            onChange={presiderOutline => onChange({ presiderOutline, notes: '' })} />
+          : <MeetingOutline part={part} values={entry.outline} initiallyReading={reading} onChange={outline => onChange({ outline })} />}
+      </div>}
+      {view === 'transition' && <div className="mp-preparation">
+        <h4>Notas de transición</h4>
+        <div className="mp-grid">
+          {field('introCue', 'Al presentar esta parte', true)}
+          {field('closingCue', 'Al cerrar esta parte', true)}
+        </div>
+      </div>}
       {view === 'prepare' && <div className="mp-preparation">
         {assignable && <div className="mp-grid">
           {field('person', study ? 'Encargado del estudio' : 'Persona asignada')}
           {!prayer && field('helper', study ? 'Lector' : 'Ayudante o segundo participante')}
         </div>}
         {field('notes', 'Notas para dirigir la parte', true)}
-        {part.section === 'maestros' && assignable && <div className="mp-grid">
-          {field('assessment', 'Evaluación y observaciones', true)}
-          {field('counsel', 'Consejo para el participante', true)}
-        </div>}
+        {coaching && <section className="mp-coaching" aria-label="Consejo para el participante">
+          <h4>Consejo para el participante</h4>
+          {lesson && <div className="mp-coaching-lesson">
+            <span>Punto de enseñanza</span>
+            <GuideReference reference={lesson} initiallyOpen compact />
+          </div>}
+          <div className="mp-grid">
+            {field('assessment', 'Qué hizo bien', true)}
+            {field('counsel', 'Qué puede mejorar', true)}
+          </div>
+        </section>}
         <div className="mp-actions">
           {assignable && (entry.person || entry.helper) && <button type="button" onClick={() => onChange({ person: '', helper: '' })}>Quitar asignados</button>}
           {onEdit && <button type="button" onClick={onEdit}>Editar parte añadida</button>}
@@ -119,10 +148,22 @@ function MeetingWeek({ week, schedule }) {
   const [editing, setEditing] = useState(null)
   const [open, setOpen] = useState(null)
   const [changes, setChanges] = useState(null)
-  const [backup, setBackup] = useState(null)
+  const modeKey = 'meeting:mode:' + week
+  const [rehearsal, setRehearsal] = useState(() => {
+    try { return sessionStorage.getItem(modeKey) === 'practice' } catch { return false }
+  })
+  const [reviewOpen, setReviewOpen] = useState(false)
+  const [offline, setOffline] = useState('checking')
+  const [navigation, setNavigation] = useState(null)
+  const [transitionOpen, setTransitionOpen] = useState(false)
+  const navigationId = useRef(0)
+  const clockRef = useRef(null)
+  const downloadButton = useRef(null)
   const openPartButton = useRef(null)
-  const timing = useMeetingTiming(week, schedule)
-  const { session, now, resetPart, togglePart, releasePart, advanceProgram, resetProgram, start } = timing
+  const meetingTiming = useMeetingTiming(week, schedule)
+  const practiceTiming = useMeetingTiming(week, schedule, true)
+  const timing = rehearsal ? practiceTiming : meetingTiming
+  const { session, now, resetPart, togglePart, releasePart, advanceProgram, resetProgram, undoAdvance, start } = timing
   const { active, parts: times } = session
   const [targets, setTargets] = useState({})
 
@@ -150,10 +191,36 @@ function MeetingWeek({ week, schedule }) {
     return () => window.removeEventListener('storage', sync)
   }, [localKey])
 
+  useLayoutEffect(() => {
+    if (!navigation) return
+    const { id, control } = navigation
+    const target = document.getElementById(partControl(id, control || 'row'))
+    focusAt(target, clockRef.current)
+  }, [navigation])
+
+  function goToPart(part, view, control, reading = false) {
+    if (!part) return
+    setChanges(null)
+    setEditing(null)
+    setOpen(part.id)
+    setNavigation({ id: part.id, view, control, reading, serial: ++navigationId.current })
+  }
+
+  function changeMode(value) {
+    if (!value) practiceTiming.pausePractice()
+    setRehearsal(value)
+    setChanges(null)
+    setTransitionOpen(false)
+    try {
+      if (value) sessionStorage.setItem(modeKey, 'practice')
+      else sessionStorage.removeItem(modeKey)
+    } catch {}
+  }
+
   function collapsePart() {
     openPartButton.current?.focus()
     setOpen(null)
-    setBackup(null)
+    setNavigation(null)
     setEditing(null)
   }
 
@@ -182,11 +249,21 @@ function MeetingWeek({ week, schedule }) {
   function remove(id, custom = false) {
     const entries = { ...data.entries }
     delete entries[id]
-    const omitted = { ...data.omitted }
-    delete omitted[id]
-    const moves = (data.moves || []).filter(move => move.id !== id && move.after !== id)
-    save({ ...data, entries, omitted, moves, extras: custom ? data.extras.filter(part => part.id !== id) : data.extras })
-    if (custom) resetPart(id)
+    function cleanOrder(order) {
+      const omitted = { ...order.omitted }
+      delete omitted[id]
+      const moves = (order.moves || []).filter(move => move.id !== id && move.after !== id)
+      return { omitted, moves }
+    }
+    save({
+      ...data, ...cleanOrder(data), entries,
+      practiceOrder: data.practiceOrder ? cleanOrder(data.practiceOrder) : undefined,
+      extras: custom ? data.extras.filter(part => part.id !== id) : data.extras,
+    })
+    if (custom) {
+      meetingTiming.resetPart(id)
+      practiceTiming.resetPart(id)
+    }
     if (custom && editing === id) setEditing(null)
   }
 
@@ -204,18 +281,26 @@ function MeetingWeek({ week, schedule }) {
 
   const published = useMemo(() => prepareParts(guide?.parts || []), [guide])
   const topics = published.filter(part => part.kind === 'assignment' && ['tesoros', 'maestros', 'vida'].includes(part.section))
-  const parts = useMemo(() => programOrder(orderParts(published, data.extras), data.moves), [published, data.extras, data.moves])
-  const omitted = data.omitted || {}
-  const moved = new Set(data.moves?.map(move => move.id))
+  const activeOrder = rehearsal && data.practiceOrder ? data.practiceOrder : data
+  const moves = activeOrder.moves
+  const parts = useMemo(() => programOrder(orderParts(published, data.extras), moves), [published, data.extras, moves])
+  const omitted = activeOrder.omitted || {}
+  const moved = new Set(moves?.map(move => move.id))
   const runningPart = parts.find(part => part.id === active && !omitted[part.id])
   const next = session.finishedAt == null ? nextProgramPart(parts, session, omitted) : undefined
   const cursor = parts.findIndex(part => part.id === (active || session.anchor))
 
+  function saveOrder(patch) {
+    if (rehearsal) save({ ...data, practiceOrder: { moves: moves || [], omitted, ...patch } })
+    else save({ ...data, ...patch })
+  }
+
   function move(part, index, after) {
     releasePart(part.id, parts[index - 1]?.id ?? null)
-    save({ ...data, moves: after === undefined
-      ? data.moves.filter(move => move.id !== part.id)
-      : [...(data.moves || []), { id: part.id, after }] })
+    saveOrder({ moves: after === undefined
+      ? (moves || []).filter(move => move.id !== part.id)
+      : [...(moves || []), { id: part.id, after }] })
+    setTransitionOpen(false)
     closeChanges(part)
   }
 
@@ -225,8 +310,9 @@ function MeetingWeek({ week, schedule }) {
   }
 
   function omit(part) {
-    if (!omitted[part.id]) releasePart(part.id, parts[parts.indexOf(part) - 1]?.id ?? null)
-    save({ ...data, omitted: { ...omitted, [part.id]: !omitted[part.id] } })
+    releasePart(part.id, parts[parts.indexOf(part) - 1]?.id ?? null)
+    saveOrder({ omitted: { ...omitted, [part.id]: !omitted[part.id] } })
+    setTransitionOpen(false)
     closeChanges(part)
   }
 
@@ -237,17 +323,50 @@ function MeetingWeek({ week, schedule }) {
     return [entry?.person || 'Sin asignar', entry?.helper].filter(Boolean).join(' · ')
   }
 
+  const enabledParts = parts.filter(part => !omitted[part.id])
+  const previous = parts.find(part => part.id === session.undo?.progress?.active)
+  const cues = [
+    previous && { title: previous.title, label: 'Al cerrar', text: data.entries[previous.id]?.closingCue?.trim() },
+    (runningPart || next) && {
+      title: (runningPart || next).title, label: 'Al presentar',
+      text: data.entries[(runningPart || next).id]?.introCue?.trim(),
+    },
+  ].filter(cue => cue?.text)
   const chair = parts.length ? {
-    next, assignee: assignee(next), projection: projectedFinish(parts, session, omitted, start, now),
-    onAdvance: () => advanceProgram(next?.id),
-    onReset: () => { if (window.confirm('¿Reiniciar el recorrido y todos los cronómetros de esta reunión?')) resetProgram() },
+    next, assignee: assignee(next),
+    projection: projectedFinish(parts, session, omitted, rehearsal ? session.programStartedAt ?? session.generalStartedAt ?? Date.now() : start, now),
+    location: runningPart && {
+      section: sections.find(([id]) => id === runningPart.programSection)?.[1],
+      position: enabledParts.indexOf(runningPart) + 1, total: enabledParts.length,
+    },
+    onLocate: runningPart ? () => {
+      setTransitionOpen(false)
+      if (open === runningPart.id) focusAt(openPartButton.current, clockRef.current)
+      else goToPart(runningPart)
+    } : undefined,
+    onCoach: runningPart?.section === 'maestros' && hasAssignee(runningPart)
+      ? () => { setTransitionOpen(false); goToPart(runningPart, 'prepare', 'assessment') } : undefined,
+    onAdvance: () => {
+      advanceProgram(next?.id)
+      setTransitionOpen(Boolean(data.entries[runningPart?.id]?.closingCue?.trim() || data.entries[next?.id]?.introCue?.trim()))
+    },
+    onUndo: () => { setTransitionOpen(false); undoAdvance() },
+    onReset: () => {
+      const label = rehearsal ? '¿Reiniciar el recorrido y los cronómetros del ensayo?' : '¿Reiniciar el recorrido y todos los cronómetros de esta reunión?'
+      if (window.confirm(label)) {
+        resetProgram()
+        setTransitionOpen(false)
+      }
+    },
+    cues, transitionOpen, onToggleTransition: () => setTransitionOpen(value => !value),
   } : null
   const missing = guide ? Object.entries(data.entries).filter(([id, entry]) => (
     !parts.some(part => part.id === id) && Object.keys(entry).some(key => key !== 'title' && entry[key])
   )) : []
 
   return <>
-    <MeetingClock timing={timing} activePart={runningPart} chair={chair} />
+    <MeetingClock timing={timing} activePart={runningPart} chair={chair} clockRef={clockRef}
+      onExitRehearsal={rehearsal ? () => changeMode(false) : undefined} />
 
     <div className="mp-program-toolbar">
       <div>
@@ -255,7 +374,15 @@ function MeetingWeek({ week, schedule }) {
         {guide?.reading && <p><BookOpen size={15} /> {guide.reading}</p>}
       </div>
       <div className="mp-actions">
-        <OfflineWeek guide={guide} />
+        {guide && <>
+          <button type="button" aria-controls="meeting-preflight" aria-expanded={reviewOpen} onClick={() => setReviewOpen(value => !value)}>
+            <ClipboardList size={17} aria-hidden="true" /> Revisión previa
+          </button>
+          {!rehearsal && <button type="button" onClick={() => changeMode(true)}>
+            <FlaskConical size={17} aria-hidden="true" /> Modo ensayo
+          </button>}
+        </>}
+        <OfflineWeek guide={guide} onStatus={setOffline} buttonRef={downloadButton} />
         <button type="button" onClick={() => { setEditing(null); setAdding(value => !value) }}><Plus size={17} /> Añadir parte</button>
       </div>
     </div>
@@ -266,6 +393,8 @@ function MeetingWeek({ week, schedule }) {
     </div>}
     {storageError && <p className="mp-notice" role="alert">El navegador no pudo guardar los cambios de esta semana.</p>}
     {timing.storageError && <p className="mp-notice" role="alert">El navegador no pudo guardar los cronómetros.</p>}
+    {reviewOpen && <MeetingReview parts={parts} entries={data.entries} omitted={omitted} offline={offline}
+      onItem={(part, view, field) => goToPart(part, view, field || view)} onDownload={() => focusAt(downloadButton.current, clockRef.current)} />}
 
     {missing.length > 0 && <div className="mp-notice mp-review">
       <strong>Datos pendientes de revisar</strong>
@@ -323,7 +452,9 @@ function MeetingWeek({ week, schedule }) {
             return (
               <article className={'mp-part' + (active === part.id ? ' mp-active' : '') + (song ? ' mp-song' : '')} data-omitted={skipped} key={part.id}>
                 <div className="mp-row">
-                  <button className="mp-part-label" type="button" ref={expanded ? openPartButton : null} aria-expanded={expanded} onClick={() => { setBackup(null); setOpen(expanded ? null : part.id) }}>
+                  <button className="mp-part-label" type="button" id={partControl(part.id, 'row')} ref={expanded ? openPartButton : null}
+                    aria-current={active === part.id ? 'step' : undefined} aria-expanded={expanded}
+                    onClick={() => { setNavigation(null); setOpen(expanded ? null : part.id) }}>
                     <span className="mp-part-mark" aria-hidden="true">{part.number || (song ? <Music2 size={16} /> : <Clock size={16} />)}</span>
                     <span className="mp-part-information">
                       <strong>{part.title}</strong>
@@ -341,7 +472,10 @@ function MeetingWeek({ week, schedule }) {
                       <strong>{formatTime(timed)}</strong>
                       {part.kind !== 'prayer' && <small>{duration}</small>}
                     </div>
-                    <button className={'mp-icon' + (playing ? ' mp-primary' : '')} type="button" onClick={() => togglePart(part.id)} aria-label={(playing ? 'Pausar ' : 'Iniciar ') + part.title} title={playing ? 'Pausar parte' : 'Iniciar parte'}>{playing ? <Pause size={17} /> : <Play size={17} />}</button>
+                    <button className={'mp-icon' + (playing ? ' mp-primary' : '')} type="button" onClick={() => {
+                      togglePart(part.id)
+                      setTransitionOpen(!playing && Boolean(entry.introCue?.trim()))
+                    }} aria-label={(playing ? 'Pausar ' : 'Iniciar ') + part.title} title={playing ? 'Pausar parte' : 'Iniciar parte'}>{playing ? <Pause size={17} /> : <Play size={17} />}</button>
                     {(timed > 0 || playing) && <button className="mp-icon mp-reset-part" type="button" aria-label={'Reiniciar ' + part.title} title="Reiniciar parte" onClick={() => resetPart(part.id)}><RotateCcw size={16} /></button>}
                     </>}
                     <button type="button" className="mp-icon mp-row-changes" id={'mp-change-' + encodeURIComponent(part.id)}
@@ -361,17 +495,15 @@ function MeetingWeek({ week, schedule }) {
                   onOmit={() => omit(part)}
                   onMove={after => move(part, parts.indexOf(part), after)}
                   onRestore={() => move(part, parts.indexOf(part), undefined)}
-                  onOutline={hasPreparedOutline(part, entry.outline) ? () => {
-                    setChanges(null)
-                    setBackup(part.id)
-                    setOpen(part.id)
-                  } : undefined} />}
+                  onOutline={hasPreparedOutline(part, entry.outline) ? () => goToPart(part, 'outline', 'outline', true) : undefined} />}
                 {expanded && editing === part.id && <ExtraForm parts={published} initial={part} onCancel={() => setEditing(null)} onSave={patch => {
                   const extras = data.extras.map(extra => extra.id === part.id ? { ...extra, ...patch } : extra)
                   save({ ...data, extras })
                   setEditing(null)
                 }} />}
-                {expanded && <PartDetails key={part.id + (backup === part.id ? '|lectura' : '')} part={part} entry={entry} topics={topics} reading={backup === part.id} onCollapse={collapsePart} onChange={patch => update(part, patch)}
+                {expanded && <PartDetails key={part.id + '|' + (navigation?.id === part.id ? navigation.serial : '')}
+                  part={part} entry={entry} topics={topics} initialView={navigation?.id === part.id ? navigation.view : undefined}
+                  reading={navigation?.id === part.id && navigation.reading} onCollapse={collapsePart} onChange={patch => update(part, patch)}
                   onEdit={part.custom ? () => { setAdding(false); setEditing(part.id) } : null}
                   onRemove={part.custom ? () => { if (window.confirm('¿Eliminar esta parte y sus notas?')) remove(part.id, true) } : null} />}
               </article>

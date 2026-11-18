@@ -2,17 +2,25 @@ import { useEffect, useRef, useState } from 'react'
 import { CircleCheck, Download } from 'lucide-react'
 import { downloadWeek, offlineStatus } from './meetingOffline'
 
-export default function OfflineWeek({ guide }) {
+export default function OfflineWeek({ guide, onStatus, buttonRef }) {
   const [saved, setSaved] = useState(null)
+  const [checkedGuide, setCheckedGuide] = useState(null)
   const [progress, setProgress] = useState(null)
   const [error, setError] = useState('')
   const download = useRef(null)
+  const downloading = Boolean(progress)
 
   useEffect(() => {
+    if (downloading) return
     let mounted = true
-    offlineStatus(guide).then(status => { if (mounted && !download.current) setSaved(status) }).catch(() => {})
+    function markChecked(status) {
+      if (!mounted || download.current) return
+      setSaved(status)
+      setCheckedGuide(guide)
+    }
+    offlineStatus(guide).then(markChecked).catch(() => markChecked(null))
     return () => { mounted = false }
-  }, [guide])
+  }, [downloading, guide])
 
   useEffect(() => () => { download.current?.abort() }, [])
 
@@ -26,7 +34,10 @@ export default function OfflineWeek({ guide }) {
       const result = await downloadWeek(guide, request.signal, (done, total) => {
         if (!request.signal.aborted) setProgress({ done, total })
       })
-      if (!request.signal.aborted) setSaved(result)
+      if (!request.signal.aborted) {
+        setSaved(result)
+        setCheckedGuide(guide)
+      }
     } catch (error) {
       if (!request.signal.aborted) setError(error.name === 'QuotaExceededError' ? 'El navegador no tiene espacio para guardar la semana.' : error.message)
     } finally {
@@ -35,11 +46,15 @@ export default function OfflineWeek({ guide }) {
     }
   }
 
+  const current = checkedGuide === guide ? saved : null
+  const failures = current?.failures || []
+  const complete = current && !failures.length
+  const status = progress ? 'downloading' : checkedGuide !== guide ? 'checking' : complete ? 'ready' : failures.length ? 'partial' : 'pending'
+  useEffect(() => { onStatus?.(status) }, [onStatus, status])
+
   if (!guide) return null
-  const failures = saved?.failures || []
-  const complete = saved && !failures.length
   return <div className="mp-offline-status">
-    <button type="button" className="mp-offline-button" disabled={!!progress} onClick={saveWeek}>
+    <button ref={buttonRef} type="button" className="mp-offline-button" disabled={!!progress} onClick={saveWeek}>
       {complete ? <CircleCheck size={17} /> : <Download size={17} />}
       {progress ? 'Descargando semana…' : complete ? 'Actualizar descarga' : failures.length ? 'Reintentar descarga' : 'Descargar semana'}
     </button>

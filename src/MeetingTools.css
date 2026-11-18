@@ -103,3 +103,108 @@
   .mp .mp-part-time .mp-reset-part { width: 27px; min-width: 27px; }
   .mp-offline-status { align-items: flex-start; }
 }
+
+.mp-current { align-items: center; max-width: min(54%, 560px); }
+.mp-current-text {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: .08rem .4rem;
+  min-width: 0;
+}
+.mp-current-text small {
+  grid-column: 1 / -1;
+  color: #c5e0e3;
+  min-width: 0;
+  line-height: 1.2;
+  font-size: .72rem;
+  overflow-wrap: anywhere;
+}
+.mp .mp-return-part, .mp .mp-chair-shortcuts button, .mp .mp-rehearsal-bar button {
+  flex: none;
+  min-height: 33px;
+  padding: .25rem .48rem;
+  border-color: #badfda65;
+  background: #ffffff12;
+  color: #ecfbf7;
+  font-size: .76rem;
+}
+.mp .mp-return-part:hover:not(:disabled), .mp .mp-chair-shortcuts button:hover:not(:disabled),
+.mp .mp-rehearsal-bar button:hover:not(:disabled), .mp .mp-chair-shortcuts button[aria-expanded=true] {
+  background: #296459;
+  color: #fff;
+}
+.mp-rehearsal-bar {
+  display: flex; justify-content: space-between; align-items: center; gap: .55rem;
+  flex: 1 0 100%; order: -1; padding-bottom: .24rem; border-bottom: 1px solid #deb78a4d;
+  font-size: .82rem;
+}
+.mp .mp-rehearsal-bar strong { color: #ffdda4; }
+.mp-chair-actions { display: grid; gap: .28rem; }
+.mp-chair-shortcuts { display: flex; flex-wrap: wrap; gap: .28rem; }
+.mp-chair-shortcuts button svg { flex: none; }
+.mp-transition-flyout {
+  position: absolute; z-index: 1; inset: calc(100% + .35rem) .25rem auto auto;
+  width: min(calc(100% - .5rem), 29rem); max-height: min(42dvh, 19rem);
+  overflow: auto; overscroll-behavior: contain;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+  border-radius: .8rem; box-shadow: 0 14px 36px #102c4360;
+}
+.mp-transition-flyout header {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: .75rem; padding: .4rem .7rem; border-bottom: 1px solid var(--line);
+}
+.mp .mp-transition-flyout header strong { color: var(--ink); font-size: .9rem; }
+.mp .mp-transition-flyout header button { min-height: 36px; min-width: 36px; width: 36px; }
+.mp-transition-cue { padding: .65rem .78rem; }
+.mp-transition-cue + .mp-transition-cue { border-top: 1px solid var(--line); }
+.mp-transition-cue span { color: var(--primary); font-weight: 700; font-size: .76rem; }
+.mp-transition-cue p { margin-top: .28rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.mp-week-review {
+  display: grid; gap: .78rem; padding: .9rem 1rem; margin-block: .9rem 1.2rem;
+  border: 1px solid var(--line); border-radius: .9rem; background: var(--surface);
+}
+.mp-week-review-head { display: flex; align-items: center; gap: .62rem; }
+.mp-week-review-head svg { color: var(--primary); flex: none; }
+.mp-week-review-head h3 { font-size: 1.04rem; }
+.mp-week-review-head p { color: var(--muted); font-size: .83rem; }
+.mp-week-review-list {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 233px), 1fr)); gap: .4rem;
+  list-style: none; margin: 0; padding: 0;
+}
+.mp-week-review-list li { margin: 0; padding: 0; }
+.mp .mp-week-review-list button { width: 100%; justify-content: space-between; padding: .45rem .64rem; text-align: start; }
+.mp .mp-week-review-list button span { min-width: 0; }
+.mp .mp-week-review-list button strong { display: block; color: var(--ink); font-size: .82rem; }
+.mp-week-review-list button svg { flex: none; color: var(--primary); }
+.mp-week-review-list small { color: var(--muted); font-weight: 550; overflow-wrap: anywhere; }
+.mp-week-review-download {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .44rem;
+  border-top: 1px solid var(--line); padding-top: .62rem; color: var(--muted); font-size: .83rem;
+}
+.mp-week-review-download[data-ready=true] { color: var(--primary); }
+.mp .mp-week-review-download button { margin-inline-start: auto; min-height: 36px; }
+.mp-coaching {
+  display: grid; gap: .65rem; padding: .8rem;
+  background: var(--tint); border: 1px solid var(--line); border-radius: .68rem;
+}
+.mp-coaching-lesson > span { display: block; margin-bottom: .35rem; color: var(--accent); font-size: .78rem; font-weight: 700; }
+
+@media (max-width: 640px) {
+  .mp-current { max-width: 100%; justify-content: space-between; align-items: center; }
+  .mp-current-text { flex: 1; }
+  .mp-current .mp-current-text strong { font-size: .83rem; }
+  .mp-current .mp-current-text small { font-size: .69rem; }
+  .mp-chair-actions {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end;
+    gap: .3rem; grid-column: 1 / -1;
+  }
+  .mp .mp-chair-advance { flex: 1 0 auto; width: auto; }
+  .mp-chair-shortcuts { justify-content: flex-end; }
+  .mp .mp-chair-shortcuts button { min-height: 32px; }
+}
+@media (max-width: 390px) {
+  .mp-current { gap: .26rem; }
+  .mp .mp-return-part { gap: .2rem; padding-inline: .35rem; }
+}

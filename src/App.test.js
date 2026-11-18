@@ -44,6 +44,7 @@ function changeScheduleTime(time) {
 
 beforeEach(() => {
   localStorage.clear()
+  sessionStorage.clear()
   global.fetch = jest.fn(async url => ({
     ok: true,
     json: async () => url.includes('verse=') ? [{ number: 11, text: 'Texto del versículo.' }] : guide,
@@ -62,7 +63,7 @@ test('recupera los asignados, la evaluación, las partes propias y el bosquejo d
 
   fireEvent.click(screen.getByRole('button', { name: /empecemos conversaciones sin asignar/i }))
   fireEvent.click(screen.getByRole('button', { name: 'Preparación' }))
-  fireEvent.change(screen.getByLabelText('Evaluación y observaciones'), { target: { value: 'Buen uso de preguntas' } })
+  fireEvent.change(screen.getByLabelText('Qué hizo bien'), { target: { value: 'Buen uso de preguntas' } })
   fireEvent.click(screen.getByRole('button', { name: 'Añadir parte' }))
   fireEvent.change(screen.getByLabelText('Título'), { target: { value: 'Anuncio local' } })
   fireEvent.click(screen.getByRole('button', { name: 'Guardar parte' }))
@@ -76,7 +77,7 @@ test('recupera los asignados, la evaluación, las partes propias y el bosquejo d
   expect(screen.getByText(/texto del versículo/i)).toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: /empecemos conversaciones sin asignar/i }))
   fireEvent.click(screen.getByRole('button', { name: 'Preparación' }))
-  expect(screen.getByLabelText('Evaluación y observaciones')).toHaveValue('Buen uso de preguntas')
+  expect(screen.getByLabelText('Qué hizo bien')).toHaveValue('Buen uso de preguntas')
   expect(screen.getByRole('button', { name: /anuncio local sin asignar/i })).toBeInTheDocument()
 })
 
@@ -581,7 +582,146 @@ test('reemplaza sin borrar notas, abre el bosquejo listo y conserva el orden y l
   expect(chair().getByText('Rosa')).toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: /Empecemos conversaciones Rosa/ }))
   fireEvent.click(screen.getByRole('button', { name: 'Preparación' }))
-  expect(screen.getByLabelText('Evaluación y observaciones')).toHaveValue('Evaluación guardada')
+  expect(screen.getByLabelText('Qué hizo bien')).toHaveValue('Evaluación guardada')
   fireEvent.click(menu(speech.title).getByRole('button', { name: 'Restaurar posición' }))
   expect(within(screen.getByRole('region', { name: 'Tesoros de la Biblia' })).getByRole('button', { name: /Tema del discurso Luis/ })).toBeInTheDocument()
+})
+
+test('la revisión previa enlaza con los campos pendientes y actualiza su estado', async () => {
+  const study = { id: 'study', title: 'Estudio bíblico de la congregación', number: 8, section: 'vida', minutes: 30 }
+  global.fetch.mockResolvedValue({ ok: true, json: async () => ({ ...guide, parts: [...guide.parts, study] }) })
+  await act(async () => { render(<App />) })
+
+  fireEvent.click(screen.getByRole('button', { name: 'Revisión previa' }))
+  const review = within(screen.getByRole('region', { name: 'Revisión previa' }))
+  expect(review.getByText('5 pendientes de preparación')).toBeInTheDocument()
+  expect(review.getByText('Semana pendiente de descargar')).toBeInTheDocument()
+  fireEvent.click(review.getByRole('button', { name: 'Ir a descarga' }))
+  expect(screen.getByRole('button', { name: 'Descargar semana' })).toHaveFocus()
+
+  fireEvent.click(review.getByRole('button', { name: /Asignar lector/ }))
+  expect(screen.getByLabelText('Lector')).toHaveFocus()
+  fireEvent.change(screen.getByLabelText('Lector'), { target: { value: 'Luis' } })
+  expect(review.queryByRole('button', { name: /Asignar lector/ })).not.toBeInTheDocument()
+  fireEvent.click(review.getByRole('button', { name: /Asignar encargado/ }))
+  expect(screen.getByLabelText('Encargado del estudio')).toHaveFocus()
+  fireEvent.change(screen.getByLabelText('Encargado del estudio'), { target: { value: 'Inés' } })
+
+  fireEvent.click(review.getByRole('button', { name: /Preparar bosquejo/ }))
+  fireEvent.change(screen.getByLabelText('Introducción'), { target: { value: 'Presentar el tema' } })
+  expect(review.queryByRole('button', { name: /Preparar bosquejo/ })).not.toBeInTheDocument()
+  expect(review.getByText('2 pendientes de preparación')).toBeInTheDocument()
+})
+
+test('un avance accidental se deshace tras recargar y solo durante su ventana', async () => {
+  jest.useFakeTimers()
+  jest.setSystemTime(shiftDate(week, 1).setHours(14, 0, 0, 0))
+  try {
+    const chair = () => within(screen.getByRole('region', { name: 'Conducción de la reunión' }))
+    let app
+    await act(async () => { app = render(<App />) })
+    fireEvent.click(chair().getByRole('button', { name: 'Empezar programa' }))
+    act(() => jest.advanceTimersByTime(3000))
+    fireEvent.click(chair().getByRole('button', { name: 'Pasar a la siguiente' }))
+    act(() => jest.advanceTimersByTime(2000))
+
+    app.unmount()
+    await act(async () => { render(<App />) })
+    fireEvent.click(chair().getByRole('button', { name: 'Deshacer avance' }))
+    expect(screen.getByText('En curso').parentElement).toHaveTextContent('Tema del discurso')
+    expect(within(screen.getByRole('region', { name: 'Tesoros de la Biblia' })).getByText('00:05')).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: 'Seamos Mejores Maestros' })).getByText('00:00')).toBeInTheDocument()
+    expect(screen.queryByText('Presentada')).not.toBeInTheDocument()
+
+    fireEvent.click(chair().getByRole('button', { name: 'Pasar a la siguiente' }))
+    act(() => jest.advanceTimersByTime(20000))
+    expect(chair().queryByRole('button', { name: 'Deshacer avance' })).not.toBeInTheDocument()
+    expect(screen.getByText('En curso').parentElement).toHaveTextContent('Empecemos conversaciones')
+
+    fireEvent.click(chair().getByRole('button', { name: 'Finalizar programa' }))
+    expect(chair().getByText('Programa finalizado')).toBeInTheDocument()
+    fireEvent.click(chair().getByRole('button', { name: 'Deshacer avance' }))
+    expect(screen.getByText('En curso').parentElement).toHaveTextContent('Empecemos conversaciones')
+  } finally {
+    jest.useRealTimers()
+  }
+})
+
+test('el ensayo conserva sus propios tiempos, omisiones y estado después de recargar', async () => {
+  jest.useFakeTimers()
+  const startsAt = shiftDate(week, 2).setHours(19, 0, 0, 0)
+  jest.setSystemTime(startsAt - 5000)
+  try {
+    let app
+    await act(async () => { app = render(<App />) })
+    fireEvent.click(screen.getByRole('button', { name: 'Modo ensayo' }))
+    const practice = () => within(screen.getByRole('complementary', { name: 'Cronómetro de ensayo' }))
+    fireEvent.click(practice().getByRole('button', { name: 'Empezar programa' }))
+    act(() => jest.advanceTimersByTime(6000))
+    expect(practice().getByText('00:06')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Cambios para Empecemos conversaciones' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Omitir parte' }))
+    expect(practice().getByRole('button', { name: 'Finalizar programa' })).toBeInTheDocument()
+
+    app.unmount()
+    await act(async () => { render(<App />) })
+    expect(practice().getByText('00:06')).toBeInTheDocument()
+    fireEvent.click(practice().getByRole('button', { name: 'Salir del ensayo' }))
+    const real = within(screen.getByRole('complementary', { name: 'Cronómetro general' }))
+    expect(real.getByText('00:01')).toBeInTheDocument()
+    expect(real.getByRole('button', { name: 'Empezar programa' })).toBeInTheDocument()
+    expect(screen.queryByText('Omitida')).not.toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: 'Tesoros de la Biblia' })).getByText('00:00')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Modo ensayo' }))
+    expect(practice().getByText('En pausa')).toBeInTheDocument()
+    expect(practice().getByText('00:06')).toBeInTheDocument()
+  } finally {
+    jest.useRealTimers()
+  }
+})
+
+test('muestra las notas en la transición y guía de vuelta a la parte y al consejo', async () => {
+  const second = { ...guide.parts[1], links: [{ label: 'lmd lección 3 punto 2', url: 'https://wol.jw.org/es/wol/pc/r4/lp-s/12345/2/0' }] }
+  global.fetch.mockImplementation(async url => ({
+    ok: true,
+    json: async () => url.includes('document=')
+      ? { title: 'Escuche con atención', paragraphs: ['Deje que la persona termine de hablar.'] }
+      : { ...guide, parts: [guide.parts[0], second] },
+  }))
+
+  let app
+  await act(async () => { app = render(<App />) })
+  fireEvent.click(screen.getByRole('button', { name: 'Tema del discurso Sin asignar' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Transición' }))
+  fireEvent.change(screen.getByLabelText('Al cerrar esta parte'), { target: { value: 'Agradecer el análisis.' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Empecemos conversaciones Sin asignar' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Transición' }))
+  fireEvent.change(screen.getByLabelText('Al presentar esta parte'), { target: { value: 'Presentar la demostración.' } })
+
+  app.unmount()
+  await act(async () => { render(<App />) })
+  const chair = within(screen.getByRole('region', { name: 'Conducción de la reunión' }))
+  fireEvent.click(chair.getByRole('button', { name: 'Empezar programa' }))
+  fireEvent.click(chair.getByRole('button', { name: 'Pasar a la siguiente' }))
+  const transition = within(screen.getByRole('region', { name: 'Notas de transición' }))
+  expect(transition.getByText('Agradecer el análisis.')).toBeInTheDocument()
+  expect(transition.getByText('Presentar la demostración.')).toBeInTheDocument()
+  fireEvent.click(transition.getByRole('button', { name: 'Cerrar notas de transición' }))
+
+  fireEvent.click(screen.getByRole('button', { name: /Tema del discurso Sin asignar/ }))
+  const clock = within(screen.getByRole('complementary', { name: 'Cronómetro general' }))
+  expect(clock.getByText('Seamos Mejores Maestros · 2 de 2')).toBeInTheDocument()
+  fireEvent.click(clock.getByRole('button', { name: 'Volver a la parte en curso' }))
+  const row = screen.getByRole('button', { name: 'Empecemos conversaciones Sin asignar' })
+  expect(row).toHaveFocus()
+  expect(row).toHaveAttribute('aria-expanded', 'true')
+  expect(row).toHaveAttribute('aria-current', 'step')
+
+  fireEvent.click(clock.getByRole('button', { name: 'Consejo' }))
+  const coach = within(screen.getByRole('region', { name: 'Consejo para el participante' }))
+  expect(coach.getByLabelText('Qué hizo bien')).toHaveFocus()
+  expect(await coach.findByText('Deje que la persona termine de hablar.')).toBeInTheDocument()
+  fireEvent.change(coach.getByLabelText('Qué puede mejorar'), { target: { value: 'Dejar una pausa antes de preguntar' } })
+  expect(JSON.parse(localStorage.getItem('meeting:week:' + week)).entries[second.id].counsel)
+    .toBe('Dejar una pausa antes de preguntar')
 })

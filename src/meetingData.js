@@ -111,6 +111,11 @@ export function isCongregationStudy(part) {
   return /^Estudio bíblico de la congregación\b/iu.test(part.title)
 }
 
+export function teachingReference(part) {
+  return part.links?.find(link => /\blección\b/i.test(link.label))
+    || part.links?.find(link => /\bapéndice\b.*\bpunto\b/i.test(link.label))
+}
+
 export function presiderPoints(entry, closing) {
   if (Array.isArray(entry?.presiderOutline)) return entry.presiderOutline
   return entry?.notes?.trim()
