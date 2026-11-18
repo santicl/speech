@@ -225,12 +225,14 @@ function MeetingWeek({ week, schedule }) {
   }
 
   const save = useCallback(next => {
-    setData(next)
     try {
       localStorage.setItem(localKey, JSON.stringify(next))
+      setData(next)
       setStorageError(false)
+      return true
     } catch {
       setStorageError(true)
+      return false
     }
   }, [localKey])
 
@@ -242,7 +244,7 @@ function MeetingWeek({ week, schedule }) {
 
   function update(part, patch) {
     const entry = { ...data.entries[part.id], ...patch, title: part.title }
-    save({ ...data, entries: { ...data.entries, [part.id]: entry } })
+    return save({ ...data, entries: { ...data.entries, [part.id]: entry } })
   }
 
 

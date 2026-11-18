@@ -2,6 +2,16 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import App from './App'
 import { dateKey, shiftDate, weekKey } from './meetingData'
 
+jest.mock('./pdfRuntime', () => ({ pdfWorkerUrl: '/static/media/pdf-worker.mjs' }))
+jest.mock('./PdfDocument', () => function PdfPreview({ pdf }) { return <div data-testid="pdf-preview">{pdf.name}</div> })
+
+jest.mock('./meetingAttachments', () => ({
+  ...jest.requireActual('./meetingAttachments'),
+  savePdf: jest.fn(),
+  readPdf: jest.fn(),
+  deletePdf: jest.fn(() => Promise.resolve()),
+}))
+
 const week = weekKey(dateKey())
 const guide = {
   week,
@@ -50,6 +60,8 @@ function changeScheduleTime(time) {
 beforeEach(() => {
   localStorage.clear()
   sessionStorage.clear()
+  jest.clearAllMocks()
+  require('./meetingAttachments').deletePdf.mockResolvedValue(undefined)
   global.fetch = jest.fn(async url => ({
     ok: true,
     json: async () => url.includes('verse=') ? [{ number: 11, text: 'Texto del versículo.' }] : guide,
@@ -784,4 +796,47 @@ test('muestra las notas en la transición y guía de vuelta a la parte y al cons
   fireEvent.change(coach.getByLabelText('Qué puede mejorar'), { target: { value: 'Dejar una pausa antes de preguntar' } })
   expect(JSON.parse(localStorage.getItem('meeting:week:' + week)).entries[second.id].counsel)
     .toBe('Dejar una pausa antes de preguntar')
+})
+
+test('guarda y recupera el PDF de un punto y permite quitarlo al editar', async () => {
+  const attachments = require('./meetingAttachments')
+  const stored = { id: 'pdf-1', name: 'Anuncio.pdf', size: 1234 }
+  attachments.savePdf.mockResolvedValue(stored)
+  attachments.readPdf.mockResolvedValue(new Blob(['%PDF-1.4'], { type: 'application/pdf' }))
+  const createUrl = URL.createObjectURL
+  const revokeUrl = URL.revokeObjectURL
+  URL.createObjectURL = jest.fn(() => 'blob:pdf-test')
+  URL.revokeObjectURL = jest.fn()
+  const closing = { id: 'close', title: 'Palabras de conclusión', section: 'cierre', minutes: 3 }
+  global.fetch.mockResolvedValue({ ok: true, json: async () => ({ ...guide, parts: [closing] }) })
+  try {
+    const first = render(<App />)
+    fireEvent.click(await screen.findByRole('button', { name: 'Palabras de conclusión' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Añadir punto' }))
+    fireEvent.change(screen.getByLabelText('Título del punto'), { target: { value: 'Anuncio con PDF' } })
+    const bad = new File(['un texto'], 'nota.pdf', { type: 'application/pdf' })
+    fireEvent.change(screen.getByLabelText('Archivo PDF'), { target: { files: [bad] } })
+    expect(await screen.findByText('El archivo seleccionado no contiene un PDF válido.')).toBeInTheDocument()
+    const file = new File(['%PDF-1.4\ncontenido de prueba'], 'Anuncio.pdf', { type: 'application/pdf' })
+    fireEvent.change(screen.getByLabelText('Archivo PDF'), { target: { files: [file] } })
+    expect(await screen.findByRole('button', { name: 'Quitar PDF' })).toBeEnabled()
+    fireEvent.click(screen.getByRole('button', { name: 'Guardar punto' }))
+    expect(await screen.findByRole('button', { name: 'Ver PDF' })).toBeInTheDocument()
+    expect(attachments.savePdf).toHaveBeenCalledWith(file)
+    first.unmount()
+    await act(async () => { render(<App />) })
+    fireEvent.click(screen.getByRole('button', { name: 'Palabras de conclusión' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Ver PDF' }))
+    expect(await screen.findByTestId('pdf-preview')).toHaveTextContent('Anuncio.pdf')
+    fireEvent.click(screen.getByRole('button', { name: 'Cerrar PDF' }))
+    expect(screen.queryByTestId('pdf-preview')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Editar Anuncio con PDF' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Quitar PDF' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Guardar punto' }))
+    expect(screen.queryByRole('button', { name: 'Ver PDF' })).not.toBeInTheDocument()
+    expect(attachments.deletePdf).toHaveBeenCalledWith('pdf-1')
+  } finally {
+    URL.createObjectURL = createUrl
+    URL.revokeObjectURL = revokeUrl
+  }
 })

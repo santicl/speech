@@ -1,3 +1,4 @@
+import { pdfWorkerUrl } from './pdfRuntime'
 import { isCongregationStudy, meetingImage, meetingUrl, referenceRequest } from './meetingData'
 
 const shellCache = 'meeting-offline-shell-v1'
@@ -43,6 +44,7 @@ async function prepareShell(signal) {
   const assets = Array.from(document.querySelectorAll('script[src], link[rel~="stylesheet"][href]'))
     .map(node => new URL(node.getAttribute('src') || node.getAttribute('href'), window.location.origin))
     .filter(url => url.origin === window.location.origin && url.pathname.startsWith('/static/'))
+  assets.push(new URL(pdfWorkerUrl, window.location.origin))
   if (!assets.some(url => url.pathname.endsWith('.js'))) throw new Error('No se encontró la aplicación que debe abrirse sin conexión.')
 
   await Promise.all(assets.map(async url => {
