@@ -52,6 +52,9 @@ export function projectedFinish(parts, session, omitted, scheduled, now) {
 }
 
 export function hasPreparedOutline(part, outline) {
-  return part.speech && (outline?.intro?.trim() || outline?.close?.trim()
+  if (!part.speech) return false
+  if (typeof outline?.script === 'string') return Boolean(outline.script.trim())
+  return Boolean(outline?.intro?.trim() || outline?.close?.trim()
+    || Object.values(outline?.points || {}).some(point => point.notes?.trim())
     || part.points?.some(point => outline?.points?.[point.id]?.selected))
 }

@@ -60,7 +60,7 @@ function focusAt(element, clock) {
   element.scrollIntoView?.({ block: 'start' })
 }
 
-function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollapse, reading, initialView }) {
+function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollapse, initialView }) {
   const closing = part.kind === 'closing'
   const presider = closing || part.kind === 'opening'
   const song = part.kind === 'song'
@@ -96,7 +96,7 @@ function PartDetails({ part, entry, topics, onChange, onRemove, onEdit, onCollap
         {presider
           ? <PresiderOutline closing={closing} items={presiderPoints(entry, closing)} script={entry.presiderScript} topics={topics}
             onChange={patch => onChange({ ...patch, notes: '' })} />
-          : <MeetingOutline part={part} values={entry.outline} initiallyReading={reading} onChange={outline => onChange({ outline })} />}
+          : <MeetingOutline part={part} values={entry.outline} onChange={outline => onChange({ outline })} />}
       </div>}
       {view === 'transition' && <div className="mp-preparation">
         <h4>Notas de transición</h4>
@@ -198,12 +198,12 @@ function MeetingWeek({ week, schedule }) {
     focusAt(target, clockRef.current)
   }, [navigation])
 
-  function goToPart(part, view, control, reading = false) {
+  function goToPart(part, view, control) {
     if (!part) return
     setChanges(null)
     setEditing(null)
     setOpen(part.id)
-    setNavigation({ id: part.id, view, control, reading, serial: ++navigationId.current })
+    setNavigation({ id: part.id, view, control, serial: ++navigationId.current })
   }
 
   function changeMode(value) {
@@ -495,7 +495,7 @@ function MeetingWeek({ week, schedule }) {
                   onOmit={() => omit(part)}
                   onMove={after => move(part, parts.indexOf(part), after)}
                   onRestore={() => move(part, parts.indexOf(part), undefined)}
-                  onOutline={hasPreparedOutline(part, entry.outline) ? () => goToPart(part, 'outline', 'outline', true) : undefined} />}
+                  onOutline={hasPreparedOutline(part, entry.outline) ? () => goToPart(part, 'outline', 'outline') : undefined} />}
                 {expanded && editing === part.id && <ExtraForm parts={published} initial={part} onCancel={() => setEditing(null)} onSave={patch => {
                   const extras = data.extras.map(extra => extra.id === part.id ? { ...extra, ...patch } : extra)
                   save({ ...data, extras })
@@ -503,7 +503,7 @@ function MeetingWeek({ week, schedule }) {
                 }} />}
                 {expanded && <PartDetails key={part.id + '|' + (navigation?.id === part.id ? navigation.serial : '')}
                   part={part} entry={entry} topics={topics} initialView={navigation?.id === part.id ? navigation.view : undefined}
-                  reading={navigation?.id === part.id && navigation.reading} onCollapse={collapsePart} onChange={patch => update(part, patch)}
+                  onCollapse={collapsePart} onChange={patch => update(part, patch)}
                   onEdit={part.custom ? () => { setAdding(false); setEditing(part.id) } : null}
                   onRemove={part.custom ? () => { if (window.confirm('¿Eliminar esta parte y sus notas?')) remove(part.id, true) } : null} />}
               </article>

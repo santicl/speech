@@ -16,9 +16,9 @@ export function previousIntroduction(items) {
   }).join('\n\n')
 }
 
-function references(text) {
+export function scriptReferences(text, speech = false) {
   const found = []
-  const startPattern = /\((?:Tesoros|Seamos Mejores Maestros|Nuestra Vida Cristiana) · /gu
+  const startPattern = speech ? /\((?:Punto \d+|Versículo|Pregunta para meditar|Nota de la guía|Referencia de apoyo|Imagen del discurso) · /gu : /\((?:Tesoros|Seamos Mejores Maestros|Nuestra Vida Cristiana) · /gu
   for (const match of text.matchAll(startPattern)) {
     if (match.index < (found.at(-1)?.end ?? 0)) continue
     let depth = 1
@@ -33,7 +33,7 @@ function references(text) {
   return found
 }
 
-export default function PresiderScript({ text, topics, onSave, onCancel }) {
+export default function PresiderScript({ text, topics, onSave, onCancel, speech = false, renderReference }) {
   const [draft, setDraft] = useState(text)
   const [picker, setPicker] = useState(false)
   const [section, setSection] = useState('')
@@ -42,7 +42,9 @@ export default function PresiderScript({ text, topics, onSave, onCancel }) {
   const sectionField = useRef(null)
   const selection = useRef({ start: text.length, end: text.length })
   const caret = useRef(text.length)
-  const choices = topics.filter(topic => topic.section === section)
+  const choices = speech ? topics : topics.filter(topic => topic.section === section)
+  const inserted = scriptReferences(draft, speech)
+  const groups = speech ? [...new Set(choices.map(item => item.group))] : []
   const topic = choices.find(item => item.id === topicId)
 
   useLayoutEffect(() => {
@@ -70,7 +72,7 @@ export default function PresiderScript({ text, topics, onSave, onCancel }) {
     const after = draft.slice(end)
     const prefix = before && !/[\s(]$/u.test(before) ? ' ' : ''
     const suffix = after && !/^[\s.,;:!?…)]/u.test(after) ? ' ' : ''
-    const marker = prefix + reference(topic) + suffix
+    const marker = prefix + (speech ? '(' + topic.title + ')' : reference(topic)) + suffix
     caret.current = before.length + marker.length
     selection.current = { start: caret.current, end: caret.current }
     setDraft(before + marker + after)
@@ -97,31 +99,34 @@ export default function PresiderScript({ text, topics, onSave, onCancel }) {
     </label>
     {topics.length > 0 && <div className="mp-actions">
       <button type="button" aria-expanded={picker} onClick={() => setPicker(value => !value)}>
-        <Link2 size={16} aria-hidden="true" /> Insertar referencia
+        <Link2 size={16} aria-hidden="true" /> {speech ? 'Insertar contenido del discurso' : 'Insertar referencia'}
       </button>
     </div>}
     {picker && <div className="mp-script-picker">
       <div className="mp-grid">
-        <label>Sección de la reunión
+        {!speech && <label>Sección de la reunión
           <select ref={sectionField} value={section} onChange={event => { setSection(event.target.value); setTopicId('') }}>
             <option value="">Selecciona una sección</option>
             {programSections.filter(([id]) => topics.some(item => item.section === id)).map(([id, label]) =>
               <option key={id} value={id}>{label}</option>)}
           </select>
-        </label>
-        <label>Asignación<select value={topicId} disabled={!section} onChange={event => setTopicId(event.target.value)}>
-          <option value="">Selecciona una asignación</option>
-          {choices.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}
+        </label>}
+        <label>{speech ? 'Contenido del discurso' : 'Asignación'}<select ref={speech ? sectionField : null} value={topicId} disabled={!speech && !section} onChange={event => setTopicId(event.target.value)}>
+          <option value="">{speech ? 'Selecciona un elemento' : 'Selecciona una asignación'}</option>
+          {speech ? groups.map(group => <optgroup key={group} label={group}>
+            {choices.filter(item => item.group === group).map(item => <option key={item.id} value={item.id}>{item.title}</option>)}
+          </optgroup>) : choices.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}
         </select></label>
       </div>
       <button type="button" disabled={!topic} onClick={insert}>Insertar en el texto</button>
     </div>}
-    {references(draft).length > 0 && <div className="mp-script-references" aria-label="Referencias insertadas">
-      {references(draft).map(item => <button key={item.start} type="button" onClick={() => remove(item)}
-        aria-label={'Quitar referencia ' + item.label}><span>{item.label}</span><X size={14} aria-hidden="true" /></button>)}
+    {inserted.length > 0 && <div className="mp-script-references" aria-label="Referencias insertadas">
+      {inserted.map(item => <button key={item.start} type="button" onClick={() => remove(item)}
+        aria-label={(speech ? 'Quitar ' : 'Quitar referencia ') + item.label}><span>{item.label}</span><X size={14} aria-hidden="true" /></button>)}
     </div>}
+    {renderReference && inserted.map(item => renderReference(item.label, item.start))}
     <div className="mp-actions">
-      <button type="submit" className="mp-primary">Guardar palabras</button>
+      <button type="submit" className="mp-primary">{speech ? 'Guardar bosquejo' : 'Guardar palabras'}</button>
       <button type="button" onClick={onCancel}>Cancelar</button>
     </div>
   </form>

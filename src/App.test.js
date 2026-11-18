@@ -15,10 +15,15 @@ const guide = {
       section: 'tesoros',
       minutes: 10,
       speech: true,
+      details: ['Punto del bosquejo', '¿Qué puedo aprender de este ejemplo?'],
+      links: [{ label: 'Publicación de apoyo', url: 'https://wol.jw.org/es/wol/pc/r4/lp-s/12345/1/0' }],
       points: [{
         id: 'a',
         text: 'Punto del bosquejo',
-        verses: [{ label: 'Lam 2:11', url: 'https://wol.jw.org/es/wol/bc/r4/lp-s/12345/1/0' }],
+        verses: [
+          { label: 'Lam 2:11', url: 'https://wol.jw.org/es/wol/bc/r4/lp-s/12345/1/0' },
+          { label: 'Lam 2:19', url: 'https://wol.jw.org/es/wol/bc/r4/lp-s/12345/1/1' },
+        ],
         support: [],
       }],
     },
@@ -57,9 +62,31 @@ test('recupera los asignados, la evaluación, las partes propias y el bosquejo d
   fireEvent.click(screen.getByRole('button', { name: 'Preparación' }))
   fireEvent.change(screen.getByLabelText('Persona asignada'), { target: { value: 'Daniel' } })
   fireEvent.click(screen.getByRole('button', { name: 'Bosquejo' }))
-  fireEvent.click(screen.getByLabelText('Punto del bosquejo'))
-  expect(await screen.findByText(/texto del versículo/i)).toBeInTheDocument()
-  fireEvent.change(screen.getByLabelText('Mi explicación'), { target: { value: 'Mi comentario preparado' } })
+  const outline = within(screen.getByRole('region', { name: 'Bosquejo de respaldo' }))
+  fireEvent.click(outline.getByRole('button', { name: 'Escribir bosquejo' }))
+  fireEvent.change(outline.getByLabelText('Mis palabras'), { target: { value: 'Mi comentario preparado' } })
+  const openPicker = () => fireEvent.click(outline.getByRole('button', { name: 'Insertar contenido del discurso' }))
+  const select = title => {
+    const option = outline.getByRole('option', { name: title })
+    fireEvent.change(outline.getByLabelText('Contenido del discurso'), { target: { value: option.value } })
+    fireEvent.click(outline.getByRole('button', { name: 'Insertar en el texto' }))
+  }
+  openPicker()
+  expect(outline.queryByLabelText('Sección de la reunión')).not.toBeInTheDocument()
+  expect(outline.getAllByRole('option').map(option => option.textContent)).toEqual([
+    'Selecciona un elemento', 'Versículo · Lam 2:11', 'Versículo · Lam 2:19', 'Punto 1 · Punto del bosquejo',
+    'Pregunta para meditar · ¿Qué puedo aprender de este ejemplo?', 'Referencia de apoyo · Publicación de apoyo',
+  ])
+  select('Versículo · Lam 2:11')
+  expect(await outline.findByText(/texto del versículo/i)).toBeInTheDocument()
+  expect(global.fetch.mock.calls.some(([url]) => decodeURIComponent(url).endsWith('/1/1'))).toBe(false)
+  fireEvent.click(outline.getByRole('button', { name: 'Quitar Versículo · Lam 2:11' }))
+  expect(outline.getByLabelText('Mis palabras')).toHaveValue('Mi comentario preparado')
+  openPicker()
+  select('Versículo · Lam 2:11')
+  openPicker()
+  select('Pregunta para meditar · ¿Qué puedo aprender de este ejemplo?')
+  fireEvent.click(outline.getByRole('button', { name: 'Guardar bosquejo' }))
 
   fireEvent.click(screen.getByRole('button', { name: /empecemos conversaciones sin asignar/i }))
   fireEvent.click(screen.getByRole('button', { name: 'Preparación' }))
@@ -72,9 +99,9 @@ test('recupera los asignados, la evaluación, las partes propias y el bosquejo d
   await act(async () => { render(<App />) })
   fireEvent.click(await screen.findByRole('button', { name: /tema del discurso daniel/i }))
   fireEvent.click(screen.getByRole('button', { name: 'Bosquejo' }))
-  fireEvent.click(screen.getByRole('button', { name: 'Vista de lectura' }))
   expect(screen.getByText('Mi comentario preparado')).toBeInTheDocument()
-  expect(screen.getByText(/texto del versículo/i)).toBeInTheDocument()
+  expect(await screen.findByText(/texto del versículo/i)).toBeInTheDocument()
+  expect(screen.getByRole('heading', { name: /Qué puedo aprender de este ejemplo/ })).toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: /empecemos conversaciones sin asignar/i }))
   fireEvent.click(screen.getByRole('button', { name: 'Preparación' }))
   expect(screen.getByLabelText('Qué hizo bien')).toHaveValue('Buen uso de preguntas')
@@ -639,7 +666,9 @@ test('la revisión previa enlaza con los campos pendientes y actualiza su estado
   fireEvent.change(screen.getByLabelText('Encargado del estudio'), { target: { value: 'Inés' } })
 
   fireEvent.click(review.getByRole('button', { name: /Preparar bosquejo/ }))
-  fireEvent.change(screen.getByLabelText('Introducción'), { target: { value: 'Presentar el tema' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Escribir bosquejo' }))
+  fireEvent.change(screen.getByLabelText('Mis palabras'), { target: { value: 'Presentar el tema' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Guardar bosquejo' }))
   expect(review.queryByRole('button', { name: /Preparar bosquejo/ })).not.toBeInTheDocument()
   expect(review.getByText('2 pendientes de preparación')).toBeInTheDocument()
 })
